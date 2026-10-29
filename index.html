@@ -239,6 +239,62 @@ section{position:relative;z-index:1}
 .card .idx{position:absolute;top:-30px;left:0;font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--dim)}
 @media (max-width:900px){.proj{padding-top:96px}.track{flex-direction:column;width:auto;padding:0 24px 96px}.card{flex:1 1 auto;width:100%}.card .idx{position:static;margin:16px 28px 0}}
 
+/* ===== Before / After ===== */
+.ba-sec{padding:160px 0;border-top:1px solid var(--border)}
+.ba{position:relative;--x:50%;border:1px solid var(--border);border-radius:var(--r);overflow:hidden;background:#06080B;box-shadow:var(--shadow);user-select:none;touch-action:none}
+.ba-bar{height:44px;background:var(--surface-2);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;padding:0 16px;position:relative;z-index:5}
+.ba-bar i{width:10px;height:10px;border-radius:50%;background:var(--border-strong)}
+.ba-bar .url{margin-left:12px;font-family:var(--mono);font-size:12px;color:var(--dim);background:var(--bg);padding:5px 14px;border-radius:999px;border:1px solid var(--border)}
+.ba-stage{position:relative;aspect-ratio:16/10;overflow:hidden}
+.ba-pane{position:absolute;inset:0;overflow:hidden}
+.ba-pane.before{clip-path:inset(0 calc(100% - var(--x)) 0 0);z-index:2}
+.ba-handle{position:absolute;top:0;bottom:0;left:var(--x);width:2px;background:var(--accent);z-index:4;transform:translateX(-1px);pointer-events:none;box-shadow:0 0 0 1px rgba(0,0,0,.4),0 0 30px rgba(59,123,255,.6)}
+.ba-handle i{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:56px;height:56px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;color:#fff;box-shadow:0 14px 34px -10px rgba(59,123,255,.8)}
+.ba-range{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:ew-resize;z-index:6;margin:0;-webkit-appearance:none;appearance:none;background:transparent}
+.ba-range::-webkit-slider-thumb{-webkit-appearance:none;width:60px;height:100%}
+.ba-range::-moz-range-thumb{width:60px;height:9999px;border:0;background:transparent}
+.ba-label{position:absolute;top:18px;z-index:3;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;padding:7px 12px;border-radius:999px;pointer-events:none}
+.ba-label.l{left:18px;background:rgba(0,0,0,.65);color:#fff}
+.ba-label.r{right:18px;background:var(--accent);color:#fff}
+/* the "old" website */
+.old{position:absolute;inset:0;background:#ffffff;font-family:'Times New Roman',Times,serif;color:#000;padding:0;overflow:hidden}
+.old-top{background:linear-gradient(#5b8dd6,#2a5fb0);height:14%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:clamp(14px,2.4vw,34px);font-weight:700;text-shadow:2px 2px 0 #123;letter-spacing:.02em;font-style:italic}
+.old-menu{background:#e6e6e6;border-top:2px solid #999;border-bottom:2px solid #999;display:flex;gap:4%;justify-content:center;padding:1.2% 0;font-size:clamp(9px,1.1vw,15px)}
+.old-menu span{color:#0000ee;text-decoration:underline}
+.old-body{display:grid;grid-template-columns:28% 1fr;gap:3%;padding:3% 4%;font-size:clamp(9px,1.05vw,15px);line-height:1.45}
+.old-side{background:#f3f3f3;border:1px solid #bbb;padding:3%;display:flex;flex-direction:column;gap:6%}
+.old-side b{display:block;background:#2a5fb0;color:#fff;padding:3% 5%;font-size:.95em}
+.old-side u{color:#0000ee;display:block}
+.old-side .cnt{margin-top:auto;border:1px solid #999;background:#000;color:#0f0;font-family:'Courier New',monospace;text-align:center;padding:3%;font-size:.9em}
+.old-main h4{margin:0 0 2%;font-size:1.6em;color:#2a5fb0}
+.old-main p{margin:0 0 2%}
+.old-main .img{float:right;width:38%;aspect-ratio:4/3;background:repeating-linear-gradient(45deg,#dcdcdc 0 6px,#ececec 6px 12px);border:2px inset #aaa;margin:0 0 2% 3%;display:flex;align-items:center;justify-content:center;color:#888;font-size:.8em;text-align:center}
+.old-main .blink{color:#e00;font-weight:700;animation:blink 1.1s steps(2) infinite}
+@keyframes blink{to{visibility:hidden}}
+.old-main marquee,.old-mq{display:block;background:#ffffcc;border:1px dashed #cc9;padding:1% 2%;color:#900;white-space:nowrap;overflow:hidden}
+.old-mq span{display:inline-block;animation:oldmq 12s linear infinite;padding-left:100%}
+@keyframes oldmq{to{transform:translateX(-200%)}}
+.old-foot{position:absolute;bottom:0;left:0;right:0;background:#e6e6e6;border-top:2px solid #999;text-align:center;font-size:clamp(8px,.9vw,12px);padding:1.2% 0;color:#333}
+/* the "new" website (mini Salon Mia) */
+.new{position:absolute;inset:0;background:#F6F1EA;color:#1C1A18;font-family:var(--font);overflow:hidden}
+.new-nav{display:flex;justify-content:space-between;align-items:center;padding:2.4% 4%;border-bottom:1px solid #DCD2C5;font-size:clamp(9px,1.1vw,15px)}
+.new-nav b{font-family:Georgia,'Times New Roman',serif;font-weight:500;font-size:1.5em;letter-spacing:-.02em}
+.new-nav span{display:flex;gap:1.6em;color:#6F6761}
+.new-nav em{font-style:normal;background:#1C1A18;color:#F6F1EA;padding:.6em 1.2em;border-radius:999px;font-weight:500}
+.new-hero{display:grid;grid-template-columns:1.1fr .9fr;gap:5%;padding:5% 4% 3%;align-items:center}
+.new-hero small{display:block;font-size:clamp(7px,.8vw,11px);letter-spacing:.18em;text-transform:uppercase;color:#A86D62;font-weight:600;margin-bottom:5%}
+.new-hero h4{margin:0 0 5%;font-family:Georgia,'Times New Roman',serif;font-weight:300;font-size:clamp(20px,3.6vw,52px);line-height:1.02;letter-spacing:-.02em}
+.new-hero h4 i{color:#A86D62}
+.new-hero p{margin:0 0 6%;color:#6F6761;font-size:clamp(9px,1.1vw,15px);line-height:1.55;max-width:90%}
+.new-hero em{font-style:normal;display:inline-block;background:#1C1A18;color:#F6F1EA;padding:.75em 1.4em;border-radius:999px;font-size:clamp(9px,1.05vw,14px);font-weight:500}
+.new-img{aspect-ratio:4/5;border-radius:38% 38% 8% 8%;background:linear-gradient(160deg,#E9D6CC,#C98B7E 55%,#8E5A50)}
+.new-row{display:grid;grid-template-columns:repeat(3,1fr);gap:2%;padding:0 4%}
+.new-row div{background:#fff;border:1px solid #DCD2C5;border-radius:12px;padding:3% 4%;font-size:clamp(8px,1vw,14px);color:#6F6761}
+.new-row b{display:block;color:#1C1A18;font-family:Georgia,serif;font-weight:400;font-size:1.4em;margin-bottom:.3em}
+.ba-note{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-top:28px;align-items:center}
+.ba-note .mono{max-width:640px;text-transform:none;letter-spacing:0;font-size:14px;line-height:1.6}
+@media (max-width:900px){.ba-stage{aspect-ratio:4/5}.new-hero{grid-template-columns:1fr}.new-img{display:none}.new-row{grid-template-columns:1fr}.old-body{grid-template-columns:1fr}.old-side{display:none}}
+
 /* ===== About ===== */
 .about{padding:160px 0;border-top:1px solid var(--border)}
 .about .wrap{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:48px;align-items:center}
@@ -386,7 +442,7 @@ footer a{color:var(--muted);transition:color .3s}footer a:hover{color:var(--text
       Jannik Hofstetter <span class="mono">/ Webdesign</span>
     </a>
     <nav class="nav-links" aria-label="Hauptnavigation">
-      <a href="#ablauf" data-hover>Ablauf</a><a href="#baukasten" data-hover>Baukasten</a><a href="#arbeiten" data-hover>Arbeiten</a><a href="#ueber-mich" data-hover>Über mich</a><a href="#preise" data-hover>Preise</a><a href="#faq" data-hover>FAQ</a>
+      <a href="#ablauf" data-hover>Ablauf</a><a href="#baukasten" data-hover>Baukasten</a><a href="#arbeiten" data-hover>Arbeiten</a><a href="#vorher-nachher" data-hover>Vorher/Nachher</a><a href="#ueber-mich" data-hover>Über mich</a><a href="#preise" data-hover>Preise</a><a href="#faq" data-hover>FAQ</a>
     </nav>
     <a href="#kontakt" class="btn primary" data-hover>Projekt anfragen
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
@@ -598,6 +654,60 @@ footer a{color:var(--muted);transition:color .3s}footer a:hover{color:var(--text
         </div>
       </article>
 
+    </div>
+  </div>
+</section>
+
+<!-- BEFORE / AFTER -->
+<section class="ba-sec" id="vorher-nachher">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <span class="mono acc rv">// Vorher / Nachher</span>
+        <h2 class="h2 rv" style="margin-top:14px">Derselbe Salon.<br><em>Zieh den Regler.</em></h2>
+      </div>
+      <p class="lead rv">Links, wie viele Websites lokaler Betriebe heute noch aussehen. Rechts, was ich daraus mache – in 14 Tagen, zum Festpreis.</p>
+    </div>
+    <div class="ba rv" id="ba" data-hover>
+      <div class="ba-bar"><i></i><i></i><i></i><span class="url">salon-mia.at</span></div>
+      <div class="ba-stage">
+        <span class="ba-label l">Vorher · 2009</span><span class="ba-label r">Nachher · 2026</span>
+        <div class="ba-pane before" aria-hidden="true">
+          <div class="old">
+            <div class="old-top">*** Willkommen beim Friseursalon Mia ***</div>
+            <div class="old-menu"><span>Home</span><span>Über uns</span><span>Preise</span><span>Gästebuch</span><span>Links</span><span>Kontakt</span></div>
+            <div class="old-body">
+              <div class="old-side"><b>Navigation</b><u>Startseite</u><u>Unser Team</u><u>Preisliste (PDF)</u><u>Anfahrt</u><u>Gästebuch</u><div class="cnt">Besucher: 004871</div></div>
+              <div class="old-main">
+                <div class="img">Bild wird<br>geladen …</div>
+                <h4>Herzlich Willkommen!</h4>
+                <p>Wir begrüßen Sie recht herzlich auf unserer Homepage. Unser Friseursalon befindet sich in Linz-Urfahr und bietet Ihnen Haarschnitte für Damen, Herren und Kinder zu günstigen Preisen.</p>
+                <p><span class="blink">NEU!!!</span> Jetzt auch Strähnen und Dauerwelle. Termine telefonisch unter 0732 / 000 000 (Mo–Fr 9–17 Uhr, nicht in der Mittagspause).</p>
+                <div class="old-mq"><span>+++ Wir machen Urlaub vom 12.8. bis 26.8. +++ Diese Seite wird am besten mit Internet Explorer 6 angezeigt +++</span></div>
+                <p>Letzte Aktualisierung: 03.11.2009 &nbsp;|&nbsp; <u style="color:#0000ee">Impressum</u> &nbsp;|&nbsp; Optimiert für 1024×768</p>
+              </div>
+            </div>
+            <div class="old-foot">© 2009 Friseursalon Mia · Hauptstraße 12 · 4040 Linz · Diese Seite verwendet Frames</div>
+          </div>
+        </div>
+        <div class="ba-pane after" aria-hidden="true">
+          <div class="new">
+            <div class="new-nav"><b>Salon Mia</b><span>Leistungen · Preise · Team · Kontakt</span><em>Termin buchen</em></div>
+            <div class="new-hero">
+              <div><small>Friseursalon · Linz-Urfahr</small><h4>Schön ist,<br>was zu <i>dir</i> passt.</h4><p>Schnitt, Farbe und Styling mit Zeit für ein echtes Gespräch. Termin online in 30 Sekunden.</p><em>Online buchen</em></div>
+              <div class="new-img"></div>
+            </div>
+            <div class="new-row"><div><b>Schnitt</b>Beratung, Waschen, Schnitt, Föhnen.</div><div><b>Farbe</b>Balayage, Strähnen, Pflanzenfarbe.</div><div><b>Styling</b>Hochsteckfrisuren für Hochzeit und Ball.</div></div>
+          </div>
+        </div>
+        <div class="ba-handle" aria-hidden="true"><i><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5"/></svg></i></div>
+        <input class="ba-range" id="ba-range" type="range" min="0" max="100" value="50" step="0.1" aria-label="Vorher/Nachher-Regler">
+      </div>
+    </div>
+    <div class="ba-note rv">
+      <span class="mono">Das „Vorher“ ist nachgestellt – kein echter Kunde wurde bloßgestellt. Aber wenn deine Seite gerade so aussieht: Das ist genau der Sprung, den ich mit dir mache.</span>
+      <a href="#kontakt" class="btn primary" data-hover data-magnet>Meine Seite erneuern
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
     </div>
   </div>
 </section>
@@ -920,6 +1030,20 @@ footer a{color:var(--muted);transition:color .3s}footer a:hover{color:var(--text
   fillSite(KINDS.friseur); gsap.set(partsOf(), { opacity: 0 });
   ScrollTrigger.create({ trigger: '.builder', start: 'top 70%', end: 'bottom 20%',
     onEnter: () => { if (!site.dataset.built) { site.dataset.built = '1'; build('friseur'); } startAuto(); }, onEnterBack: startAuto, onLeave: stopAuto, onLeaveBack: stopAuto });
+
+  /* ---- Before / After slider ---- */
+  const ba = document.getElementById('ba'), baRange = document.getElementById('ba-range');
+  const setBa = v => ba.style.setProperty('--x', v + '%');
+  let baTouched = false, baSweep = null;
+  baRange.addEventListener('input', () => { baTouched = true; if (baSweep) baSweep.kill(); setBa(baRange.value); });
+  ScrollTrigger.create({ trigger: ba, start: 'top 75%', once: true, onEnter: () => {
+    if (reduce || baTouched) return;
+    const o = { v: 50 };
+    baSweep = gsap.timeline({ delay: .3 })
+      .to(o, { v: 84, duration: 1.4, ease: 'power2.inOut', onUpdate: () => { setBa(o.v); baRange.value = o.v; } })
+      .to(o, { v: 22, duration: 1.6, ease: 'power2.inOut', onUpdate: () => { setBa(o.v); baRange.value = o.v; } })
+      .to(o, { v: 50, duration: 1.2, ease: 'power3.out', onUpdate: () => { setBa(o.v); baRange.value = o.v; } });
+  } });
 
   /* ---- Horizontal projects ---- */
   const track = document.querySelector('.track');
