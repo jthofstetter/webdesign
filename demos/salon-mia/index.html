@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Salon Mia · Friseur in Linz – Demo-Website</title>
+<meta name="description" content="Demo-Website (One-Pager) eines fiktiven Friseursalons in Linz – gestaltet von Jannik Hofstetter.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;1,9..144,300&family=Inter:wght@400;500;600&display=swap">
+<style>
+:root{--cream:#F6F1EA;--cream-2:#EEE6DB;--ink:#1C1A18;--mute:#6F6761;--line:#DCD2C5;--blush:#C98B7E;--blush-2:#A86D62;--serif:'Fraunces',Georgia,serif;--sans:Inter,system-ui,sans-serif}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--cream);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+img,svg{display:block}
+.wrap{width:min(1120px,100% - 40px);margin-inline:auto}
+.eyebrow{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--blush-2);font-weight:600}
+h1,h2,h3{font-family:var(--serif);font-weight:300;letter-spacing:-.02em;margin:0;line-height:1.05}
+h2{font-size:clamp(34px,4.5vw,56px)}
+h2 em,h1 em{font-style:italic;color:var(--blush-2)}
+.btn{display:inline-flex;align-items:center;gap:10px;min-height:52px;padding:0 26px;border-radius:999px;background:var(--ink);color:var(--cream);font-weight:500;font-size:15px;transition:background .3s,transform .3s}
+.btn:hover{background:var(--blush-2);transform:translateY(-2px)}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--ink)}
+.btn.ghost:hover{background:var(--ink);color:var(--cream)}
+/* demo badge */
+.demo-badge{position:fixed;left:16px;bottom:16px;z-index:50;display:flex;align-items:center;gap:10px;background:#0B0D10;color:#ECEEF2;padding:10px 14px 10px 12px;border-radius:999px;font-size:12px;box-shadow:0 20px 40px -20px rgba(0,0,0,.6)}
+.demo-badge i{width:8px;height:8px;border-radius:50%;background:#3B7BFF}
+.demo-badge a{color:#7AA6FF;font-weight:600}
+/* nav */
+.nav{position:sticky;top:0;z-index:40;background:rgba(246,241,234,.85);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:18px 0}
+.logo{font-family:var(--serif);font-size:24px;font-weight:500;letter-spacing:-.02em}
+.nav nav{display:flex;gap:28px;font-size:14px;color:var(--mute)}
+.nav nav a:hover{color:var(--ink)}
+@media (max-width:760px){.nav nav{display:none}}
+/* hero */
+.hero{padding:88px 0 72px}
+.hero .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:56px;align-items:center}
+.hero h1{font-size:clamp(48px,7vw,96px)}
+.hero p{font-size:19px;line-height:1.6;color:var(--mute);max-width:480px;margin:0}
+.hero-copy{display:flex;flex-direction:column;gap:28px}
+.hero-cta{display:flex;gap:12px;flex-wrap:wrap}
+.hero-visual{position:relative;aspect-ratio:4/5;border-radius:280px 280px 24px 24px;background:linear-gradient(160deg,#E9D6CC 0%,#C98B7E 55%,#8E5A50 100%);overflow:hidden}
+.hero-visual::after{content:"";position:absolute;inset:0;background:radial-gradient(60% 50% at 40% 30%,rgba(255,255,255,.35),transparent 70%)}
+.hero-visual span{position:absolute;left:24px;bottom:24px;background:var(--cream);border-radius:999px;padding:10px 16px;font-size:13px;font-weight:500}
+.hero-visual .foto{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.75);font-size:12px;letter-spacing:.14em;text-transform:uppercase}
+@media (max-width:760px){.hero .wrap{grid-template-columns:1fr}.hero-visual{aspect-ratio:4/3;border-radius:24px}}
+/* ticker */
+.ticker{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:16px 0;overflow:hidden}
+.ticker div{display:flex;gap:40px;width:max-content;white-space:nowrap;animation:tk 28s linear infinite;font-family:var(--serif);font-style:italic;font-size:20px;color:var(--mute)}
+.ticker span::after{content:"✦";margin-left:40px;color:var(--blush)}
+@keyframes tk{to{transform:translateX(-50%)}}
+/* sections */
+section{padding:96px 0}
+.sec-head{display:flex;flex-direction:column;gap:14px;margin-bottom:48px;max-width:640px}
+.sec-head p{margin:0;color:var(--mute);font-size:17px;line-height:1.6}
+.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:30px;display:flex;flex-direction:column;gap:14px;transition:transform .4s,box-shadow .4s}
+.card:hover{transform:translateY(-6px);box-shadow:0 30px 60px -30px rgba(28,26,24,.3)}
+.card h3{font-size:26px}
+.card p{margin:0;color:var(--mute);line-height:1.6;font-size:15px}
+.card .ic{width:44px;height:44px;border-radius:50%;background:var(--cream-2);display:flex;align-items:center;justify-content:center;color:var(--blush-2)}
+@media (max-width:760px){.cards{grid-template-columns:1fr}}
+/* prices */
+.prices{background:var(--ink);color:var(--cream)}
+.prices .eyebrow{color:var(--blush)}
+.prices h2 em{color:var(--blush)}
+.prices .sec-head p{color:#B9B0A6}
+.plist{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 56px}
+.prow{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:18px 0;border-bottom:1px solid #332F2B}
+.prow span:first-child{font-size:17px}
+.prow small{display:block;color:#8F867C;font-size:13px;margin-top:3px}
+.prow b{font-family:var(--serif);font-weight:500;font-size:22px;white-space:nowrap}
+.prices .note{margin-top:28px;color:#8F867C;font-size:13px}
+@media (max-width:760px){.plist{grid-template-columns:1fr}}
+/* hours + map */
+.info .wrap{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:stretch}
+.hours{background:#fff;border:1px solid var(--line);border-radius:20px;padding:36px;display:flex;flex-direction:column;gap:22px}
+.hours table{width:100%;border-collapse:collapse;font-size:16px}
+.hours td{padding:12px 0;border-bottom:1px solid var(--line)}
+.hours td:last-child{text-align:right;font-weight:500}
+.hours tr.today td{color:var(--blush-2);font-weight:600}
+.hours .addr{color:var(--mute);line-height:1.6;font-size:15px}
+.map{border-radius:20px;overflow:hidden;border:1px solid var(--line);min-height:380px;background:var(--cream-2)}
+.map iframe{width:100%;height:100%;min-height:380px;border:0;filter:grayscale(1) contrast(1.05)}
+@media (max-width:760px){.info .wrap{grid-template-columns:1fr}}
+/* contact */
+.contact .wrap{display:grid;grid-template-columns:.9fr 1.1fr;gap:56px;align-items:start}
+.contact form{background:#fff;border:1px solid var(--line);border-radius:20px;padding:36px;display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.f{display:flex;flex-direction:column;gap:6px}
+.f.full{grid-column:1/-1}
+.f label{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);font-weight:600}
+.f input,.f select,.f textarea{border:1px solid var(--line);border-radius:12px;padding:14px;font:inherit;font-size:15px;background:var(--cream);color:var(--ink);outline:none;transition:border-color .3s}
+.f input:focus,.f select:focus,.f textarea:focus{border-color:var(--blush-2)}
+.contact .sent{display:none;grid-column:1/-1;background:var(--cream-2);border-radius:12px;padding:18px;color:var(--blush-2);font-weight:500}
+@media (max-width:760px){.contact .wrap{grid-template-columns:1fr}.contact form{grid-template-columns:1fr}}
+footer{border-top:1px solid var(--line);padding:28px 0;font-size:13px;color:var(--mute)}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.rv{opacity:0;transform:translateY(24px);transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1)}
+.rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none}.ticker div{animation:none}}
+</style>
+</head>
+<body>
+
+<div class="demo-badge"><i></i>Demo-Website · fiktiver Betrieb · <a href="../../#arbeiten">← zurück zu Jannik</a></div>
+
+<header class="nav">
+  <div class="wrap">
+    <a href="#top" class="logo">Salon Mia</a>
+    <nav><a href="#leistungen">Leistungen</a><a href="#preise">Preise</a><a href="#info">Öffnungszeiten</a><a href="#termin">Termin</a></nav>
+    <a href="#termin" class="btn" style="min-height:44px;padding:0 20px;font-size:14px">Termin anfragen</a>
+  </div>
+</header>
+
+<main id="top">
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-copy">
+      <span class="eyebrow rv">Friseursalon · Linz-Urfahr</span>
+      <h1 class="rv">Schön ist,<br>was zu <em>dir</em> passt.</h1>
+      <p class="rv">Schnitt, Farbe und Styling in ruhiger Atmosphäre – mit Zeit für ein echtes Gespräch darüber, was du willst. Seit 2014 in Urfahr.</p>
+      <div class="hero-cta rv">
+        <a href="#termin" class="btn">Termin anfragen</a>
+        <a href="#preise" class="btn ghost">Preise ansehen</a>
+      </div>
+    </div>
+    <div class="hero-visual rv"><div class="foto">[Foto · Salon]</div><span>Mo–Sa · ohne Wartezeit mit Termin</span></div>
+  </div>
+</section>
+
+<div class="ticker" aria-hidden="true"><div>
+  <span>Damen &amp; Herren</span><span>Balayage &amp; Farbe</span><span>Hochsteckfrisuren</span><span>Kinderhaarschnitt</span><span>Bart &amp; Pflege</span><span>Pflanzenfarbe</span>
+  <span>Damen &amp; Herren</span><span>Balayage &amp; Farbe</span><span>Hochsteckfrisuren</span><span>Kinderhaarschnitt</span><span>Bart &amp; Pflege</span><span>Pflanzenfarbe</span>
+</div></div>
+
+<section id="leistungen">
+  <div class="wrap">
+    <div class="sec-head rv"><span class="eyebrow">Leistungen</span><h2>Drei Dinge, die wir <em>richtig</em> gut können.</h2></div>
+    <div class="cards">
+      <div class="card rv"><div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M20 4 8.1 15.9M14.5 14.5 20 20M8.1 8.1 12 12"/></svg></div><h3>Schnitt</h3><p>Beratung, Waschen, Schnitt und Föhnen. Wir schneiden so, dass es auch zu Hause ohne Aufwand sitzt.</p></div>
+      <div class="card rv"><div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3v3M5.6 5.6l2.1 2.1M3 12h3M5.6 18.4l2.1-2.1M12 18v3M18.4 18.4l-2.1-2.1M21 12h-3M18.4 5.6l-2.1 2.1"/><circle cx="12" cy="12" r="3.5"/></svg></div><h3>Farbe</h3><p>Balayage, Strähnen, Ansatz oder Pflanzenfarbe – natürlich wirkend und pflegeleicht herauswachsend.</p></div>
+      <div class="card rv"><div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s-7-4.5-7-11a7 7 0 0 1 14 0c0 6.5-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg></div><h3>Styling</h3><p>Hochsteckfrisuren und Make-up-Beratung für Hochzeit, Ball oder einfach einen besonderen Abend.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="prices" id="preise">
+  <div class="wrap">
+    <div class="sec-head rv"><span class="eyebrow">Preise</span><h2>Ehrlich und <em>vorher</em> klar.</h2><p>Alle Preise inklusive Beratung, Waschen und Föhnen. Längeres oder dichtes Haar kann einen kleinen Aufpreis bedeuten – das sagen wir dir vorher.</p></div>
+    <div class="plist">
+      <div class="prow rv"><span>Damen · Schnitt &amp; Föhnen<small>ca. 60 Minuten</small></span><b>58 €</b></div>
+      <div class="prow rv"><span>Herren · Schnitt<small>ca. 40 Minuten</small></span><b>34 €</b></div>
+      <div class="prow rv"><span>Kinder bis 12<small>ca. 30 Minuten</small></span><b>22 €</b></div>
+      <div class="prow rv"><span>Bart · Formen &amp; Pflege<small>ca. 20 Minuten</small></span><b>18 €</b></div>
+      <div class="prow rv"><span>Ansatzfarbe<small>inkl. Schnitt ab 110 €</small></span><b>ab 62 €</b></div>
+      <div class="prow rv"><span>Balayage<small>inkl. Glossing &amp; Pflege</small></span><b>ab 160 €</b></div>
+      <div class="prow rv"><span>Hochsteckfrisur<small>Probe-Termin möglich</small></span><b>ab 75 €</b></div>
+      <div class="prow rv"><span>Pflegebehandlung<small>Olaplex / Keratin</small></span><b>ab 28 €</b></div>
+    </div>
+    <p class="note rv">Beispielpreise einer Demo-Website – kein echtes Angebot.</p>
+  </div>
+</section>
+
+<section class="info" id="info">
+  <div class="wrap">
+    <div class="hours rv">
+      <div><span class="eyebrow">Öffnungszeiten</span><h2 style="font-size:34px;margin-top:10px">Wann wir <em>da</em> sind.</h2></div>
+      <table id="hours">
+        <tr data-d="1"><td>Montag</td><td>geschlossen</td></tr>
+        <tr data-d="2"><td>Dienstag</td><td>09:00 – 18:00</td></tr>
+        <tr data-d="3"><td>Mittwoch</td><td>09:00 – 18:00</td></tr>
+        <tr data-d="4"><td>Donnerstag</td><td>09:00 – 20:00</td></tr>
+        <tr data-d="5"><td>Freitag</td><td>09:00 – 18:00</td></tr>
+        <tr data-d="6"><td>Samstag</td><td>08:00 – 14:00</td></tr>
+        <tr data-d="0"><td>Sonntag</td><td>geschlossen</td></tr>
+      </table>
+      <div class="addr">Hauptstraße 12 · 4040 Linz-Urfahr<br>Tel. 0732 000 000 · hallo@salon-mia.at<br>Parken: Kurzparkzone, 2 Min. zur Haltestelle Rudolfstraße</div>
+    </div>
+    <div class="map rv"><iframe title="Karte – Linz Urfahr" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=Hauptstra%C3%9Fe+12,+4040+Linz&output=embed"></iframe></div>
+  </div>
+</section>
+
+<section class="contact" id="termin">
+  <div class="wrap">
+    <div class="sec-head rv" style="margin-bottom:0"><span class="eyebrow">Termin</span><h2>Wir melden uns <em>heute</em> noch.</h2><p>Schreib uns, was du möchtest und wann es dir passt. Wir bestätigen per SMS oder E-Mail – meist innerhalb weniger Stunden.</p></div>
+    <form class="rv" id="form">
+      <div class="f"><label for="n">Name</label><input id="n" type="text" required placeholder="Dein Name"></div>
+      <div class="f"><label for="t">Telefon oder E-Mail</label><input id="t" type="text" required placeholder="Wie erreichen wir dich?"></div>
+      <div class="f"><label for="s">Leistung</label><select id="s"><option>Schnitt Damen</option><option>Schnitt Herren</option><option>Farbe / Balayage</option><option>Styling / Hochsteckfrisur</option><option>Weiß noch nicht</option></select></div>
+      <div class="f"><label for="w">Wunschtermin</label><input id="w" type="text" placeholder="z. B. Donnerstag nachmittags"></div>
+      <div class="f full"><label for="m">Anmerkung</label><textarea id="m" rows="3" placeholder="Lange Haare, erster Besuch, Allergien …"></textarea></div>
+      <div class="f full"><button type="submit" class="btn" style="justify-content:center">Terminanfrage senden</button></div>
+      <div class="sent" id="sent">Danke! Das ist eine Demo – in der echten Version landet deine Anfrage jetzt direkt beim Salon.</div>
+    </form>
+  </div>
+</section>
+</main>
+
+<footer><div class="wrap"><span>© Salon Mia · Linz · Demo-Website</span><span>Impressum · Datenschutz</span></div></footer>
+
+<script>
+document.querySelectorAll('.rv').forEach(el=>new IntersectionObserver((es,o)=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');o.unobserve(e.target)}}),{threshold:.15}).observe(el));
+var d=new Date().getDay(), tr=document.querySelector('#hours tr[data-d="'+d+'"]'); if(tr) tr.classList.add('today');
+document.getElementById('form').addEventListener('submit',function(e){e.preventDefault();document.getElementById('sent').style.display='block';this.reset();});
+</script>
+</body>
+</html>

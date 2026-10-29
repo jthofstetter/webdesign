@@ -167,6 +167,52 @@ section{position:relative;z-index:1}
 .bp-live i{width:6px;height:6px;border-radius:50%;background:var(--accent-2);box-shadow:0 0 0 0 rgba(122,166,255,.7);animation:pulse 1.6s infinite}
 @media (max-width:900px){.bp-pin{min-height:auto;padding:96px 0}.bp-text,.bp-visual{grid-column:span 12}.bp-visual{max-height:none}.bp-steps{min-height:230px}}
 
+/* ===== Builder (interactive) ===== */
+.builder{padding:160px 0 40px}
+.kinds{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:36px}
+.kind{display:inline-flex;align-items:center;gap:10px;min-height:52px;padding:0 22px;border-radius:999px;border:1px solid var(--border-strong);background:transparent;color:var(--muted);font-weight:600;font-size:15px;cursor:pointer;transition:background .4s,color .4s,border-color .4s,transform .4s var(--ease)}
+.kind svg{width:18px;height:18px}
+.kind:hover{color:var(--text);border-color:var(--accent);transform:translateY(-2px)}
+.kind.on{background:var(--accent);border-color:var(--accent);color:#fff;box-shadow:0 14px 34px -14px rgba(59,123,255,.6)}
+.bw{position:relative;border:1px solid var(--border);border-radius:var(--r);background:#06080B;box-shadow:var(--shadow);overflow:hidden}
+.bw-bar{height:44px;background:var(--surface-2);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;padding:0 16px}
+.bw-bar i{width:10px;height:10px;border-radius:50%;background:var(--border-strong)}
+.bw-bar .url{margin-left:12px;font-family:var(--mono);font-size:12px;color:var(--dim);background:var(--bg);padding:5px 14px;border-radius:999px;border:1px solid var(--border);min-width:200px}
+.bw-bar .parts{margin-left:auto;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent-2)}
+.site{--sa:#3B7BFF;--sb:#ffffff;--sc:#0B0D10;--sm:#6B7280;--ss:#F3F4F6;background:var(--sb);color:var(--sc);min-height:560px;display:flex;flex-direction:column;font-family:var(--font);transition:background .6s,color .6s}
+.site>*{will-change:transform,opacity}
+.s-nav{display:flex;justify-content:space-between;align-items:center;padding:18px 36px;border-bottom:1px solid rgba(127,127,127,.15)}
+.s-nav b{font-weight:800;font-size:17px;letter-spacing:-.02em;display:flex;align-items:center;gap:8px}
+.s-nav b i{width:10px;height:10px;background:var(--sa);border-radius:3px}
+.s-nav span{display:flex;gap:22px;font-size:13px;color:var(--sm)}
+.s-nav em{font-style:normal;background:var(--sa);color:#fff;padding:8px 14px;border-radius:999px;font-size:12px;font-weight:600}
+.s-hero{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;padding:48px 36px 40px;align-items:center}
+.s-hero small{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--sa);font-weight:600;display:block;margin-bottom:12px}
+.s-hero h3{margin:0 0 12px;font-weight:800;font-size:clamp(28px,3vw,44px);letter-spacing:-.04em;line-height:1}
+.s-hero p{margin:0 0 18px;color:var(--sm);font-size:14px;line-height:1.55;max-width:380px}
+.s-hero em{font-style:normal;display:inline-block;background:var(--sc);color:var(--sb);padding:11px 18px;border-radius:999px;font-size:13px;font-weight:600}
+.s-img{aspect-ratio:4/3;border-radius:16px;background:linear-gradient(145deg,var(--sa),var(--sc));display:flex;align-items:flex-end;padding:16px;color:rgba(255,255,255,.7);font-size:11px;letter-spacing:.1em;text-transform:uppercase}
+.s-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;padding:0 36px 36px}
+.s-card{background:var(--ss);border-radius:14px;padding:18px;font-size:13px;line-height:1.5;color:var(--sm)}
+.s-card b{display:block;color:var(--sc);font-size:15px;margin-bottom:4px}
+.s-card i{display:block;width:28px;height:28px;border-radius:8px;background:var(--sa);margin-bottom:12px;opacity:.9}
+.s-spec{padding:0 36px 36px}
+.s-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 28px}
+.s-list div{display:flex;justify-content:space-between;padding:11px 0;border-bottom:1px solid rgba(127,127,127,.18);font-size:13px}
+.s-list b{font-weight:600}
+.s-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.s-prod{background:var(--ss);border-radius:12px;overflow:hidden;font-size:12px}
+.s-prod i{display:block;aspect-ratio:1;background:linear-gradient(160deg,var(--sa),var(--ss))}
+.s-prod div{padding:10px 12px;display:flex;justify-content:space-between;color:var(--sm)}
+.s-prod b{color:var(--sc);font-weight:600}
+.s-team{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.s-team div{background:var(--ss);border-radius:12px;padding:14px;font-size:12px;color:var(--sm)}
+.s-team i{display:block;width:44px;height:44px;border-radius:50%;background:var(--sa);margin-bottom:10px}
+.s-team b{display:block;color:var(--sc);font-weight:600}
+.s-foot{margin-top:auto;padding:16px 36px;font-size:11px;color:var(--sm);border-top:1px solid rgba(127,127,127,.15);display:flex;justify-content:space-between}
+.s-title{font-weight:800;font-size:22px;letter-spacing:-.03em;margin:0 0 14px}
+@media (max-width:900px){.s-hero{grid-template-columns:1fr;padding:32px 22px}.s-row{grid-template-columns:1fr;padding:0 22px 24px}.s-spec{padding:0 22px 24px}.s-list{grid-template-columns:1fr}.s-grid,.s-team{grid-template-columns:repeat(2,1fr)}.s-nav{padding:14px 22px}.s-nav span{display:none}.s-foot{padding:14px 22px}}
+
 /* ===== Projects (horizontal) ===== */
 .proj{padding:160px 0 0}
 .proj-pin{overflow:hidden}
@@ -216,6 +262,43 @@ section{position:relative;z-index:1}
 .app h3{margin:4px 0 0;font-weight:800;font-size:24px;letter-spacing:-.035em}
 .app p{margin:8px 0 0;color:var(--muted);font-size:15px;line-height:1.55}
 
+
+/* ===== About ===== */
+.about{padding:160px 0;border-top:1px solid var(--border)}
+.about .wrap{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:48px;align-items:center}
+.portrait{grid-column:span 5;position:relative}
+.portrait-frame{position:relative;aspect-ratio:4/5;border-radius:var(--r);overflow:hidden;border:1px solid var(--border);background:var(--surface);box-shadow:var(--shadow);transition:transform .7s var(--ease),box-shadow .7s}
+.portrait-frame:hover{transform:translateY(-8px) rotate(-1deg);box-shadow:var(--shadow-hover)}
+.portrait-frame img{position:absolute;inset:0;z-index:1;width:100%;height:100%;object-fit:cover;filter:grayscale(.2) contrast(1.05)}
+.portrait-frame .ph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;color:var(--dim);text-align:center;padding:24px;background:radial-gradient(60% 50% at 50% 35%,rgba(59,123,255,.18),transparent 70%)}
+.portrait-frame .ph b{font-weight:800;font-size:72px;letter-spacing:-.05em;color:var(--accent-2)}
+.portrait-tag{position:absolute;left:-16px;bottom:32px;background:var(--bg);border:1px solid var(--accent);padding:12px 16px;border-radius:999px;display:flex;align-items:center;gap:10px;font-size:14px;font-weight:600;box-shadow:var(--shadow)}
+.portrait-tag i{width:8px;height:8px;border-radius:50%;background:#4ADE80}
+.about-copy{grid-column:7 / span 6;display:flex;flex-direction:column;gap:26px}
+.about-copy p{margin:0;color:var(--muted);font-size:19px;line-height:1.65}
+.about-copy p strong{color:var(--text);font-weight:600}
+.facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:8px}
+.fact{border:1px solid var(--border);border-radius:var(--r);padding:20px 22px;background:var(--surface);transition:border-color .4s,transform .5s var(--ease)}
+.fact:hover{border-color:var(--accent);transform:translateY(-4px)}
+.fact b{display:block;font-weight:800;font-size:30px;letter-spacing:-.04em}
+.fact span{display:block;margin-top:4px}
+@media (max-width:900px){.portrait,.about-copy{grid-column:span 12}.portrait-tag{left:16px}.facts{grid-template-columns:1fr 1fr}}
+
+/* ===== Voices ===== */
+.voices{padding:0 0 160px}
+.voices-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.voice{position:relative;border:1px dashed var(--border-strong);border-radius:var(--r);padding:34px;display:flex;flex-direction:column;gap:20px;min-height:260px;background:rgba(21,26,33,.4);transition:border-color .5s,transform .6s var(--ease),background .5s}
+.voice:hover{border-color:var(--accent);transform:translateY(-6px);background:var(--surface)}
+.voice q{quotes:"„" "“";font-size:19px;line-height:1.55;color:var(--muted);font-weight:500}
+.voice q::before,.voice q::after{color:var(--accent-2)}
+.voice.real{border-style:solid;background:var(--surface);box-shadow:var(--shadow)}
+.voice.real q{color:var(--text)}
+.who{margin-top:auto;display:flex;align-items:center;gap:14px}
+.who i{width:44px;height:44px;border-radius:50%;background:var(--surface-2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-weight:800;color:var(--accent-2);flex:none}
+.who b{display:block;font-weight:600}
+.who span{display:block;color:var(--dim);font-size:13px;margin-top:2px}
+.voice .slot{position:absolute;top:18px;right:18px;font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-2);border:1px solid var(--border);padding:4px 8px;border-radius:999px}
+@media (max-width:900px){.voices-grid{grid-template-columns:1fr}}
 
 /* ===== Pricing ===== */
 .price{padding:160px 0;border-top:1px solid var(--border)}
@@ -327,7 +410,7 @@ footer a{color:var(--muted);transition:color .3s}footer a:hover{color:var(--text
       Jannik Hofstetter <span class="mono">/ Webdesign</span>
     </a>
     <nav class="nav-links" aria-label="Hauptnavigation">
-      <a href="#ablauf" data-hover>Ablauf</a><a href="#arbeiten" data-hover>Arbeiten</a><a href="#apps" data-hover>Apps</a><a href="#preise" data-hover>Preise</a><a href="#faq" data-hover>FAQ</a>
+      <a href="#ablauf" data-hover>Ablauf</a><a href="#baukasten" data-hover>Baukasten</a><a href="#arbeiten" data-hover>Arbeiten</a><a href="#ueber-mich" data-hover>Über mich</a><a href="#preise" data-hover>Preise</a><a href="#faq" data-hover>FAQ</a>
     </nav>
     <a href="#kontakt" class="btn primary" data-hover>Projekt anfragen
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
@@ -428,6 +511,35 @@ footer a{color:var(--muted);transition:color .3s}footer a:hover{color:var(--text
   </div>
 </section>
 
+<!-- BUILDER -->
+<section class="builder" id="baukasten">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <span class="mono acc rv">// Was könnte deine Seite sein?</span>
+        <h2 class="h2 rv" style="margin-top:14px">Klick dich durch.<br><em>Sie baut sich zusammen.</em></h2>
+      </div>
+      <p class="lead rv">Vier Branchen, vier Websites – jede setzt sich live aus ihren Teilen zusammen. Deine wäre die fünfte.</p>
+    </div>
+    <div class="kinds rv" role="tablist" aria-label="Branche wählen">
+      <button class="kind on" type="button" role="tab" data-kind="friseur" data-hover><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M20 4 8.1 15.9M14.5 14.5 20 20M8.1 8.1 12 12"/></svg>Friseur</button>
+      <button class="kind" type="button" role="tab" data-kind="mode" data-hover><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18M16 10a4 4 0 0 1-8 0"/></svg>Mode-Shop</button>
+      <button class="kind" type="button" role="tab" data-kind="essen" data-hover><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 11h18M5 11a7 7 0 0 1 14 0M4 15h16M7 19h10"/></svg>Restaurant</button>
+      <button class="kind" type="button" role="tab" data-kind="business" data-hover><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2M2 13h20"/></svg>Business</button>
+    </div>
+    <div class="bw rv" data-hover>
+      <div class="bw-bar"><i></i><i></i><i></i><span class="url" id="b-url">salon-mia.at</span><span class="parts" id="b-parts">Teile 0 / 7</span></div>
+      <div class="site" id="site" aria-live="polite">
+        <div class="s-nav" data-part><b><i></i><span id="b-name">Salon Mia</span></b><span id="b-links"></span><em id="b-cta">Termin</em></div>
+        <div class="s-hero" data-part><div><small id="b-eyebrow"></small><h3 id="b-h"></h3><p id="b-p"></p><em id="b-btn"></em></div><div class="s-img" id="b-img"></div></div>
+        <div class="s-row" id="b-row" data-part></div>
+        <div class="s-spec" data-part><p class="s-title" id="b-stitle"></p><div id="b-special"></div></div>
+        <div class="s-foot" data-part><span id="b-foot"></span><span>Impressum · Datenschutz</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- PROJECTS -->
 <section class="proj" id="arbeiten">
   <div class="wrap sec-head">
@@ -435,14 +547,41 @@ footer a{color:var(--muted);transition:color .3s}footer a:hover{color:var(--text
       <span class="mono acc rv">// Und so sieht das fertig aus</span>
       <h2 class="h2 rv" style="margin-top:14px">Schon gebaut.<br><em>Schon online.</em></h2>
     </div>
-    <p class="lead rv">Drei Websites, die ich gestaltet und programmiert habe. Sie laufen hier wirklich live – fahr drüber oder klick dich rein.</p>
+    <p class="lead rv">Zwei Beispiele für lokale Betriebe – einmal One-Pager, einmal Premium – und drei echte Projekte. Alles läuft hier wirklich live.</p>
   </div>
   <div class="proj-pin">
     <div class="track">
 
       <article class="card" data-hover>
-        <span class="corner c1"></span><span class="corner c2"></span><span class="corner c3"></span><span class="corner c4"></span>
-        <span class="idx">01 / 03</span>
+        <span class="idx">01 / 05 · Beispiel One-Pager</span>
+        <div class="frame">
+          <div class="frame-bar"><i></i><i></i><i></i><span class="url">salon-mia.at · Demo</span></div>
+          <div class="frame-view"><iframe data-src="demos/salon-mia/" title="Demo: Salon Mia One-Pager" loading="lazy" tabindex="-1"></iframe></div>
+          <div class="frame-shield"></div>
+        </div>
+        <div class="card-body">
+          <div><h3>Salon Mia · One-Pager</h3><p>So sieht das 790-€-Paket aus: eine Seite mit Leistungen, Preisliste, Öffnungszeiten, Karte und Terminanfrage. Fiktiver Friseur in Linz.</p>
+            <div class="tags"><span>One-Pager · 790 €</span><span>Friseur</span><span>Demo</span></div></div>
+          <a class="card-link" href="demos/salon-mia/" target="_blank" rel="noopener" aria-label="Demo One-Pager öffnen"><svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+        </div>
+      </article>
+
+      <article class="card" data-hover>
+        <span class="idx">02 / 05 · Beispiel Premium</span>
+        <div class="frame">
+          <div class="frame-bar"><i></i><i></i><i></i><span class="url">salon-mia.at/premium · Demo</span></div>
+          <div class="frame-view"><iframe data-src="demos/salon-mia-premium/" title="Demo: Salon Mia Premium" loading="lazy" tabindex="-1"></iframe></div>
+          <div class="frame-shield"></div>
+        </div>
+        <div class="card-body">
+          <div><h3>Salon Mia · Premium</h3><p>Das 2.400-€-Paket: Online-Terminbuchung in vier Klicks, Galerie, Preis-Tabs, Team, Karte und FAQ. Gleicher Salon, deutlich mehr Website.</p>
+            <div class="tags"><span>Premium · 2.400 €</span><span>Online-Buchung</span><span>Demo</span></div></div>
+          <a class="card-link" href="demos/salon-mia-premium/" target="_blank" rel="noopener" aria-label="Demo Premium öffnen"><svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+        </div>
+      </article>
+
+      <article class="card" data-hover>
+        <span class="idx">03 / 05</span>
         <div class="frame">
           <div class="frame-bar"><i></i><i></i><i></i><span class="url">jthofstetter.github.io/nymo-website</span></div>
           <div class="frame-view"><iframe data-src="https://jthofstetter.github.io/nymo-website/" title="Nymo Website" loading="lazy" tabindex="-1"></iframe></div>
@@ -456,8 +595,7 @@ footer a{color:var(--muted);transition:color .3s}footer a:hover{color:var(--text
       </article>
 
       <article class="card" data-hover>
-        <span class="corner c1"></span><span class="corner c2"></span><span class="corner c3"></span><span class="corner c4"></span>
-        <span class="idx">02 / 03</span>
+        <span class="idx">04 / 05</span>
         <div class="frame">
           <div class="frame-bar"><i></i><i></i><i></i><span class="url">jthofstetter.github.io/kingofthespot-website</span></div>
           <div class="frame-view"><iframe data-src="https://jthofstetter.github.io/kingofthespot-website/" title="King of the Spot Website" loading="lazy" tabindex="-1"></iframe></div>
@@ -471,8 +609,7 @@ footer a{color:var(--muted);transition:color .3s}footer a:hover{color:var(--text
       </article>
 
       <article class="card" data-hover>
-        <span class="corner c1"></span><span class="corner c2"></span><span class="corner c3"></span><span class="corner c4"></span>
-        <span class="idx">03 / 03</span>
+        <span class="idx">05 / 05</span>
         <div class="frame">
           <div class="frame-bar"><i></i><i></i><i></i><span class="url">jthofstetter.github.io/justjoin-website</span></div>
           <div class="frame-view"><iframe data-src="https://jthofstetter.github.io/justjoin-website/" title="JustJoin Website" loading="lazy" tabindex="-1"></iframe></div>
@@ -534,6 +671,50 @@ footer a{color:var(--muted);transition:color .3s}footer a:hover{color:var(--text
           <div class="ph-cta">Challenge teilen</div></div>
         <div><span class="mono">Produkt · Wearable</span><h3>MainArc</h3><p>Ziele, Gewohnheiten und Challenges mit Community – plus das Wearable ArcBand.</p></div>
       </article>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="ueber-mich">
+  <div class="wrap">
+    <div class="portrait rv">
+      <div class="portrait-frame" data-hover>
+        <!-- Foto einfügen: img/jannik.jpg (Hochformat, 4:5) – dann den .ph-Block darunter löschen -->
+        <img src="img/jannik.jpg" alt="Jannik Hofstetter" onerror="this.remove()">
+        <div class="ph"><b>JH</b><span class="mono">Porträt · img/jannik.jpg</span></div>
+      </div>
+      <div class="portrait-tag"><i></i>Jannik · Linz</div>
+    </div>
+    <div class="about-copy">
+      <span class="mono acc rv">// Wer dahinter steckt</span>
+      <h2 class="h2 rv">Kein Agentur-Team.<br><em>Einer, der baut.</em></h2>
+      <p class="rv">Ich bin Jannik, <strong>studiere Artificial Intelligence an der JKU Linz</strong> und baue nebenbei Apps und Websites – fünf Apps und drei Websites bisher, alle selbst konzipiert, gestaltet und programmiert.</p>
+      <p class="rv">Ich mache das, weil ich es nicht aushalte, wenn ein guter Betrieb online schlecht aussieht. Du redest bei mir mit der Person, die deine Seite auch wirklich umsetzt – vom ersten Call bis zum Live-Gang. Keine Weiterleitung, keine Warteschleife.</p>
+      <div class="facts rv">
+        <div class="fact"><b>Linz</b><span class="mono">vor Ort oder remote</span></div>
+        <div class="fact"><b>24 h</b><span class="mono">Antwortzeit</span></div>
+        <div class="fact"><b>1</b><span class="mono">Ansprechpartner</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VOICES -->
+<section class="voices" id="stimmen">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <span class="mono acc rv">// Stimmen</span>
+        <h2 class="h2 rv" style="margin-top:14px">Was Kunden sagen.<br><em>Bald.</em></h2>
+      </div>
+      <p class="lead rv">Ich starte gerade – deshalb der Einführungspreis. Die ersten drei Kunden bekommen 200 € Nachlass, und hier den Platz für ihre Stimme.</p>
+    </div>
+    <div class="voices-grid">
+      <!-- Echte Stimme eintragen: class="voice real", Zitat in <q>, Name/Betrieb in .who, den .slot-Badge entfernen -->
+      <div class="voice rv" data-hover><span class="slot">Platz 1 · frei</span><q>Hier steht bald, wie es war, mit mir eine Website zu bauen – ehrlich, mit Name und Betrieb.</q><div class="who"><i>?</i><div><b>Dein Name</b><span>Dein Betrieb · Einführungspreis 590 €</span></div></div></div>
+      <div class="voice rv" data-hover><span class="slot">Platz 2 · frei</span><q>Kein erfundenes Zitat. Lieber ein leerer Platz als eine Stimme, die es nicht gibt.</q><div class="who"><i>?</i><div><b>Dein Name</b><span>Dein Betrieb · Einführungspreis 590 €</span></div></div></div>
+      <div class="voice rv" data-hover><span class="slot">Platz 3 · frei</span><q>Du bist einer der ersten drei? Dann steht dein Satz hier – und dein Preis war 200 € niedriger.</q><div class="who"><i>?</i><div><b>Dein Name</b><span>Dein Betrieb · Einführungspreis 590 €</span></div></div></div>
     </div>
   </div>
 </section>
@@ -744,6 +925,74 @@ footer a{color:var(--muted);transition:color .3s}footer a:hover{color:var(--text
     '(min-width: 901px)': () => { const t = buildBp(true); return () => t.kill(); },
     '(max-width: 900px)': () => { const t = buildBp(false); return () => t.kill(); }
   });
+
+  /* ---- Builder: website assembles itself ---- */
+  const KINDS = {
+    friseur: { url: 'salon-mia.at', name: 'Salon Mia', links: ['Leistungen', 'Preise', 'Team', 'Kontakt'], cta: 'Termin buchen',
+      pal: { sa: '#A86D62', sb: '#F6F1EA', sc: '#1C1A18', sm: '#6F6761', ss: '#EEE6DB' },
+      eyebrow: 'Friseursalon · Linz-Urfahr', h: 'Schön ist, was zu dir passt.', p: 'Schnitt, Farbe und Styling mit Zeit für ein echtes Gespräch. Termin online in 30 Sekunden.', btn: 'Online buchen', img: 'Salon · Foto',
+      cards: [['Schnitt', 'Beratung, Waschen, Schnitt, Föhnen.'], ['Farbe', 'Balayage, Strähnen, Pflanzenfarbe.'], ['Styling', 'Hochsteckfrisuren für Hochzeit und Ball.']],
+      stitle: 'Preisliste', special: 'list', items: [['Damen · Schnitt', '58 €'], ['Herren · Schnitt', '34 €'], ['Ansatzfarbe', 'ab 62 €'], ['Balayage', 'ab 160 €'], ['Kinder', '22 €'], ['Hochsteckfrisur', 'ab 75 €']],
+      foot: 'Di–Sa · Hauptstraße 12, Linz' },
+    mode: { url: 'studio-nord.shop', name: 'Studio Nord', links: ['Neu', 'Damen', 'Herren', 'Sale'], cta: 'Warenkorb · 2',
+      pal: { sa: '#111111', sb: '#FFFFFF', sc: '#111111', sm: '#7A7A7A', ss: '#F2F2F2' },
+      eyebrow: 'Neue Kollektion · Herbst', h: 'Weniger, aber richtig.', p: 'Zeitlose Basics aus Bio-Baumwolle, in Linz entworfen und in Portugal genäht. Versandfrei ab 80 €.', btn: 'Kollektion ansehen', img: 'Kampagne · Foto',
+      cards: [['Kostenloser Versand', 'Ab 80 € – und Retoure immer gratis.'], ['Fair produziert', 'GOTS-zertifiziert, kurze Wege.'], ['Click & Collect', 'Online bestellen, im Laden abholen.']],
+      stitle: 'Bestseller', special: 'grid', items: [['Wollmantel Camel', '289 €'], ['Oversize Hemd', '89 €'], ['Rippstrick Pullover', '129 €'], ['Wide Leg Hose', '119 €']],
+      foot: 'Studio Nord · Landstraße 40, Linz' },
+    essen: { url: 'trattoria-luca.at', name: 'Trattoria Luca', links: ['Speisekarte', 'Reservieren', 'Bestellen', 'Über uns'], cta: 'Jetzt bestellen',
+      pal: { sa: '#C8462F', sb: '#17130F', sc: '#F7EFE4', sm: '#B3A596', ss: '#241E18' },
+      eyebrow: 'Italienisch · Abholung & Lieferung', h: 'Pasta wie bei Nonna. Bestellt in 2 Minuten.', p: 'Handgemachte Pasta, Pizza aus dem Steinofen. Online bestellen, in 25 Minuten abholen oder liefern lassen.', btn: 'Speisekarte & bestellen', img: 'Gericht · Foto',
+      cards: [['Online bestellen', 'Warenkorb, Zahlung, fertig – kein Anruf nötig.'], ['Tisch reservieren', 'Freie Zeiten live, Bestätigung sofort.'], ['Mittagsmenü', 'Mo–Fr 11:30–14:00, täglich neu.']],
+      stitle: 'Speisekarte · Auswahl', special: 'list', items: [['Tagliatelle al Ragù', '14,90 €'], ['Pizza Margherita', '10,50 €'], ['Lasagne della Casa', '13,90 €'], ['Risotto ai Funghi', '15,50 €'], ['Tiramisù', '6,50 €'], ['Aperol Spritz', '5,90 €']],
+      foot: 'Täglich 11:30–22:00 · Herrenstraße 8, Linz' },
+    business: { url: 'kanzlei-berg.at', name: 'Kanzlei Berg', links: ['Leistungen', 'Team', 'Karriere', 'Kontakt'], cta: 'Erstgespräch',
+      pal: { sa: '#1E4FC2', sb: '#F7F8FA', sc: '#0F172A', sm: '#64748B', ss: '#FFFFFF' },
+      eyebrow: 'Steuerberatung · Linz & Wels', h: 'Klarheit bei Zahlen. Ruhe im Kopf.', p: 'Steuerberatung für Selbstständige und KMU – digital, verständlich, erreichbar. Erstgespräch kostenlos.', btn: 'Erstgespräch vereinbaren', img: 'Team · Foto',
+      cards: [['Buchhaltung', 'Digital, monatlich, ohne Papierkram.'], ['Jahresabschluss', 'Termingerecht und erklärt.'], ['Gründung', 'Von der Rechtsform bis zur ersten Rechnung.']],
+      stitle: 'Unser Team', special: 'team', items: [['Dr. Anna Berg', 'Partnerin'], ['Markus Steiner', 'Steuerberater'], ['Julia Pichler', 'Bilanzbuchhalterin'], ['Felix Wagner', 'Lohnverrechnung']],
+      foot: 'Mo–Fr 08:00–17:00 · Promenade 15, Linz' }
+  };
+  const site = document.getElementById('site'), $ = id => document.getElementById(id);
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const fillSite = (k) => {
+    Object.entries(k.pal).forEach(([n, v]) => site.style.setProperty('--' + n, v));
+    $('b-url').textContent = k.url; $('b-name').textContent = k.name; $('b-cta').textContent = k.cta;
+    $('b-links').innerHTML = k.links.map(l => `<a href="#baukasten" onclick="return false">${esc(l)}</a>`).join('');
+    $('b-eyebrow').textContent = k.eyebrow; $('b-h').textContent = k.h; $('b-p').textContent = k.p; $('b-btn').textContent = k.btn; $('b-img').textContent = k.img;
+    $('b-row').innerHTML = k.cards.map(c => `<div class="s-card" data-part><i></i><b>${esc(c[0])}</b>${esc(c[1])}</div>`).join('');
+    $('b-stitle').textContent = k.stitle;
+    const sp = $('b-special');
+    if (k.special === 'list') sp.innerHTML = `<div class="s-list">${k.items.map(i => `<div><span>${esc(i[0])}</span><b>${esc(i[1])}</b></div>`).join('')}</div>`;
+    else if (k.special === 'grid') sp.innerHTML = `<div class="s-grid">${k.items.map(i => `<div class="s-prod"><i></i><div><b>${esc(i[0])}</b><span>${esc(i[1])}</span></div></div>`).join('')}</div>`;
+    else sp.innerHTML = `<div class="s-team">${k.items.map(i => `<div><i></i><b>${esc(i[0])}</b>${esc(i[1])}</div>`).join('')}</div>`;
+    $('b-foot').textContent = k.foot;
+  };
+  const partsOf = () => gsap.utils.toArray('#site .s-nav, #site .s-hero > div, #site .s-card, #site .s-spec, #site .s-foot');
+  let building = false, current = 'friseur', autoTimer = null, userTouched = false;
+  const build = (name) => {
+    if (building) return; building = true; current = name;
+    document.querySelectorAll('.kind').forEach(b => { const on = b.dataset.kind === name; b.classList.toggle('on', on); b.setAttribute('aria-selected', on); });
+    const label = $('b-parts');
+    const tl = gsap.timeline({ onComplete: () => building = false });
+    const old = partsOf();
+    if (old.length) tl.to(old, { y: -24, opacity: 0, duration: .35, stagger: { each: .04, from: 'end' }, ease: 'power2.in' });
+    tl.add(() => { fillSite(KINDS[name]); label.textContent = `Teile 0 / ${partsOf().length}`; });
+    tl.add(() => {
+      const parts = partsOf(), total = parts.length;
+      gsap.set(parts, { opacity: 0, y: (i) => 40 + (i % 3) * 20, x: (i) => (i % 2 ? 30 : -30), rotateX: -12, transformOrigin: '50% 0' });
+      gsap.to(parts, { opacity: 1, y: 0, x: 0, rotateX: 0, duration: 1.1, ease: 'expo.out', stagger: { each: .09, onStart() { } },
+        onUpdate() { label.textContent = `Teile ${Math.min(total, Math.round(this.progress() * total))} / ${total}`; },
+        onComplete() { label.textContent = `Teile ${total} / ${total} · fertig`; } });
+    });
+  };
+  const order = Object.keys(KINDS);
+  const startAuto = () => { if (autoTimer || userTouched || reduce) return; autoTimer = setInterval(() => build(order[(order.indexOf(current) + 1) % order.length]), 7000); };
+  const stopAuto = () => { clearInterval(autoTimer); autoTimer = null; };
+  document.querySelectorAll('.kind').forEach(b => b.addEventListener('click', () => { userTouched = true; stopAuto(); build(b.dataset.kind); }));
+  fillSite(KINDS.friseur); gsap.set(partsOf(), { opacity: 0 });
+  ScrollTrigger.create({ trigger: '.builder', start: 'top 70%', end: 'bottom 20%',
+    onEnter: () => { if (!site.dataset.built) { site.dataset.built = '1'; build('friseur'); } startAuto(); }, onEnterBack: startAuto, onLeave: stopAuto, onLeaveBack: stopAuto });
 
   /* ---- Horizontal projects ---- */
   const track = document.querySelector('.track');
