@@ -297,7 +297,7 @@ footer{border-top:1px solid var(--line);overflow:hidden;padding-block:28px 0;bac
 .shot.interactive .live-frame{pointer-events:auto}
 .live-cta{position:absolute;right:14px;bottom:14px;z-index:2;display:none;align-items:center;gap:8px;min-height:40px;padding:0 16px;border-radius:999px;border:1px solid rgba(255,255,255,.18);background:rgba(8,8,10,.72);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:var(--paper);font:500 13px var(--f-display);cursor:pointer}
 .live-on .live-cta{display:inline-flex}
-.shot.interactive .live-cta{display:none}
+.shot.interactive .live-cta{background:var(--paper);color:var(--ink);border-color:var(--paper)}
 .live-dot{width:7px;height:7px;border-radius:50%;background:var(--live)}
 .in-frame .cur{opacity:0}
 
@@ -404,7 +404,7 @@ footer{border-top:1px solid var(--line);overflow:hidden;padding-block:28px 0;bac
     <div class="hero-meta">
       <span class="hint">Scroll und sieh zu, wie eine Website entsteht <i aria-hidden="true">↓</i></span>
       <span>Linz · Remote</span>
-      <span><i class="pulse" aria-hidden="true"></i>Freie Plätze im [MONAT]</span>
+      <span><i class="pulse" aria-hidden="true"></i>Ab sofort verfügbar</span>
     </div>
   </section>
 
@@ -565,7 +565,7 @@ footer{border-top:1px solid var(--line);overflow:hidden;padding-block:28px 0;bac
     <div class="stage-cta" aria-hidden="true"></div>
     <div class="cta-grid">
       <div class="cta-left">
-        <span class="eyebrow"><i class="pulse" aria-hidden="true"></i>Freie Plätze im [MONAT]</span>
+        <span class="eyebrow"><i class="pulse" aria-hidden="true"></i>Ab sofort verfügbar</span>
         <h2 class="rl">Die Teile für deine Seite <span class="serif ember">liegen bereit.</span></h2>
         <p class="cta-sub">Schreib mir, worum es geht. Ich melde mich innerhalb von 24 Stunden mit einer ehrlichen Einschätzung.</p>
         <div style="display:flex;flex-direction:column;gap:10px">
@@ -636,24 +636,38 @@ footer{border-top:1px solid var(--line);overflow:hidden;padding-block:28px 0;bac
   var FORM_KEY='0a980165-9ebf-46f2-b92d-0cdc1522e89a';
   (function(){
     var root=document.documentElement;
-    var ok=LIVE_EMBED && matchMedia('(pointer: fine)').matches && innerWidth>=900;
+    var ok=LIVE_EMBED;
     root.classList.add(ok?'live-on':'live-off');
     if(!ok) return;
-    var active=null;
-    function fit(shot,fr){ var w=shot.clientWidth,s=w/1440; fr.style.width='1440px'; fr.style.height=(shot.clientHeight/s)+'px'; fr.style.transform='scale('+s+')'; }
-    function drop(shot){ var fr=shot.querySelector('.live-frame'); if(fr) fr.remove(); shot.classList.remove('interactive'); }
+    var MAX=innerWidth<760?1:2, active=[], timers=new WeakMap();
+    function vw(shot){ return shot.clientWidth<700?1280:1440; }
+    function fit(shot,fr){ var W=vw(shot),s=shot.clientWidth/W; fr.style.width=W+'px'; fr.style.height=(shot.clientHeight/s)+'px'; fr.style.transform='scale('+s+')'; }
+    function drop(shot){ var fr=shot.querySelector('.live-frame'); if(fr) fr.remove(); setInteractive(shot,false); active=active.filter(function(x){return x!==shot;}); }
+    function load(shot){
+      active=active.filter(function(x){return x!==shot;}); active.push(shot);
+      while(active.length>MAX) drop(active[0]);
+      if(shot.querySelector('.live-frame')) return;
+      var fr=document.createElement('iframe'); fr.className='live-frame'; fr.title='Live-Vorschau'; fr.setAttribute('tabindex','-1');
+      fr.addEventListener('load',function(){ fr.classList.add('ready'); });
+      fr.src=shot.getAttribute('data-live'); fit(shot,fr); shot.insertBefore(fr,shot.querySelector('.live-cta'));
+    }
+    function setInteractive(shot,on){
+      shot.classList.toggle('interactive',on); root.classList.toggle('in-frame',on);
+      var b=shot.querySelector('.live-cta'); if(b) b.innerHTML=on?'Fertig':'<span class="live-dot"></span>Live ausprobieren';
+    }
+    var io=new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        var shot=en.target;
+        clearTimeout(timers.get(shot));
+        if(en.isIntersecting) timers.set(shot,setTimeout(function(){ load(shot); },250));
+        else timers.set(shot,setTimeout(function(){ drop(shot); },1200));
+      });
+    },{threshold:.35});
     document.querySelectorAll('.shot[data-live]').forEach(function(shot){
-      var b=document.createElement('button'); b.type='button'; b.className='live-cta'; b.innerHTML='<span class="live-dot"></span>Live ausprobieren'; shot.appendChild(b);
-      function load(){
-        if(active&&active!==shot) drop(active); active=shot;
-        if(shot.querySelector('.live-frame')) return;
-        var fr=document.createElement('iframe'); fr.className='live-frame'; fr.title='Live-Vorschau'; fr.loading='eager'; fr.setAttribute('tabindex','-1');
-        fr.addEventListener('load',function(){ fr.classList.add('ready'); });
-        fr.src=shot.getAttribute('data-live'); fit(shot,fr); shot.insertBefore(fr,b);
-      }
-      shot.addEventListener('pointerenter',load);
-      b.addEventListener('click',function(){ load(); shot.classList.add('interactive'); root.classList.add('in-frame'); });
-      shot.addEventListener('pointerleave',function(){ shot.classList.remove('interactive'); root.classList.remove('in-frame'); });
+      var b=document.createElement('button'); b.type='button'; b.className='live-cta'; shot.appendChild(b); setInteractive(shot,false);
+      b.addEventListener('click',function(){ load(shot); setInteractive(shot,!shot.classList.contains('interactive')); });
+      shot.addEventListener('pointerleave',function(e){ if(e.pointerType==='mouse') setInteractive(shot,false); });
+      io.observe(shot);
     });
     addEventListener('resize',function(){ document.querySelectorAll('.live-frame').forEach(function(fr){ fit(fr.parentNode,fr); }); });
   })();
