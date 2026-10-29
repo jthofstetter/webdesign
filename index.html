@@ -947,7 +947,7 @@ footer a{color:var(--muted);transition:color .3s}footer a:hover{color:var(--text
       scrollTrigger: { trigger: '.bp', start: pinned ? 'top top' : 'top 70%', end: pinned ? '+=320%' : 'bottom 40%', scrub: .6,
         pin: pinned, anticipatePin: 1, invalidateOnRefresh: true,
         onUpdate: s => segs.forEach((seg, i) => seg.style.setProperty('--p', gsap.utils.clamp(0, 1, s.progress * 4 - i))) } });
-    const sw = (a, b, t) => bp.to(steps[a], { opacity: 0, y: -16, duration: .2 }, t).to(steps[b], { opacity: 1, y: 0, duration: .2 }, t + .15);
+    const sw = (a, b, t) => bp.to(steps[a], { opacity: 0, y: -16, duration: .18 }, t).to(steps[b], { opacity: 1, y: 0, duration: .22 }, t + .2);
     bp.to('.bp-visual svg .d', { strokeDashoffset: 0, duration: 1.4, stagger: .06 }, 0);
     sw(0, 1, .9);
     sw(1, 2, 1.9);
