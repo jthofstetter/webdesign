@@ -239,30 +239,6 @@ section{position:relative;z-index:1}
 .card .idx{position:absolute;top:-30px;left:0;font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--dim)}
 @media (max-width:900px){.proj{padding-top:96px}.track{flex-direction:column;width:auto;padding:0 24px 96px}.card{flex:1 1 auto;width:100%}.card .idx{position:static;margin:16px 28px 0}}
 
-/* ===== Apps ===== */
-.apps{padding:160px 0;border-top:1px solid var(--border)}
-.apps-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:28px}
-.app{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:28px 28px 30px;display:flex;flex-direction:column;gap:24px;position:relative;box-shadow:var(--shadow);transition:border-color .5s,transform .6s var(--ease),box-shadow .6s}
-.app:hover{border-color:rgba(59,123,255,.6);transform:translateY(-10px);box-shadow:var(--shadow-hover)}
-.app:hover .phone{transform:rotate(-2deg) translateY(-6px)}
-.phone{position:relative;aspect-ratio:9/16;border:1px solid var(--border-strong);border-radius:28px;background:#06080B;padding:18px 14px;display:flex;flex-direction:column;gap:10px;overflow:hidden;font-size:12px;box-shadow:0 20px 50px -20px rgba(0,0,0,.9);transition:transform .7s var(--ease)}
-.phone::before{content:"";position:absolute;top:8px;left:50%;transform:translateX(-50%);width:34%;height:5px;border-radius:999px;background:var(--border-strong)}
-.phone .ph{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin-top:10px}
-.phone .ti{font-weight:800;font-size:15px;letter-spacing:-.02em}
-.ph-row{background:var(--surface-2);border:1px solid var(--border);border-radius:10px;padding:10px 11px;display:flex;justify-content:space-between;align-items:center;gap:6px;color:var(--text)}
-.ph-row small{color:var(--muted);font-size:10px}
-.ph-row .pill{background:var(--accent);color:#fff;border-radius:999px;padding:2px 8px;font-size:10px;font-weight:600}
-.bub{border-radius:10px;padding:7px 9px;max-width:85%;background:var(--surface-2);border:1px solid var(--border);color:var(--text)}
-.bub.me{align-self:flex-end;background:var(--accent);border-color:var(--accent);color:#fff}
-.ph-cta{margin-top:auto;background:var(--accent);color:#fff;text-align:center;border-radius:8px;padding:8px;font-weight:600}
-.chk{display:flex;gap:8px;align-items:center;color:var(--text)}
-.chk i{width:12px;height:12px;border:1px solid var(--accent);display:inline-flex;align-items:center;justify-content:center;flex:none}
-.chk i.on{background:var(--accent)}
-.chk s{color:var(--dim)}
-.app h3{margin:4px 0 0;font-weight:800;font-size:24px;letter-spacing:-.035em}
-.app p{margin:8px 0 0;color:var(--muted);font-size:15px;line-height:1.55}
-
-
 /* ===== About ===== */
 .about{padding:160px 0;border-top:1px solid var(--border)}
 .about .wrap{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:48px;align-items:center}
@@ -622,55 +598,6 @@ footer a{color:var(--muted);transition:color .3s}footer a:hover{color:var(--text
         </div>
       </article>
 
-    </div>
-  </div>
-</section>
-
-<!-- APPS -->
-<section class="apps" id="apps">
-  <div class="wrap">
-    <div class="sec-head">
-      <div>
-        <span class="mono acc rv">// Auch Apps</span>
-        <h2 class="h2 rv" style="margin-top:14px">Von der Idee<br><em>bis aufs Handy.</em></h2>
-      </div>
-      <p class="lead rv">Android-Apps, die ich selbst konzipiert, gestaltet und programmiert habe. Die Screens sind nachgebaute Vorschauen.</p>
-    </div>
-    <div class="apps-grid">
-      <article class="app rv" data-hover>
-        <div class="phone"><span class="ph">Thema · Musik · 18–24</span>
-          <div class="bub">Hey! Was hörst du gerade?</div><div class="bub me">Viel Indie grad. Du?</div><div class="bub">Same! Lieblingsband?</div>
-          <div class="ph-row" style="margin-top:auto"><small>Nachricht …</small><span class="pill">↑</span></div></div>
-        <div><span class="mono">Chat · Android</span><h3>Nymo</h3><p>Verbindet dich anonym mit einer Person in deinem Alter, optional nach Thema.</p></div>
-      </article>
-      <article class="app rv" data-hover>
-        <div class="phone"><span class="ph">In deiner Nähe · Wien</span>
-          <div class="ph-row"><div>Kaffee<br><small>3 · 18:00</small></div><span class="pill">Join</span></div>
-          <div class="ph-row"><div>Fußball<br><small>6 · 19:30</small></div><span class="pill">Join</span></div>
-          <div class="ph-row"><div>Spaziergang<br><small>2 · jetzt</small></div><span class="pill">Join</span></div>
-          <div class="ph-cta">QuickJoin</div></div>
-        <div><span class="mono">Social · Wien</span><h3>JustJoin</h3><p>Spontane Aktivitäten in der Nähe finden und per QuickJoin mitmachen.</p></div>
-      </article>
-      <article class="app rv" data-hover>
-        <div class="phone"><span class="ph">Scannen</span>
-          <div class="ph-row">Milch<small>1,29</small></div><div class="ph-row">Brot<small>2,49</small></div><div class="ph-row">Äpfel<small>3,10</small></div>
-          <div class="ph-row" style="border-color:var(--accent)"><b>Summe</b><b>6,88 €</b></div>
-          <div class="ph-cta">Erfasst ✓</div></div>
-        <div><span class="mono">Kotlin · Android</span><h3>BonScan</h3><p>Rechnung fotografieren – alle Daten sind automatisch erfasst.</p></div>
-      </article>
-      <article class="app rv" data-hover>
-        <div class="phone"><span class="ph">Gesucht</span>
-          <div class="ph-row"><div><b>Linz → Wien</b><br><small>Fr, 17:00</small></div></div>
-          <div class="bub">Max: „Für 5 € mach ich das“</div>
-          <div class="ph-cta">Angebot annehmen</div></div>
-        <div><span class="mono">Mobilität · Android</span><h3>CoRide</h3><p>Fahrten anbieten oder einen Fahrtwunsch posten und Angebote bekommen.</p></div>
-      </article>
-      <article class="app rv" data-hover>
-        <div class="phone"><span class="ph">Heute · 3/4 CheckPoints</span>
-          <div class="chk"><i class="on"></i><s>5 km laufen</s></div><div class="chk"><i class="on"></i><s>20 Seiten lesen</s></div><div class="chk"><i class="on"></i><s>Vor 7 Uhr auf</s></div><div class="chk"><i></i>Kein Handy ab 22 Uhr</div>
-          <div class="ph-cta">Challenge teilen</div></div>
-        <div><span class="mono">Produkt · Wearable</span><h3>MainArc</h3><p>Ziele, Gewohnheiten und Challenges mit Community – plus das Wearable ArcBand.</p></div>
-      </article>
     </div>
   </div>
 </section>
