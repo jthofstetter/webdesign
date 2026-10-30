@@ -7,7 +7,7 @@
 <meta name="description" content="Websites mit Bewegung, 3D und klarem Aufbau für Startups, Selbstständige und Betriebe. Zum festen Preis, aus Linz.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;800&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;800&family=JetBrains+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap">
 <style>
 /* ===== Tokens ===== */
 :root{
@@ -60,7 +60,7 @@ section{position:relative;z-index:1}
 .mono{font-family:var(--mono);font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
 .mono.acc{color:var(--accent-2)}
 .h2{margin:0;font-weight:800;font-size:clamp(40px,5.8vw,80px);letter-spacing:-.045em;line-height:.95}
-.h2 em{font-style:normal;color:var(--accent-2)}
+.h2 em{font-family:'Instrument Serif',Georgia,serif;font-style:italic;font-weight:400;color:var(--accent-2);letter-spacing:-.01em;font-size:1.08em}
 .lead{margin:0;color:var(--muted);font-size:clamp(17px,1.4vw,21px);line-height:1.6}
 .sec-head{display:flex;justify-content:space-between;align-items:flex-end;gap:32px;flex-wrap:wrap;margin-bottom:72px}
 .sec-head .lead{max-width:460px}
@@ -93,44 +93,66 @@ section{position:relative;z-index:1}
 @media (max-width:1000px){.nav-links{display:none}}
 @media (max-width:520px){.nav .btn{padding:0 16px;min-height:44px;font-size:14px}.logo .mono{display:none}}
 
+/* ===== Aurora (hero atmosphere) ===== */
+.aurora{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+.aurora i{position:absolute;border-radius:50%;filter:blur(90px);opacity:.75;mix-blend-mode:screen;will-change:transform}
+.aurora .a1{width:70vw;height:70vw;left:-15vw;top:-20vw;background:radial-gradient(circle,#1E4FC2 0%,rgba(30,79,194,0) 65%);animation:drift1 18s ease-in-out infinite alternate}
+.aurora .a2{width:55vw;height:55vw;right:-10vw;top:-10vw;background:radial-gradient(circle,#7AA6FF 0%,rgba(122,166,255,0) 65%);opacity:.45;animation:drift2 22s ease-in-out infinite alternate}
+.aurora .a3{width:60vw;height:40vw;left:20vw;bottom:-20vw;background:radial-gradient(ellipse,#FF8A5B 0%,rgba(255,138,91,0) 65%);opacity:.35;animation:drift3 26s ease-in-out infinite alternate}
+.aurora .a4{width:40vw;height:40vw;right:15vw;bottom:-5vw;background:radial-gradient(circle,#B9A7FF 0%,rgba(185,167,255,0) 65%);opacity:.35;animation:drift1 20s ease-in-out infinite alternate-reverse}
+@keyframes drift1{to{transform:translate(12vw,8vw) scale(1.15)}}
+@keyframes drift2{to{transform:translate(-10vw,10vw) scale(.9)}}
+@keyframes drift3{to{transform:translate(-14vw,-6vw) scale(1.2)}}
+.aurora::after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(11,13,16,.2) 0%,rgba(11,13,16,0) 35%,rgba(11,13,16,.6) 80%,var(--bg) 100%)}
+.grain{position:absolute;inset:0;pointer-events:none;opacity:.07;mix-blend-mode:overlay;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>")}
+.glass{background:rgba(21,26,33,.45);border:1px solid rgba(255,255,255,.1);backdrop-filter:blur(18px) saturate(1.3);-webkit-backdrop-filter:blur(18px) saturate(1.3);box-shadow:0 1px 0 rgba(255,255,255,.08) inset,0 30px 80px -30px rgba(0,0,0,.8)}
+.serif{font-family:'Instrument Serif',Georgia,serif;font-style:italic;font-weight:400;letter-spacing:-.01em}
+
 /* ===== Hero ===== */
-.hero{min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:140px 0 90px}
-.hero .wrap{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:32px;align-items:center}
-.hero-copy{grid-column:span 7;display:flex;flex-direction:column;gap:36px}
-.hero h1{margin:0;font-weight:800;font-size:clamp(54px,8.2vw,132px);line-height:.9;letter-spacing:-.05em}
-.line{display:block;overflow:hidden;padding-bottom:.1em;margin-bottom:-.1em}
+.hero{min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:150px 0 0;position:relative;overflow:hidden}
+.hero .wrap{position:relative;z-index:1}
+.hero-top{display:grid;grid-template-columns:1fr minmax(0,820px) 1fr;gap:32px;align-items:center}
+.hero-copy{grid-column:2;display:flex;flex-direction:column;align-items:center;text-align:center;gap:30px}
+.hero h1{margin:0;font-weight:800;font-size:clamp(54px,8.4vw,136px);line-height:.92;letter-spacing:-.05em}
+.hero h1 .serif{font-size:1.08em;color:var(--accent-2);font-weight:400;letter-spacing:-.02em}
+.line{display:block;overflow:hidden;padding-bottom:.12em;margin-bottom:-.12em}
 .line>span{display:inline-block;transform:translateY(115%)}
-.under{position:relative;display:inline-block}
-.under::after{content:"";position:absolute;left:0;right:0;bottom:.08em;height:.08em;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform 1s var(--ease) .9s}
-.is-ready .under::after{transform:scaleX(1)}
-.hero-cta{display:flex;gap:14px;flex-wrap:wrap}
-.avail{display:flex;gap:24px;flex-wrap:wrap;align-items:center}
+.hero-cta{display:flex;gap:14px;flex-wrap:wrap;justify-content:center}
+.avail{display:flex;gap:24px;flex-wrap:wrap;align-items:center;justify-content:center}
 .avail .dot{display:inline-flex;align-items:center;gap:8px}
 .avail .dot i{width:7px;height:7px;border-radius:50%;background:#4ADE80;box-shadow:0 0 0 0 rgba(74,222,128,.6);animation:pulse 1.8s infinite}
 @keyframes pulse{to{box-shadow:0 0 0 9px rgba(74,222,128,0)}}
-.hero-visual{grid-column:8 / span 5;position:relative}
-.hero-card{position:relative;border:1px solid var(--border);border-radius:var(--r);background:rgba(21,26,33,.75);backdrop-filter:blur(8px);padding:28px;transform-style:preserve-3d;transition:transform .2s ease-out,box-shadow .6s;overflow:hidden;box-shadow:var(--shadow)}
-.hero-card:hover{box-shadow:var(--shadow-hover)}
+.hero-kpi{display:flex;flex-direction:column;gap:28px}
+.hero-kpi.l{align-items:flex-start}.hero-kpi.r{align-items:flex-end;text-align:right}
+.kpi b{display:block;font-weight:800;font-size:clamp(30px,3.2vw,46px);letter-spacing:-.045em;line-height:1}
+.kpi b .serif{color:var(--accent-2);font-size:1.05em}
+.kpi span{display:block;margin-top:6px}
+.hero-stage{position:relative;z-index:1;margin-top:64px;display:flex;justify-content:center;padding:0 24px}
+.hero-card{position:relative;width:min(1040px,100%);border-radius:var(--r) var(--r) 0 0;padding:26px 26px 0;transform-style:preserve-3d;transition:transform .25s ease-out;overflow:hidden;border-bottom:0}
 .hero-card .mono{display:flex;justify-content:space-between}
-.mock{margin-top:16px;display:flex;flex-direction:column;gap:12px}
-.mock-bar{height:52px;border-radius:8px;border:1px dashed var(--border-strong);display:flex;align-items:center;padding:0 14px;gap:8px}
-.mock-bar i{width:8px;height:8px;background:var(--border-strong)}
-.mock-hero{height:170px;border-radius:8px;border:1px dashed var(--border-strong);display:flex;align-items:center;justify-content:center;color:var(--dim);font-family:var(--mono);font-size:11px;letter-spacing:.1em}
-.mock-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
-.mock-row i{display:block;height:72px;border:1px dashed var(--border-strong);border-radius:8px}
-.mock-cta{height:44px;width:46%;border:1px dashed var(--border-strong);border-radius:999px}
-.hero-card .fill{position:absolute;inset:0;background:var(--accent);clip-path:inset(0 0 100% 0);transition:clip-path 1.6s var(--ease);padding:28px}
-.fill .mock-bar,.fill .mock-hero,.fill .mock-row i,.fill .mock-cta{border:0;background:var(--accent-ink)}
-.fill .mock-bar i{background:var(--accent)}
-.fill .mock-hero{color:var(--accent-2);font-weight:800;font-family:var(--font);font-size:20px;letter-spacing:-.02em;text-transform:none}
-.fill .mono{color:var(--accent-ink)}
+.mock{margin-top:16px;display:grid;grid-template-columns:1.1fr .9fr;grid-template-areas:"bar bar" "hero img" "row row";gap:14px}
+.mock-bar{grid-area:bar;height:52px;border-radius:10px;border:1px dashed var(--border-strong);display:flex;align-items:center;padding:0 16px;gap:8px}
+.mock-bar i{width:9px;height:9px;background:var(--border-strong);border-radius:2px}
+.mock-hero{grid-area:hero;height:200px;border-radius:10px;border:1px dashed var(--border-strong);display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:12px;padding:24px;color:var(--dim);font-family:var(--mono);font-size:11px;letter-spacing:.1em}
+.mock-hero u{text-decoration:none;display:block;width:60%;height:18px;border:1px dashed var(--border-strong);border-radius:4px}
+.mock-hero u+u{width:40%}
+.mock-img{grid-area:img;border-radius:10px;border:1px dashed var(--border-strong)}
+.mock-row{grid-area:row;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.mock-row i{display:block;height:78px;border:1px dashed var(--border-strong);border-radius:10px}
+.hero-card .fill{position:absolute;inset:0;background:linear-gradient(160deg,#1E4FC2,#3B7BFF 60%,#7AA6FF);clip-path:inset(0 0 100% 0);transition:clip-path 1.6s var(--ease);padding:26px 26px 0}
+.fill .mock-bar,.fill .mock-hero,.fill .mock-img,.fill .mock-row i{border:0;background:rgba(7,17,38,.85)}
+.fill .mock-bar i{background:var(--accent-2)}
+.fill .mock-hero{color:#fff;font-weight:800;font-family:var(--font);font-size:26px;letter-spacing:-.03em;text-transform:none}
+.fill .mock-hero u{border:0;background:rgba(255,255,255,.25)}
+.fill .mock-img{background:linear-gradient(135deg,rgba(255,255,255,.35),rgba(255,255,255,.05))}
+.fill .mono{color:#fff;opacity:.85}
 .hero-card:hover .fill{clip-path:inset(0 0 0 0)}
+.hero-fade{position:absolute;left:0;right:0;bottom:0;height:160px;background:linear-gradient(to bottom,rgba(11,13,16,0),var(--bg));pointer-events:none;z-index:2}
 .corner{position:absolute;width:12px;height:12px;border:1px solid var(--accent);pointer-events:none}
 .c1{top:-1px;left:-1px;border-right:0;border-bottom:0}.c2{top:-1px;right:-1px;border-left:0;border-bottom:0}.c3{bottom:-1px;left:-1px;border-right:0;border-top:0}.c4{bottom:-1px;right:-1px;border-left:0;border-top:0}
-.scroll-hint{position:absolute;left:50%;bottom:28px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:10px;color:var(--dim)}
-.scroll-hint i{width:1px;height:48px;background:linear-gradient(var(--accent),transparent);animation:drop 1.8s var(--ease-io) infinite}
-@keyframes drop{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
-@media (max-width:900px){.hero-copy,.hero-visual{grid-column:span 12}.hero{padding-top:120px}.scroll-hint{display:none}}
+.scroll-hint{display:none}
+@media (max-width:1100px){.hero-top{grid-template-columns:1fr}.hero-copy{grid-column:1}.hero-kpi{flex-direction:row;justify-content:center;gap:40px;text-align:center}.hero-kpi.l,.hero-kpi.r{align-items:center;text-align:center}.hero-kpi.r{order:3}}
+@media (max-width:900px){.hero{padding-top:120px}.mock{grid-template-columns:1fr;grid-template-areas:"bar" "hero" "row"}.mock-img{display:none}.hero-stage{margin-top:40px}}
 
 /* ===== Marquee ===== */
 .marquee{border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:20px 0;overflow:hidden;background:rgba(21,26,33,.4);position:relative;z-index:1}
@@ -217,7 +239,7 @@ section{position:relative;z-index:1}
 .proj{padding:160px 0 0}
 .proj-pin{overflow:hidden}
 .track{display:flex;gap:40px;padding:0 max(24px,(100vw - 1400px)/2) 160px;width:max-content}
-.card{position:relative;flex:0 0 min(960px,88vw);background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;box-shadow:var(--shadow);transition:border-color .5s,box-shadow .6s,transform .6s var(--ease)}
+.card{position:relative;flex:0 0 min(960px,88vw);background:rgba(21,26,33,.7);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;box-shadow:var(--shadow);transition:border-color .5s,box-shadow .6s,transform .6s var(--ease)}
 .card:hover{border-color:rgba(59,123,255,.6);box-shadow:var(--shadow-hover);transform:translateY(-8px)}
 .card .corner{display:none}
 .frame{position:relative;background:#06080B;border-bottom:1px solid var(--border);aspect-ratio:16/10;overflow:hidden}
@@ -310,7 +332,7 @@ section{position:relative;z-index:1}
 .about-copy p{margin:0;color:var(--muted);font-size:19px;line-height:1.65}
 .about-copy p strong{color:var(--text);font-weight:600}
 .facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:8px}
-.fact{border:1px solid var(--border);border-radius:var(--r);padding:20px 22px;background:var(--surface);transition:border-color .4s,transform .5s var(--ease)}
+.fact{border:1px solid rgba(255,255,255,.08);border-radius:var(--r);padding:20px 22px;background:rgba(21,26,33,.6);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);transition:border-color .4s,transform .5s var(--ease)}
 .fact:hover{border-color:var(--accent);transform:translateY(-4px)}
 .fact b{display:block;font-weight:800;font-size:30px;letter-spacing:-.04em}
 .fact span{display:block;margin-top:4px}
@@ -319,7 +341,7 @@ section{position:relative;z-index:1}
 /* ===== Voices ===== */
 .voices{padding:0 0 160px}
 .voices-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
-.voice{position:relative;border:1px dashed var(--border-strong);border-radius:var(--r);padding:34px;display:flex;flex-direction:column;gap:20px;min-height:260px;background:rgba(21,26,33,.4);transition:border-color .5s,transform .6s var(--ease),background .5s}
+.voice{position:relative;border:1px dashed var(--border-strong);border-radius:var(--r);padding:34px;display:flex;flex-direction:column;gap:20px;min-height:260px;background:rgba(21,26,33,.4);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);transition:border-color .5s,transform .6s var(--ease),background .5s}
 .voice:hover{border-color:var(--accent);transform:translateY(-6px);background:var(--surface)}
 .voice q{quotes:"„" "“";font-size:19px;line-height:1.55;color:var(--muted);font-weight:500}
 .voice q::before,.voice q::after{color:var(--accent-2)}
@@ -333,14 +355,16 @@ section{position:relative;z-index:1}
 @media (max-width:900px){.voices-grid{grid-template-columns:1fr}}
 
 /* ===== Pricing ===== */
-.price{padding:160px 0;border-top:1px solid var(--border)}
+.price{padding:160px 0;border-top:1px solid var(--border);position:relative;overflow:hidden}
+.price .aurora i{opacity:.35}
+.price .aurora::after{background:linear-gradient(to bottom,var(--bg),rgba(11,13,16,.3) 40%,var(--bg))}
 .tiers{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px;align-items:stretch}
-.tier{position:relative;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:52px;display:flex;flex-direction:column;gap:30px;box-shadow:var(--shadow);transition:border-color .5s,transform .6s var(--ease),box-shadow .6s}
+.tier{position:relative;background:rgba(21,26,33,.55);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid var(--border);border-radius:var(--r);padding:52px;display:flex;flex-direction:column;gap:30px;box-shadow:var(--shadow);transition:border-color .5s,transform .6s var(--ease),box-shadow .6s}
 .tier:hover{border-color:rgba(59,123,255,.6);transform:translateY(-8px);box-shadow:var(--shadow-hover)}
 .tier.featured{padding:1.5px;border:0;overflow:hidden}
 .tier.featured::before{content:"";position:absolute;inset:-150%;background:conic-gradient(from 0deg,transparent 0 70%,var(--accent) 85%,var(--accent-2) 92%,transparent 100%);animation:spin 6s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-.tier.featured .tier-inner{position:relative;background:var(--surface);border-radius:calc(var(--r) - 1px);padding:52px;display:flex;flex-direction:column;gap:30px;height:100%}
+.tier.featured .tier-inner{position:relative;background:rgba(21,26,33,.9);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-radius:calc(var(--r) - 1px);padding:52px;display:flex;flex-direction:column;gap:30px;height:100%}
 .tier-top{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
 .tier h3{margin:0;font-weight:800;font-size:34px;letter-spacing:-.04em}
 .price-num{font-weight:800;font-size:clamp(64px,7vw,104px);letter-spacing:-.055em;line-height:.9}
@@ -378,7 +402,10 @@ section{position:relative;z-index:1}
 @media (max-width:900px){.faq-intro{grid-column:span 12;position:static}.faq-list{grid-column:span 12}}
 
 /* ===== Contact ===== */
-.contact{padding:160px 0;border-top:1px solid var(--border)}
+.contact{padding:160px 0;border-top:1px solid var(--border);position:relative;overflow:hidden}
+.contact .aurora i{opacity:.3}
+.contact .aurora::after{background:linear-gradient(to bottom,var(--bg),rgba(11,13,16,.2) 50%,rgba(11,13,16,.6))}
+.contact .wrap{position:relative;z-index:1}
 .contact .wrap{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:40px}
 .contact-intro{grid-column:span 5;display:flex;flex-direction:column;gap:18px}
 .mail{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:8px}
@@ -454,47 +481,56 @@ footer a{color:var(--muted);transition:color .3s}footer a:hover{color:var(--text
 
 <!-- HERO -->
 <section class="hero">
-  <div class="wrap">
+  <div class="aurora" aria-hidden="true"><i class="a1"></i><i class="a2"></i><i class="a3"></i><i class="a4"></i></div>
+  <div class="grain" aria-hidden="true"></div>
+  <div class="wrap hero-top">
+    <div class="hero-kpi l rv" aria-label="Kennzahlen">
+      <div class="kpi"><b>14<span class="serif">Tage</span></b><span class="mono">bis deine Seite live ist</span></div>
+      <div class="kpi"><b>ab 790<span class="serif">€</span></b><span class="mono">Festpreis · keine Überraschungen</span></div>
+    </div>
     <div class="hero-copy">
-      <span class="mono acc rv">// Webdesign &amp; Entwicklung · Zum festen Preis</span>
+      <span class="mono acc rv">// Webdesign &amp; Entwicklung · Linz</span>
       <h1 aria-label="Websites, die man nicht vergisst.">
-        <span class="line"><span>Websites,</span></span>
-        <span class="line"><span>die man nicht</span></span>
-        <span class="line"><span><span class="under">vergisst</span>.</span></span>
+        <span class="line"><span>Websites, die man</span></span>
+        <span class="line"><span>nicht <span class="serif">vergisst.</span></span></span>
       </h1>
-      <p class="lead rv" style="max-width:560px">Ich gestalte und programmiere Websites mit Bewegung, 3D und klarem Aufbau. Für Startups, Selbstständige und Betriebe, die auffallen wollen – zum festen Preis, ohne Agentur-Overhead.</p>
+      <p class="lead rv" style="max-width:580px">Ich gestalte und programmiere Websites mit Bewegung, 3D und klarem Aufbau – für Startups, Selbstständige und Betriebe, die auffallen wollen. Zum festen Preis, ohne Agentur-Overhead.</p>
       <div class="hero-cta rv">
         <a href="#kontakt" class="btn primary" data-hover data-magnet>Projekt starten
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
-        <a href="#arbeiten" class="btn" data-hover data-magnet>Arbeiten ansehen</a>
+        <a href="#arbeiten" class="btn glass" data-hover data-magnet>Arbeiten ansehen</a>
       </div>
       <div class="avail rv mono">
-        <span class="dot"><i></i>Ab sofort verfügbar</span><span>Linz · Remote</span><span>Antwort in 24 h</span>
+        <span class="dot"><i></i>Ab sofort verfügbar</span><span>Antwort in 24 h</span>
       </div>
     </div>
-    <div class="hero-visual rv">
-      <div class="hero-card" data-tilt data-hover>
-        <span class="corner c1"></span><span class="corner c2"></span><span class="corner c3"></span><span class="corner c4"></span>
-        <div class="mono"><span>01 · Bauplan</span><span>→ hover</span></div>
+    <div class="hero-kpi r rv" aria-label="Kennzahlen">
+      <div class="kpi"><b>5<span class="serif">Sites</span></b><span class="mono">gestaltet &amp; programmiert</span></div>
+      <div class="kpi"><b>1<span class="serif">Person</span></b><span class="mono">vom Call bis zum Live-Gang</span></div>
+    </div>
+  </div>
+  <div class="hero-stage rv">
+    <div class="hero-card glass" data-tilt data-hover>
+      <span class="corner c1"></span><span class="corner c2"></span>
+      <div class="mono"><span>01 · Bauplan</span><span>→ hover</span></div>
+      <div class="mock">
+        <div class="mock-bar"><i></i><i></i><i></i></div>
+        <div class="mock-hero">Hero · Headline · CTA<u></u><u></u></div>
+        <div class="mock-img"></div>
+        <div class="mock-row"><i></i><i></i><i></i></div>
+      </div>
+      <div class="fill" aria-hidden="true">
+        <div class="mono"><span>02 · Live</span><span>deine-website.at</span></div>
         <div class="mock">
-          <div class="mock-bar"><i></i><i></i><i></i></div>
-          <div class="mock-hero">Hero · Headline · CTA</div>
+          <div class="mock-bar"><i></i><i style="opacity:.5"></i><i style="opacity:.3"></i></div>
+          <div class="mock-hero">Dein Betrieb. Online.<u></u><u></u></div>
+          <div class="mock-img"></div>
           <div class="mock-row"><i></i><i></i><i></i></div>
-          <div class="mock-cta"></div>
-        </div>
-        <div class="fill" aria-hidden="true">
-          <div class="mono"><span>02 · Live</span><span>deine-website.at</span></div>
-          <div class="mock">
-            <div class="mock-bar"><i></i><i style="opacity:.5"></i><i style="opacity:.3"></i></div>
-            <div class="mock-hero">Dein Produkt. Online.</div>
-            <div class="mock-row"><i></i><i></i><i></i></div>
-            <div class="mock-cta"></div>
-          </div>
         </div>
       </div>
     </div>
   </div>
-  <div class="scroll-hint" aria-hidden="true"><span class="mono">Scroll und sieh zu, wie eine Website entsteht</span><i></i></div>
+  <div class="hero-fade" aria-hidden="true"></div>
 </section>
 
 <!-- MARQUEE -->
@@ -758,7 +794,8 @@ footer a{color:var(--muted);transition:color .3s}footer a:hover{color:var(--text
 
 <!-- PRICING -->
 <section class="price" id="preise">
-  <div class="wrap">
+  <div class="aurora" aria-hidden="true"><i class="a1" style="left:-30vw;top:-10vw"></i><i class="a3" style="right:-10vw;left:auto;bottom:-30vw"></i></div>
+  <div class="wrap" style="position:relative;z-index:1">
     <div class="sec-head">
       <div>
         <span class="mono acc rv">// Preise</span>
@@ -820,6 +857,7 @@ footer a{color:var(--muted);transition:color .3s}footer a:hover{color:var(--text
 
 <!-- CONTACT -->
 <section class="contact" id="kontakt">
+  <div class="aurora" aria-hidden="true"><i class="a2" style="right:-20vw;top:0"></i><i class="a4" style="left:-10vw;right:auto;bottom:-15vw"></i></div>
   <div class="wrap">
     <div class="contact-intro">
       <span class="mono acc rv"><span class="dot" style="display:inline-flex;align-items:center;gap:8px"><i style="width:7px;height:7px;border-radius:50%;background:#4ADE80;display:inline-block"></i>Ab sofort verfügbar</span></span>
