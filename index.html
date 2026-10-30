@@ -957,64 +957,41 @@ footer a{color:var(--muted);transition:color .3s}footer a:hover{color:var(--text
     });
   }
 
-  /* ---- Equalizer horizon (canvas) ---- */
+  /* ---- Static light-ray floor (canvas, drawn once) ---- */
   (() => {
     const cv = document.getElementById('eq'); if (!cv) return;
-    const ctx = cv.getContext('2d'); let W = 0, H = 0, dpr = 1, bars = [];
-    const N = 110, horizonFrac = 0.43 / 0.70; // horizon at 38.5% from bottom of canvas area -> matches .horizon
-    const resize = () => {
-      dpr = Math.min(devicePixelRatio || 1, 2);
-      W = cv.clientWidth; H = cv.clientHeight; cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      bars = Array.from({ length: N }, (_, i) => ({ i, ph: Math.random() * 6.28, sp: .4 + Math.random() * .7, amp: .35 + Math.random() * .65 }));
-    };
-    resize(); addEventListener('resize', resize);
-    let t = 0, raf = null, visible = true;
+    const ctx = cv.getContext('2d');
+    const N = 120, horizonFrac = 0.43 / 0.70;
+    const seeded = (i) => { const x = Math.sin(i * 12.9898 + 78.233) * 43758.5453; return x - Math.floor(x); };
     const draw = () => {
-      ctx.clearRect(0, 0, W, H);
-      const hy = H * (1 - horizonFrac);           // horizon y
-      const vx = W / 2, vy = hy - H * .9;          // vanishing point above horizon
-      const bottom = H;
+      const dpr = Math.min(devicePixelRatio || 1, 2), W = cv.clientWidth, H = cv.clientHeight;
+      cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, W, H);
+      const hy = H * (1 - horizonFrac), vx = W / 2, vy = hy - H * .9, bottom = H;
       ctx.globalCompositeOperation = 'lighter';
-      for (const b of bars) {
-        const u = (b.i + .5) / N;                  // 0..1 across
-        const x0 = u * W;                          // at bottom edge
-        const dx = x0 - vx;
-        const xh = vx + dx * .22;                  // at horizon (converged)
-        const center = 1 - Math.abs(u - .5) * 2;   // 1 at center, 0 at edges
-        const wave = (Math.sin(t * b.sp + b.ph) * .5 + .5) * (Math.sin(t * .37 + u * 9) * .5 + .5);
-        const h = (H * .10 + wave * H * .62 * b.amp) * (0.3 + center * .7);
-        const top = bottom - h;
-        // perspective: bar is a thin trapezoid between bottom (x0) and its top, tilted toward vanishing point
-        const k = h / (bottom - vy); const xt = x0 + (vx - x0) * k;
+      for (let i = 0; i < N; i++) {
+        const u = (i + .5) / N, x0 = u * W, center = 1 - Math.abs(u - .5) * 2;
+        const r1 = seeded(i), r2 = seeded(i + 999);
+        const lvl = (Math.sin(u * 23 + 1.3) * .5 + .5) * .55 + r1 * .45;         // fixed "equalizer" profile
+        const h = (H * .12 + lvl * H * .62 * (.4 + r2 * .6)) * (.3 + center * .7);
+        const top = bottom - h, k = h / (bottom - vy), xt = x0 + (vx - x0) * k;
         const w = Math.max(1.6, (W / N) * .42 * (1 - k * .5));
         const warm = Math.pow(center, 2.2);
         const r = Math.round(90 + warm * 165), g = Math.round(130 + warm * 40), bl = Math.round(255 - warm * 150);
-        const grad = ctx.createLinearGradient(0, bottom, 0, top);
-        grad.addColorStop(0, `rgba(${r},${g},${bl},.18)`);
-        grad.addColorStop(.5, `rgba(${r},${g},${bl},${.45 + wave * .4})`);
-        grad.addColorStop(1, `rgba(${r},${g},${bl},${.85 + wave * .15})`);
-        // soft bloom
-        ctx.fillStyle = `rgba(${r},${g},${bl},${.06 + wave * .08})`;
+        ctx.fillStyle = `rgba(${r},${g},${bl},${.07 + lvl * .07})`;
         ctx.beginPath(); ctx.moveTo(x0 - w * 3, bottom); ctx.lineTo(x0 + w * 3, bottom); ctx.lineTo(xt + w * 1.6, top - 10); ctx.lineTo(xt - w * 1.6, top - 10); ctx.closePath(); ctx.fill();
+        const grad = ctx.createLinearGradient(0, bottom, 0, top);
+        grad.addColorStop(0, `rgba(${r},${g},${bl},.18)`); grad.addColorStop(.5, `rgba(${r},${g},${bl},${.45 + lvl * .35})`); grad.addColorStop(1, `rgba(${r},${g},${bl},${.85 + lvl * .15})`);
         ctx.fillStyle = grad;
         ctx.beginPath(); ctx.moveTo(x0 - w, bottom); ctx.lineTo(x0 + w, bottom); ctx.lineTo(xt + w * .5, top); ctx.lineTo(xt - w * .5, top); ctx.closePath(); ctx.fill();
-        // cap glow
-        ctx.fillStyle = `rgba(${r},${g},${bl},${.5 + wave * .5})`;
-        ctx.fillRect(xt - w * .5, top - 1.5, w, 2.5);
+        ctx.fillStyle = `rgba(${r},${g},${bl},${.6 + lvl * .4})`; ctx.fillRect(xt - w * .5, top - 1.5, w, 2.5);
       }
       ctx.globalCompositeOperation = 'source-over';
-      // dark floor fade so bars melt into the ground
-      const f = ctx.createLinearGradient(0, bottom - H * .18, 0, bottom);
-      f.addColorStop(0, 'rgba(11,13,16,0)'); f.addColorStop(1, 'rgba(11,13,16,.6)');
+      const f = ctx.createLinearGradient(0, bottom - H * .18, 0, bottom); f.addColorStop(0, 'rgba(11,13,16,0)'); f.addColorStop(1, 'rgba(11,13,16,.6)');
       ctx.fillStyle = f; ctx.fillRect(0, bottom - H * .18, W, H * .18);
-      // top fade above horizon so bars don't poke through the headline
       const g2 = ctx.createLinearGradient(0, 0, 0, hy * .9); g2.addColorStop(0, 'rgba(11,13,16,1)'); g2.addColorStop(.5, 'rgba(11,13,16,.55)'); g2.addColorStop(1, 'rgba(11,13,16,0)');
       ctx.fillStyle = g2; ctx.fillRect(0, 0, W, hy * .9);
-      t += reduce ? 0 : .016;
-      if (visible && !reduce) raf = requestAnimationFrame(draw);
     };
-    new IntersectionObserver(es => { visible = es[0].isIntersecting; if (visible && !raf) raf = requestAnimationFrame(draw); if (!visible) { cancelAnimationFrame(raf); raf = null; } }).observe(cv);
-    draw();
+    draw(); let rt; addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(draw, 150); });
   })();
 
   /* ---- Nav ---- */
