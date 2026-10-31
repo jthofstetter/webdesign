@@ -963,7 +963,7 @@ footer a{color:var(--muted);transition:color .3s}footer a:hover{color:var(--text
     galShot.classList.add('fade');
     const im = new Image();
     im.onload = () => { galShot.style.transition = 'none'; galShot.style.transform = 'translate3d(0,0,0)';
-      galShot.src = src; requestAnimationFrame(() => galShot.classList.remove('fade')); };
+      galShot.src = src; void galShot.offsetWidth; galShot.classList.remove('fade'); };
     im.src = src;
   };
   const showProject = (i) => {
