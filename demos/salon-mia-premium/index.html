@@ -3,294 +3,592 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Salon Mia · Premium – Demo-Website</title>
-<meta name="description" content="Demo-Website (Premium) eines fiktiven Friseursalons in Linz mit Online-Terminbuchung – gestaltet von Jannik Hofstetter.">
+<title>Salon Mia · Premium – Demo-Website mit Online-Buchung</title>
+<meta name="description" content="Demo-Website (Premium) eines fiktiven Friseursalons in Waidhofen an der Thaya mit Online-Terminbuchung – gestaltet von Jannik Hofstetter.">
 <meta name="robots" content="noindex">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;1,9..144,300&family=Inter:wght@400;500;600&display=swap">
+<link rel="preload" href="../assets/fonts/bodoni-moda.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../assets/fonts/manrope.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" as="image" href="../assets/img/styling-1600.webp" fetchpriority="high">
 <style>
-:root{--cream:#F6F1EA;--cream-2:#EEE6DB;--ink:#1C1A18;--ink-2:#262320;--mute:#6F6761;--mute-d:#A79E93;--line:#DCD2C5;--line-d:#3A3531;--blush:#C98B7E;--blush-2:#A86D62;--serif:'Fraunces',Georgia,serif;--sans:Inter,system-ui,sans-serif;--ease:cubic-bezier(.16,1,.3,1)}
+@font-face{font-family:'Bodoni Moda';src:url(../assets/fonts/bodoni-moda.woff2) format('woff2');font-weight:400 900;font-style:normal;font-display:swap}
+@font-face{font-family:'Bodoni Moda';src:url(../assets/fonts/bodoni-moda-italic.woff2) format('woff2');font-weight:400 900;font-style:italic;font-display:swap}
+@font-face{font-family:'Manrope';src:url(../assets/fonts/manrope.woff2) format('woff2');font-weight:200 800;font-style:normal;font-display:swap}
+/* Salon Mia Premium – dunkles Espresso, Champagner-Akzent, fünf Unterseiten per Hash-Navigation */
+:root{
+  --bg:#13100E; --bg-2:#1B1714; --bg-3:#241F1B; --line:#342C26; --line-2:#4A4038;
+  --text:#F2ECE4; --mute:#A89C90; --dim:#7E7369; --gold:#D2AE85; --gold-2:#E6CBA8; --ink:#13100E;
+  --serif:'Bodoni Moda','Didot','Bodoni 72',Georgia,serif; --sans:'Manrope',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --r:4px; color-scheme:dark;
+}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{margin:0;background:var(--ink);color:var(--cream);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
 a{color:inherit;text-decoration:none}
-img,svg{display:block}
-button{font:inherit;cursor:pointer}
-.wrap{width:min(1160px,100% - 40px);margin-inline:auto}
-.eyebrow{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--blush);font-weight:600}
-h1,h2,h3{font-family:var(--serif);font-weight:300;letter-spacing:-.02em;margin:0;line-height:1.02}
-h2{font-size:clamp(38px,5vw,68px)}
-h2 em,h1 em{font-style:italic;color:var(--blush)}
-.lead{margin:0;color:var(--mute-d);font-size:18px;line-height:1.65}
-.btn{display:inline-flex;align-items:center;gap:10px;min-height:54px;padding:0 28px;border-radius:999px;background:var(--cream);color:var(--ink);font-weight:500;font-size:15px;border:0;transition:background .3s,transform .3s,color .3s}
-.btn:hover{background:var(--blush);transform:translateY(-2px)}
-.btn.ghost{background:transparent;color:var(--cream);border:1px solid var(--line-d)}
-.btn.ghost:hover{border-color:var(--cream);background:transparent}
-.light{background:var(--cream);color:var(--ink)}
-.light .lead{color:var(--mute)}.light .eyebrow{color:var(--blush-2)}.light h2 em{color:var(--blush-2)}
-.light .btn{background:var(--ink);color:var(--cream)}.light .btn:hover{background:var(--blush-2)}
-.demo-badge{position:fixed;left:16px;bottom:16px;z-index:50;display:flex;align-items:center;gap:10px;background:#0B0D10;color:#ECEEF2;padding:10px 14px 10px 12px;border-radius:999px;font-size:12px;box-shadow:0 20px 40px -20px rgba(0,0,0,.8);border:1px solid #273140}
+img{display:block;max-width:100%;height:auto}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.wrap{width:min(1280px,100% - 48px);margin-inline:auto}
+@media (max-width:600px){.wrap{width:calc(100% - 32px)}}
+.eyebrow{font-size:12px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--gold)}
+h1,h2,h3{font-family:var(--serif);font-weight:400;margin:0;letter-spacing:-.01em;line-height:1.02;text-wrap:balance}
+h2{font-size:clamp(40px,5.2vw,76px)}
+em{font-style:italic;color:var(--gold-2)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:12px;min-height:54px;padding:0 28px;border-radius:999px;background:var(--gold);color:var(--ink);font-weight:700;font-size:15px;border:1px solid var(--gold);cursor:pointer;transition:background .25s,border-color .25s,color .25s}
+.btn:hover{background:var(--gold-2);border-color:var(--gold-2)}
+.btn.line{background:transparent;color:var(--text);border-color:var(--line-2)}
+.btn.line:hover{border-color:var(--gold);color:var(--gold-2)}
+.btn svg{width:16px;height:16px}
+.btn[disabled]{opacity:.35;cursor:not-allowed}
+
+.demo-badge{position:fixed;left:16px;bottom:16px;z-index:80;display:flex;align-items:center;gap:10px;background:#F2ECE4;color:#13100E;padding:10px 16px 10px 12px;border-radius:999px;font-size:12px;font-weight:500;box-shadow:0 18px 40px -18px rgba(0,0,0,.8)}
 .demo-badge i{width:8px;height:8px;border-radius:50%;background:#3B7BFF}
-.demo-badge a{color:#7AA6FF;font-weight:600}
-.progress{position:fixed;top:0;left:0;height:2px;background:var(--blush);width:0;z-index:60}
-/* nav */
-.nav{position:sticky;top:0;z-index:40;background:rgba(28,26,24,.8);backdrop-filter:blur(12px);border-bottom:1px solid var(--line-d)}
-.nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:18px 0}
-.logo{font-family:var(--serif);font-size:24px;font-weight:500}
-.nav nav{display:flex;gap:28px;font-size:14px;color:var(--mute-d)}
-.nav nav a:hover{color:var(--cream)}
-@media (max-width:860px){.nav nav{display:none}}
-/* hero */
-.hero{min-height:92vh;display:flex;align-items:center;padding:80px 0 60px;position:relative;overflow:hidden}
-.hero::before{content:"";position:absolute;right:-10%;top:-20%;width:60vw;height:60vw;border-radius:50%;background:radial-gradient(circle,rgba(201,139,126,.28),transparent 65%);pointer-events:none}
-.hero .wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center;position:relative}
-.hero h1{font-size:clamp(52px,8vw,118px)}
-.hero-copy{display:flex;flex-direction:column;gap:30px}
-.hero-cta{display:flex;gap:12px;flex-wrap:wrap}
-.hero-grid{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:14px;aspect-ratio:1}
-.tile{border-radius:22px;background:var(--ink-2);border:1px solid var(--line-d);position:relative;overflow:hidden;display:flex;align-items:flex-end;padding:18px;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:rgba(246,241,234,.65)}
-.tile.a{grid-row:span 2;background:linear-gradient(170deg,#E9D6CC,#C98B7E 60%,#7E4F46);border-radius:160px 22px 22px 22px}
-.tile.b{background:linear-gradient(135deg,#3A3531,#1C1A18)}
-.tile.c{background:linear-gradient(135deg,#C98B7E,#A86D62)}
-.hero-stat{display:flex;gap:36px;flex-wrap:wrap}
-.hero-stat b{font-family:var(--serif);font-size:30px;font-weight:300;display:block}
-.hero-stat span{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--mute-d)}
-@media (max-width:860px){.hero .wrap{grid-template-columns:1fr}.hero{min-height:auto}}
-section{padding:110px 0}
-.sec-head{display:flex;justify-content:space-between;align-items:flex-end;gap:28px;flex-wrap:wrap;margin-bottom:56px}
-.sec-head .lead{max-width:460px}
-/* booking */
-.book{display:grid;grid-template-columns:1fr 1.4fr;gap:40px;align-items:start}
-.steps{display:flex;flex-direction:column;gap:6px}
-.step{display:flex;gap:16px;padding:16px 18px;border-radius:14px;align-items:center;color:var(--mute);transition:background .3s,color .3s}
-.step i{width:30px;height:30px;border-radius:50%;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex:none}
-.step.on{background:#fff;color:var(--ink);box-shadow:0 20px 40px -30px rgba(28,26,24,.4)}
-.step.on i{background:var(--ink);color:var(--cream);border-color:var(--ink)}
-.step.done i{background:var(--blush-2);color:#fff;border-color:var(--blush-2)}
-.step small{display:block;font-size:12px;color:var(--mute);margin-top:2px}
-.panel{background:#fff;border:1px solid var(--line);border-radius:22px;padding:34px;min-height:420px;display:flex;flex-direction:column;gap:22px;box-shadow:0 40px 80px -50px rgba(28,26,24,.35)}
-.panel h3{font-size:30px}
+.demo-badge a{color:#1E4FC2;font-weight:700}
+@media (max-width:600px){.demo-badge{left:50%;transform:translateX(-50%);bottom:12px;white-space:nowrap}.demo-badge .t{display:none}}
+
+/* Navigation */
+.nav{position:sticky;top:0;z-index:60;background:rgba(19,16,14,.96);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:24px;min-height:78px}
+.logo{font-family:var(--serif);font-size:28px;line-height:1;white-space:nowrap}
+.logo span{font-style:italic;color:var(--gold-2)}
+.menu{display:flex;gap:6px}
+.menu a{display:inline-flex;align-items:center;min-height:44px;padding:0 16px;border-radius:999px;font-size:14px;font-weight:500;color:var(--mute);transition:color .2s,background .2s}
+.menu a:hover{color:var(--text)}
+.menu a[aria-current="page"]{color:var(--text);background:var(--bg-3)}
+.nav .btn{min-height:46px;padding:0 22px;font-size:14px}
+.burger{display:none;width:46px;height:46px;border-radius:50%;border:1px solid var(--line-2);background:transparent;cursor:pointer;align-items:center;justify-content:center}
+.burger svg{width:20px;height:20px}
+@media (max-width:980px){
+  .menu{position:fixed;inset:78px 0 auto 0;flex-direction:column;gap:0;background:var(--bg);border-bottom:1px solid var(--line);padding:8px 16px 20px;display:none}
+  .menu.open{display:flex}
+  .menu a{min-height:56px;font-size:18px;border-radius:var(--r)}
+  .burger{display:inline-flex}
+  .nav .btn{display:none}
+}
+
+/* Seiten */
+.page{display:none}
+.page.active{display:block}
+.page-head{padding:96px 0 64px;border-bottom:1px solid var(--line)}
+.page-head .wrap{display:flex;justify-content:space-between;align-items:flex-end;gap:32px;flex-wrap:wrap}
+.page-head h1{font-size:clamp(52px,7vw,104px);line-height:.96}
+.page-head p{margin:0;max-width:44ch;color:var(--mute);font-size:17px}
+section{padding:112px 0}
+
+/* START */
+.hero{position:relative;min-height:min(86vh,820px);display:flex;align-items:flex-end;overflow:hidden}
+.hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 30%}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(19,16,14,.7) 0%,rgba(19,16,14,.15) 60%,rgba(19,16,14,0) 100%),linear-gradient(180deg,rgba(19,16,14,0) 35%,rgba(19,16,14,.94) 100%)}
+.hero .wrap{position:relative;z-index:1;padding:0 0 72px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:40px;align-items:end}
+.hero h1{font-size:clamp(58px,9vw,148px);line-height:.92;letter-spacing:-.025em}
+.hero p{margin:24px 0 0;max-width:46ch;color:#DCD2C7;font-size:19px}
+.hero-cta{display:flex;flex-direction:column;gap:12px;align-items:stretch;min-width:260px}
+.quick{display:flex;align-items:center;gap:14px;padding:16px 18px;border:1px solid rgba(242,236,228,.22);border-radius:var(--r);background:rgba(19,16,14,.55);font-size:14px;color:#DCD2C7}
+.quick b{display:block;color:var(--text);font-size:15px}
+.quick i{width:10px;height:10px;border-radius:50%;background:#5FB37E;flex:none;box-shadow:0 0 0 4px rgba(95,179,126,.18)}
+@media (max-width:900px){.hero{display:block;min-height:0}.hero img{position:relative;aspect-ratio:4/3.2;height:auto}.hero::after{display:none}.hero .wrap{grid-template-columns:1fr;padding:32px 0 56px}.hero-cta{min-width:0}.quick{background:var(--bg-2);border-color:var(--line-2)}}
+
+.marquee{border-bottom:1px solid var(--line);overflow:hidden;padding:22px 0}
+.marquee div{display:flex;gap:56px;width:max-content;animation:mq 40s linear infinite;font-family:var(--serif);font-style:italic;font-size:26px;color:var(--mute);white-space:nowrap}
+.marquee span::after{content:"·";margin-left:56px;color:var(--gold)}
+@keyframes mq{to{transform:translateX(-50%)}}
+
+.tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.tile{position:relative;display:flex;flex-direction:column;justify-content:flex-end;aspect-ratio:3/4;overflow:hidden;border-radius:var(--r);padding:28px;isolation:isolate}
+.tile img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;transition:transform 1.2s cubic-bezier(.2,.7,.2,1)}
+.tile::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(19,16,14,0) 30%,rgba(19,16,14,.6) 58%,rgba(19,16,14,.96) 100%)}
+.tile:hover img{transform:scale(1.05)}
+.tile small{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-2);font-weight:600}
+.tile h3{font-size:38px;margin-top:8px}
+.tile .go{margin-top:14px;display:inline-flex;align-items:center;gap:10px;font-size:14px;font-weight:600}
+.tile .go svg{width:14px;height:14px;transition:transform .3s}
+.tile:hover .go svg{transform:translateX(4px)}
+@media (max-width:900px){.tiles{grid-template-columns:1fr}.tile{aspect-ratio:4/4.4}}
+
+.split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:80px;align-items:center}
+.split figure{margin:0;aspect-ratio:4/5;overflow:hidden;border-radius:var(--r)}
+.split figure img{width:100%;height:100%;object-fit:cover}
+.split .txt{display:flex;flex-direction:column;gap:24px}
+.split .txt p{margin:0;color:var(--mute);font-size:17px;max-width:46ch}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;padding-top:28px;border-top:1px solid var(--line)}
+.stats b{display:block;font-family:var(--serif);font-weight:400;font-size:44px;line-height:1;color:var(--text)}
+.stats span{font-size:13px;color:var(--mute)}
+@media (max-width:900px){.split{grid-template-columns:1fr;gap:48px}.split figure{aspect-ratio:4/3.4}}
+
+.band{background:var(--bg-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.band .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:64px;align-items:center}
+.hours{width:100%;border-collapse:collapse}
+.hours td{padding:14px 0;border-bottom:1px solid var(--line);color:var(--mute)}
+.hours td:last-child{text-align:right;font-variant-numeric:tabular-nums}
+.hours tr.today td{color:var(--text)}
+.hours tr.today td:first-child::after{content:"Heute";margin-left:12px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);background:var(--gold);padding:3px 8px;border-radius:999px;vertical-align:2px}
+@media (max-width:900px){.band .wrap{grid-template-columns:1fr;gap:40px}}
+
+/* LEISTUNGEN */
+.svc-layout{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,8fr);gap:72px;align-items:start}
+.svc-side{position:sticky;top:110px;display:flex;flex-direction:column;gap:20px}
+.svc-side figure{margin:0;aspect-ratio:4/5;overflow:hidden;border-radius:var(--r)}
+.svc-side figure img{width:100%;height:100%;object-fit:cover;transition:opacity .4s}
+.svc-side p{margin:0;color:var(--mute);font-size:15px}
+.cat{margin-bottom:64px}
+.cat:last-child{margin-bottom:0}
+.cat-head{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding-bottom:18px;border-bottom:1px solid var(--line-2)}
+.cat-head h3{font-size:44px}
+.cat-head span{color:var(--mute);font-size:14px}
+.svc-list{list-style:none;margin:0;padding:0}
+.svc-list li{display:grid;grid-template-columns:1fr auto auto;gap:6px 28px;align-items:center;padding:22px 0;border-bottom:1px solid var(--line)}
+.svc-list .n{font-size:18px;font-weight:500}
+.svc-list .d{grid-column:1;font-size:14px;color:var(--mute)}
+.svc-list .t{grid-row:1 / span 2;grid-column:2;font-size:14px;color:var(--dim);white-space:nowrap}
+.svc-list .p{grid-row:1 / span 2;grid-column:3;font-family:var(--serif);font-size:28px;white-space:nowrap;font-variant-numeric:tabular-nums;min-width:90px;text-align:right}
+.svc-list .add{grid-column:1 / -1;justify-self:start;display:none}
+@media (max-width:900px){.svc-layout{grid-template-columns:1fr;gap:48px}.svc-side{position:static}.svc-side figure{aspect-ratio:16/10}.svc-list li{grid-template-columns:1fr auto}.svc-list .t{grid-row:auto;grid-column:1}.svc-list .p{grid-column:2;grid-row:1 / span 3}}
+
+/* TEAM */
+.team{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px}
+.member{display:flex;flex-direction:column;gap:16px}
+.member figure{margin:0;aspect-ratio:3/4;overflow:hidden;border-radius:var(--r);background:var(--bg-3)}
+.member figure img{width:100%;height:100%;object-fit:cover;object-position:50% 22%;filter:grayscale(1) contrast(1.05) brightness(.95);transition:filter .6s,transform 1s cubic-bezier(.2,.7,.2,1)}
+.member:hover figure img{filter:none;transform:scale(1.03)}
+.member h3{font-size:30px}
+.member .role{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);font-weight:600}
+.member p{margin:0;color:var(--mute);font-size:15px}
+.member .tags{display:flex;gap:6px;flex-wrap:wrap}
+.member .tags span{font-size:12px;padding:5px 10px;border:1px solid var(--line-2);border-radius:999px;color:var(--mute)}
+.member .btn{min-height:44px;font-size:14px;align-self:flex-start;margin-top:4px}
+@media (max-width:1100px){.team{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:56px}}
+@media (max-width:560px){.team{grid-template-columns:1fr}}
+
+/* GALERIE */
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:36px}
+.filter{min-height:44px;padding:0 18px;border-radius:999px;border:1px solid var(--line-2);background:transparent;font-size:14px;font-weight:600;color:var(--mute);cursor:pointer;transition:all .2s}
+.filter[aria-pressed="true"]{background:var(--text);border-color:var(--text);color:var(--ink)}
+.masonry{columns:3 320px;column-gap:20px}
+.shot{break-inside:avoid;margin:0 0 20px;position:relative;border-radius:var(--r);overflow:hidden;cursor:zoom-in;display:block;width:100%;padding:0;border:0;background:var(--bg-3)}
+.shot img{width:100%;height:auto;transition:transform 1s cubic-bezier(.2,.7,.2,1)}
+.shot:hover img{transform:scale(1.03)}
+.shot span{position:absolute;left:14px;bottom:14px;padding:6px 12px;border-radius:999px;background:rgba(19,16,14,.75);font-size:12px;font-weight:600;color:var(--text)}
+.shot[hidden]{display:none}
+dialog.lb{border:0;padding:0;background:transparent;max-width:min(1100px,92vw);max-height:90vh;color:var(--text)}
+dialog.lb::backdrop{background:rgba(10,8,7,.92)}
+dialog.lb img{max-width:100%;max-height:82vh;width:auto;margin:0 auto;border-radius:var(--r)}
+dialog.lb p{text-align:center;margin:14px 0 0;color:var(--mute)}
+dialog.lb button{position:fixed;top:20px;right:20px;width:48px;height:48px;border-radius:50%;border:1px solid var(--line-2);background:var(--bg);cursor:pointer;font-size:22px;line-height:1}
+
+/* TERMIN – Buchung */
+.booking{display:grid;grid-template-columns:minmax(0,8fr) minmax(0,4fr);gap:48px;align-items:start}
+.steps{display:flex;gap:8px;margin-bottom:36px;flex-wrap:wrap}
+.steps li{list-style:none;display:flex;align-items:center;gap:10px;padding:10px 16px 10px 10px;border-radius:999px;border:1px solid var(--line);font-size:14px;color:var(--dim)}
+.steps li b{width:26px;height:26px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;background:var(--bg-3);font-size:12px;color:var(--mute)}
+.steps li.on{border-color:var(--gold);color:var(--text)}
+.steps li.on b{background:var(--gold);color:var(--ink)}
+.steps li.done b{background:var(--line-2);color:var(--text)}
+.steps ol{margin:0;padding:0;display:contents}
+.step{display:none}
+.step.on{display:block}
+.step h3{font-size:36px;margin-bottom:24px}
 .opts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-.opt{border:1px solid var(--line);border-radius:14px;padding:16px 18px;text-align:left;background:var(--cream);display:flex;justify-content:space-between;gap:12px;align-items:center;transition:border-color .3s,transform .3s,background .3s}
-.opt:hover{border-color:var(--blush-2);transform:translateY(-2px)}
-.opt.sel{border-color:var(--ink);background:#fff;box-shadow:0 0 0 1px var(--ink) inset}
-.opt b{font-weight:500;display:block}.opt small{color:var(--mute);font-size:12px}
-.opt .pr{font-family:var(--serif);font-size:20px}
-.team-opt{display:flex;gap:14px;align-items:center}
-.ava{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#E9D6CC,#A86D62);flex:none;display:flex;align-items:center;justify-content:center;font-family:var(--serif);color:#fff}
-.days{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px}
-.day{border:1px solid var(--line);border-radius:12px;padding:10px 4px;text-align:center;background:var(--cream);font-size:13px;transition:border-color .3s,background .3s}
-.day small{display:block;font-size:10px;color:var(--mute);letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px}
-.day:disabled{opacity:.35;cursor:not-allowed}
-.day.sel{background:var(--ink);color:var(--cream);border-color:var(--ink)}.day.sel small{color:var(--mute-d)}
-.times{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
-.time{border:1px solid var(--line);border-radius:10px;padding:11px;background:var(--cream);font-size:14px;transition:border-color .3s,background .3s}
-.time:hover{border-color:var(--blush-2)}.time.sel{background:var(--ink);color:var(--cream);border-color:var(--ink)}
-.time:disabled{opacity:.3;cursor:not-allowed;text-decoration:line-through}
-.panel-foot{margin-top:auto;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
-.summary{background:var(--cream);border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:8px;font-size:15px}
-.summary div{display:flex;justify-content:space-between;gap:12px}
-.summary b{font-weight:500}
-.fin{display:flex;flex-direction:column;gap:10px}
-.fin input{border:1px solid var(--line);border-radius:12px;padding:14px;font:inherit;background:var(--cream);outline:none}
-.fin input:focus{border-color:var(--blush-2)}
-.conf{text-align:center;display:flex;flex-direction:column;gap:14px;align-items:center;padding:20px 0}
-.conf .ok{width:64px;height:64px;border-radius:50%;background:var(--blush-2);display:flex;align-items:center;justify-content:center;color:#fff}
-@media (max-width:860px){.book{grid-template-columns:1fr}.opts{grid-template-columns:1fr}.times{grid-template-columns:repeat(3,1fr)}}
-/* gallery */
-.gal{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-auto-rows:220px;gap:14px}
-.g{border-radius:18px;background:var(--ink-2);border:1px solid var(--line-d);position:relative;overflow:hidden;transition:transform .6s var(--ease)}
-.g:hover{transform:scale(1.02)}
-.g span{position:absolute;left:16px;bottom:14px;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:rgba(246,241,234,.7)}
-.g.w{grid-column:span 2}.g.t{grid-row:span 2}
-.g.p1{background:linear-gradient(160deg,#E9D6CC,#C98B7E)}.g.p2{background:linear-gradient(160deg,#3A3531,#1C1A18)}.g.p3{background:linear-gradient(160deg,#A86D62,#5E3D37)}.g.p4{background:linear-gradient(160deg,#EEE6DB,#C9B8A8)}.g.p5{background:linear-gradient(160deg,#C98B7E,#E9D6CC)}
-@media (max-width:860px){.gal{grid-template-columns:repeat(2,1fr);grid-auto-rows:160px}}
-/* prices */
-.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px}
-.tab{border:1px solid var(--line);border-radius:999px;padding:10px 18px;background:transparent;font-size:14px;transition:background .3s,color .3s}
-.tab.on{background:var(--ink);color:var(--cream);border-color:var(--ink)}
-.plist{display:none;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 56px}
-.plist.on{display:grid}
-.prow{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:18px 0;border-bottom:1px solid var(--line)}
-.prow small{display:block;color:var(--mute);font-size:13px;margin-top:3px}
-.prow b{font-family:var(--serif);font-weight:500;font-size:22px;white-space:nowrap}
-@media (max-width:860px){.plist{grid-template-columns:1fr}}
-/* team */
-.team{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
-.tm{background:var(--ink-2);border:1px solid var(--line-d);border-radius:22px;padding:26px;display:flex;flex-direction:column;gap:16px;transition:transform .5s var(--ease),border-color .4s}
-.tm:hover{transform:translateY(-6px);border-color:var(--blush)}
-.tm .ph{aspect-ratio:1;border-radius:16px;background:linear-gradient(160deg,#3A3531,#1C1A18);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:48px;color:var(--blush)}
-.tm h3{font-size:26px}.tm p{margin:0;color:var(--mute-d);font-size:15px;line-height:1.6}
-.tm .role{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--blush)}
-@media (max-width:860px){.team{grid-template-columns:1fr}}
-/* info */
-.info .wrap{display:grid;grid-template-columns:1fr 1fr;gap:28px}
-.hours{background:#fff;border:1px solid var(--line);border-radius:22px;padding:36px;display:flex;flex-direction:column;gap:22px}
-.hours table{width:100%;border-collapse:collapse;font-size:16px}
-.hours td{padding:12px 0;border-bottom:1px solid var(--line)}
-.hours td:last-child{text-align:right;font-weight:500}
-.hours tr.today td{color:var(--blush-2);font-weight:600}
-.map{border-radius:22px;overflow:hidden;border:1px solid var(--line);min-height:380px}
-.map iframe{width:100%;height:100%;min-height:380px;border:0;filter:grayscale(1) contrast(1.05)}
-@media (max-width:860px){.info .wrap{grid-template-columns:1fr}}
-/* faq */
-.faq{max-width:760px}
-.q{border-bottom:1px solid var(--line-d)}
-.q button{width:100%;background:none;border:0;color:inherit;text-align:left;padding:24px 0;display:flex;justify-content:space-between;gap:20px;font-family:var(--serif);font-size:24px;font-weight:300}
-.q button span{color:var(--blush);transition:transform .4s}
-.q.open button span{transform:rotate(45deg)}
-.q div{max-height:0;overflow:hidden;transition:max-height .5s var(--ease)}
-.q p{margin:0;padding:0 0 24px;color:var(--mute-d);line-height:1.65}
-footer{border-top:1px solid var(--line-d);padding:32px 0;font-size:13px;color:var(--mute-d)}
-footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
-.rv{opacity:0;transform:translateY(28px);transition:opacity 1s var(--ease),transform 1s var(--ease)}
-.rv.in{opacity:1;transform:none}
-@media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none}}
+.opt{display:flex;justify-content:space-between;align-items:center;gap:16px;width:100%;min-height:76px;padding:18px 20px;text-align:left;border-radius:var(--r);border:1px solid var(--line-2);background:var(--bg-2);cursor:pointer;transition:border-color .2s,background .2s}
+.opt:hover{border-color:var(--mute)}
+.opt[aria-pressed="true"]{border-color:var(--gold);background:var(--bg-3)}
+.opt b{display:block;font-weight:600;font-size:16px}
+.opt small{color:var(--mute);font-size:13px}
+.opt .pr{font-family:var(--serif);font-size:22px;white-space:nowrap}
+.opt.person{justify-content:flex-start}
+.opt.person img{width:52px;height:52px;border-radius:50%;object-fit:cover;object-position:50% 22%;flex:none}
+@media (max-width:640px){.opts{grid-template-columns:1fr}}
+.cal{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px}
+.days{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
+.days .wd{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);text-align:center;padding-bottom:4px}
+.day{aspect-ratio:1;min-height:44px;border-radius:var(--r);border:1px solid var(--line);background:var(--bg-2);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;font-variant-numeric:tabular-nums;transition:border-color .2s}
+.day b{font-size:17px;font-weight:600}
+.day small{font-size:10px;color:var(--dim);text-transform:uppercase;letter-spacing:.08em}
+.day:hover:not([disabled]){border-color:var(--mute)}
+.day[aria-pressed="true"]{border-color:var(--gold);background:var(--gold);color:var(--ink)}
+.day[aria-pressed="true"] small{color:var(--ink)}
+.day[disabled]{opacity:.28;cursor:not-allowed}
+.month{font-family:var(--serif);font-size:24px;margin-bottom:14px}
+.slots{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;align-content:start}
+.slot{min-height:46px;border-radius:var(--r);border:1px solid var(--line-2);background:transparent;cursor:pointer;font-weight:600;font-variant-numeric:tabular-nums;transition:all .2s}
+.slot:hover:not([disabled]){border-color:var(--gold)}
+.slot[aria-pressed="true"]{background:var(--gold);border-color:var(--gold);color:var(--ink)}
+.slot[disabled]{opacity:.25;text-decoration:line-through;cursor:not-allowed}
+.slot-empty{grid-column:1 / -1;color:var(--mute);font-size:15px;padding:18px;border:1px dashed var(--line-2);border-radius:var(--r)}
+@media (max-width:760px){.cal{grid-template-columns:1fr}}
+.fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.f{display:flex;flex-direction:column;gap:8px;min-width:0}
+.f.full{grid-column:1 / -1}
+.f label{font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+.f input,.f textarea{width:100%;min-height:54px;padding:14px 16px;border:1px solid var(--line-2);border-radius:var(--r);background:var(--bg-2);font:inherit;font-size:16px;color:var(--text)}
+.f textarea{min-height:110px;resize:vertical}
+.f input:focus,.f textarea:focus{outline:none;border-color:var(--gold)}
+.check{display:flex;gap:12px;align-items:flex-start;font-size:14px;color:var(--mute);grid-column:1 / -1}
+.check input{width:20px;height:20px;accent-color:var(--gold);margin-top:2px;flex:none}
+@media (max-width:640px){.fields{grid-template-columns:1fr}}
+.nav-step{display:flex;justify-content:space-between;gap:12px;margin-top:32px;flex-wrap:wrap}
+.err{color:#E79B83;font-size:14px;margin:14px 0 0;min-height:1em}
+.summary{position:sticky;top:110px;border:1px solid var(--line-2);border-radius:var(--r);background:var(--bg-2);overflow:hidden}
+.summary figure{margin:0;aspect-ratio:16/10;overflow:hidden}
+.summary figure img{width:100%;height:100%;object-fit:cover}
+.summary .in{padding:24px;display:flex;flex-direction:column;gap:14px}
+.summary h4{margin:0;font-family:var(--serif);font-weight:400;font-size:26px}
+.summary dl{margin:0;display:grid;gap:12px}
+.summary dl div{display:flex;justify-content:space-between;gap:16px;font-size:15px;padding-bottom:12px;border-bottom:1px solid var(--line)}
+.summary dt{color:var(--mute)}
+.summary dd{margin:0;text-align:right}
+.summary .total{display:flex;justify-content:space-between;align-items:baseline;font-size:15px;color:var(--mute)}
+.summary .total b{font-family:var(--serif);font-weight:400;font-size:32px;color:var(--text)}
+@media (max-width:980px){.booking{grid-template-columns:1fr}.summary{position:static}}
+.done{display:none;text-align:center;padding:56px 24px;border:1px solid var(--gold);border-radius:var(--r);background:var(--bg-2)}
+.done.on{display:block}
+.done .ok{width:64px;height:64px;border-radius:50%;margin:0 auto 20px;display:flex;align-items:center;justify-content:center;background:var(--gold);color:var(--ink)}
+.done h3{font-size:40px;margin-bottom:12px}
+.done p{color:var(--mute);margin:0 auto;max-width:46ch}
+
+footer{border-top:1px solid var(--line);padding:56px 0 100px}
+footer .wrap{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:32px}
+footer h5{margin:0 0 12px;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--dim);font-weight:600}
+footer p,footer a{margin:0;color:var(--mute);font-size:14px;line-height:1.9}
+footer a:hover{color:var(--text)}
+footer .logo{font-size:34px;display:block;margin-bottom:12px}
+@media (max-width:860px){footer .wrap{grid-template-columns:1fr 1fr}footer .wrap>div:first-child{grid-column:1 / -1}}
+
+.js .rv{opacity:0;transform:translateY(16px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}
+.js .rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.js .rv{opacity:1;transform:none;transition:none}.marquee div{animation:none}.tile img,.member figure img,.shot img{transition:none}}
 </style>
+<script>document.documentElement.classList.add('js')</script>
 </head>
 <body>
-<div class="progress" id="prog"></div>
-<div class="demo-badge"><i></i>Demo-Website · Premium · fiktiver Betrieb · <a href="../../#arbeiten">← zurück zu Jannik</a></div>
+
+<div class="demo-badge"><i></i>Demo<span class="t"> · fiktiver Salon · Premium-Paket</span> · <a href="../../#arbeiten">← zurück zu Jannik</a></div>
 
 <header class="nav">
   <div class="wrap">
-    <a href="#top" class="logo">Salon Mia</a>
-    <nav><a href="#termin">Termin</a><a href="#galerie">Galerie</a><a href="#preise">Preise</a><a href="#team">Team</a><a href="#info">Kontakt</a></nav>
-    <a href="#termin" class="btn" style="min-height:44px;padding:0 20px;font-size:14px">Online buchen</a>
+    <a href="#start" class="logo">Salon <span>Mia</span></a>
+    <nav class="menu" id="menu" aria-label="Hauptnavigation">
+      <a href="#start">Start</a><a href="#leistungen">Leistungen &amp; Preise</a><a href="#team">Team</a><a href="#galerie">Galerie</a><a href="#termin">Termin buchen</a>
+    </nav>
+    <a href="#termin" class="btn">Online buchen</a>
+    <button class="burger" id="burger" type="button" aria-label="Menü öffnen" aria-expanded="false" aria-controls="menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 8h16M4 16h16"/></svg></button>
   </div>
 </header>
 
-<main id="top">
-<section class="hero">
-  <div class="wrap">
-    <div class="hero-copy">
-      <span class="eyebrow rv">Friseursalon · Linz-Urfahr · seit 2014</span>
-      <h1 class="rv">Dein Termin,<br>in <em>30 Sekunden</em><br>gebucht.</h1>
-      <p class="lead rv" style="max-width:480px">Schnitt, Farbe und Styling – mit Zeit für dich. Wähle Leistung, Stylistin und Uhrzeit, wir bestätigen sofort.</p>
-      <div class="hero-cta rv"><a href="#termin" class="btn">Jetzt Termin buchen</a><a href="#galerie" class="btn ghost">Arbeiten ansehen</a></div>
-      <div class="hero-stat rv"><div><b>4,9</b><span>Ø Bewertung · 212 Stimmen</span></div><div><b>11 J.</b><span>in Urfahr</span></div><div><b>3</b><span>Stylistinnen</span></div></div>
-    </div>
-    <div class="hero-grid rv">
-      <div class="tile a">Salon · Foto</div><div class="tile b">Farbe</div><div class="tile c">Styling</div>
-    </div>
-  </div>
-</section>
-
-<section class="light" id="termin">
-  <div class="wrap">
-    <div class="sec-head rv"><div><span class="eyebrow">Online-Terminbuchung</span><h2 style="margin-top:12px">Vier Klicks bis zum <em>Termin.</em></h2></div><p class="lead">Keine Warteschleife, kein Hin und Her. Du siehst nur freie Zeiten und bekommst sofort eine Bestätigung.</p></div>
-    <div class="book rv">
-      <div class="steps" id="steps">
-        <div class="step on"><i>1</i><div>Leistung<small>Was darf's sein?</small></div></div>
-        <div class="step"><i>2</i><div>Stylistin<small>Oder egal – Hauptsache gut</small></div></div>
-        <div class="step"><i>3</i><div>Termin<small>Tag und Uhrzeit</small></div></div>
-        <div class="step"><i>4</i><div>Bestätigung<small>Name &amp; Kontakt</small></div></div>
+<main>
+<!-- ============ START ============ -->
+<div class="page" id="p-start" data-page="start">
+  <section class="hero" style="padding:0">
+    <img src="../assets/img/styling-1600.webp" srcset="../assets/img/styling-800.webp 800w, ../assets/img/styling-1600.webp 1600w" sizes="100vw" width="1600" height="1067" alt="Zwei Stylistinnen arbeiten gemeinsam an einer Hochsteckfrisur" fetchpriority="high">
+    <div class="wrap">
+      <div>
+        <span class="eyebrow">Friseursalon · Waidhofen an der Thaya</span>
+        <h1 style="margin-top:20px">Schön ist,<br>was zu <em>dir</em> passt.</h1>
+        <p>Schnitt, Farbe und Styling mit Zeit für ein echtes Gespräch. Deinen Termin buchst du in vier Klicks, auch um Mitternacht.</p>
       </div>
-      <div class="panel" id="panel"></div>
+      <div class="hero-cta">
+        <div class="quick" id="quick"><i></i><div><b id="quick-t">Nächster freier Termin</b><span id="quick-d">wird berechnet …</span></div></div>
+        <a href="#termin" class="btn">Termin buchen <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+        <a href="#leistungen" class="btn line">Leistungen &amp; Preise</a>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
+  <div class="marquee" aria-hidden="true"><div><span>Damen &amp; Herren</span><span>Balayage</span><span>Pflanzenfarbe</span><span>Hochsteckfrisuren</span><span>Brautstyling</span><span>Bart &amp; Pflege</span><span>Damen &amp; Herren</span><span>Balayage</span><span>Pflanzenfarbe</span><span>Hochsteckfrisuren</span><span>Brautstyling</span><span>Bart &amp; Pflege</span></div></div>
 
-<section id="galerie">
-  <div class="wrap">
-    <div class="sec-head rv"><div><span class="eyebrow">Galerie</span><h2 style="margin-top:12px">Was wir <em>zuletzt</em> gemacht haben.</h2></div><p class="lead">In der echten Version: eure Fotos – Instagram-Feed inklusive, automatisch aktuell.</p></div>
-    <div class="gal rv">
-      <div class="g w p1"><span>Balayage · Honig</span></div><div class="g p2"><span>Bob · Clean Cut</span></div><div class="g t p3"><span>Hochsteckfrisur</span></div>
-      <div class="g p4"><span>Herren · Fade</span></div><div class="g p5"><span>Kupfer · Glossing</span></div><div class="g w p2"><span>Der Salon</span></div>
+  <section>
+    <div class="wrap">
+      <div class="page-head" style="padding:0 0 56px;border:0"><div class="wrap" style="width:100%">
+        <div><span class="eyebrow rv">Entdecken</span><h2 class="rv" style="margin-top:16px">Ein Salon. <em>Fünf</em> Seiten.</h2></div>
+        <p class="rv">Alles, was deine Kundinnen wissen wollen, schön aufgeräumt. Und wer sich entschieden hat, bucht direkt.</p>
+      </div></div>
+      <div class="tiles">
+        <a class="tile rv" href="#leistungen"><img src="../assets/img/buerste-800.webp" width="800" height="1200" alt="" loading="lazy"><small>Leistungen &amp; Preise</small><h3>Vom Schnitt bis zur Balayage</h3><span class="go">Preise ansehen <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span></a>
+        <a class="tile rv" href="#team"><img src="../assets/img/team-lena-800.webp" width="800" height="1200" alt="" loading="lazy" style="object-position:50% 20%"><small>Team</small><h3>Vier Menschen, ein Anspruch</h3><span class="go">Team kennenlernen <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span></a>
+        <a class="tile rv" href="#galerie"><img src="../assets/img/bob-800.webp" width="800" height="1423" alt="" loading="lazy"><small>Galerie</small><h3>Looks aus dem Salon</h3><span class="go">Galerie öffnen <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span></a>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<section class="light" id="preise">
-  <div class="wrap">
-    <div class="sec-head rv"><div><span class="eyebrow">Preise</span><h2 style="margin-top:12px">Vorher <em>klar.</em></h2></div><p class="lead">Inklusive Beratung, Waschen und Föhnen. Bei sehr langem oder dichtem Haar sagen wir dir den Aufpreis vorher.</p></div>
-    <div class="rv">
-      <div class="tabs" role="tablist"><button class="tab on" data-t="d" role="tab">Damen</button><button class="tab" data-t="h" role="tab">Herren &amp; Kinder</button><button class="tab" data-t="f" role="tab">Farbe</button><button class="tab" data-t="s" role="tab">Styling &amp; Pflege</button></div>
-      <div class="plist on" data-p="d"><div class="prow"><span>Schnitt &amp; Föhnen<small>ca. 60 Min.</small></span><b>58 €</b></div><div class="prow"><span>Schnitt, Föhnen &amp; Styling<small>ca. 75 Min.</small></span><b>68 €</b></div><div class="prow"><span>Spitzen schneiden<small>ca. 30 Min.</small></span><b>36 €</b></div><div class="prow"><span>Waschen &amp; Föhnen<small>ca. 35 Min.</small></span><b>32 €</b></div></div>
-      <div class="plist" data-p="h"><div class="prow"><span>Herren · Schnitt<small>ca. 40 Min.</small></span><b>34 €</b></div><div class="prow"><span>Herren · Schnitt &amp; Bart<small>ca. 60 Min.</small></span><b>48 €</b></div><div class="prow"><span>Kinder bis 12<small>ca. 30 Min.</small></span><b>22 €</b></div><div class="prow"><span>Maschinenschnitt<small>ca. 20 Min.</small></span><b>24 €</b></div></div>
-      <div class="plist" data-p="f"><div class="prow"><span>Ansatzfarbe<small>inkl. Pflege</small></span><b>ab 62 €</b></div><div class="prow"><span>Komplettfarbe<small>inkl. Pflege</small></span><b>ab 85 €</b></div><div class="prow"><span>Balayage<small>inkl. Glossing</small></span><b>ab 160 €</b></div><div class="prow"><span>Strähnen · Folie<small>ab halber Kopf</small></span><b>ab 95 €</b></div></div>
-      <div class="plist" data-p="s"><div class="prow"><span>Hochsteckfrisur<small>Probe möglich</small></span><b>ab 75 €</b></div><div class="prow"><span>Braut · Styling &amp; Probe<small>Paket</small></span><b>ab 190 €</b></div><div class="prow"><span>Olaplex-Behandlung<small>ca. 20 Min.</small></span><b>28 €</b></div><div class="prow"><span>Keratin-Glättung<small>ca. 150 Min.</small></span><b>ab 220 €</b></div></div>
-      <p style="margin-top:24px;font-size:13px;color:var(--mute)">Beispielpreise einer Demo-Website – kein echtes Angebot.</p>
+  <section style="padding-top:0">
+    <div class="wrap split">
+      <figure class="rv"><img src="../assets/img/hero-kundin-1600.webp" srcset="../assets/img/hero-kundin-800.webp 800w, ../assets/img/hero-kundin-1600.webp 1600w" sizes="(max-width:900px) 100vw, 46vw" width="1600" height="2400" alt="Beratungsgespräch im hellen Salon" loading="lazy"></figure>
+      <div class="txt">
+        <span class="eyebrow rv">Über uns</span>
+        <h2 class="rv">Zuhören kommt <em>vor</em> der Schere.</h2>
+        <p class="rv">Seit 2014 am Hauptplatz. Jede Behandlung beginnt mit einer Beratung, und du gehst mit einem Look, der zu deinem Alltag passt. Wir arbeiten mit veganen Produkten und Pflanzenfarben ohne Ammoniak.</p>
+        <div class="stats rv"><div><b>2014</b><span>gegründet</span></div><div><b>4</b><span>im Team</span></div><div><b>100 %</b><span>vegane Pflege</span></div></div>
+        <a href="#team" class="btn line rv" style="align-self:flex-start">Das Team</a>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<section id="team">
-  <div class="wrap">
-    <div class="sec-head rv"><div><span class="eyebrow">Team</span><h2 style="margin-top:12px">Drei Hände­paare, <em>ein</em> Anspruch.</h2></div></div>
-    <div class="team">
-      <div class="tm rv"><div class="ph">M</div><div><span class="role">Inhaberin · Farbe</span><h3>Mia Berger</h3></div><p>Gelernt in Wien, seit 2014 in Urfahr. Liebt natürliche Blondtöne und ehrliche Beratung.</p></div>
-      <div class="tm rv"><div class="ph">L</div><div><span class="role">Stylistin · Schnitt</span><h3>Lena Huber</h3></div><p>Präzisionsschnitte und Bobs sind ihr Ding. Schneidet so, dass es morgens ohne Föhn sitzt.</p></div>
-      <div class="tm rv"><div class="ph">T</div><div><span class="role">Stylist · Herren &amp; Bart</span><h3>Tobias Mayr</h3></div><p>Fades, Bartpflege und klassische Herrenschnitte. Schnell, genau, mit Gespräch über Fußball.</p></div>
-    </div>
-  </div>
-</section>
-
-<section class="light info" id="info">
-  <div class="wrap">
-    <div class="hours rv">
-      <div><span class="eyebrow">Öffnungszeiten &amp; Kontakt</span><h2 style="font-size:36px;margin-top:10px">Wann wir <em>da</em> sind.</h2></div>
-      <table id="hours">
+  <section class="band">
+    <div class="wrap">
+      <div><span class="eyebrow rv">Öffnungszeiten</span><h2 class="rv" style="margin-top:16px">Donnerstags <em>bis 20 Uhr.</em></h2><p class="rv" style="color:var(--mute);margin:20px 0 28px">Hauptplatz 12 · 3830 Waidhofen an der Thaya<br>02842 000 00 · hallo@salon-mia.at</p><a href="#termin" class="btn rv">Termin buchen</a></div>
+      <table class="hours rv" data-hours aria-label="Öffnungszeiten">
         <tr data-d="1"><td>Montag</td><td>geschlossen</td></tr><tr data-d="2"><td>Dienstag</td><td>09:00 – 18:00</td></tr><tr data-d="3"><td>Mittwoch</td><td>09:00 – 18:00</td></tr><tr data-d="4"><td>Donnerstag</td><td>09:00 – 20:00</td></tr><tr data-d="5"><td>Freitag</td><td>09:00 – 18:00</td></tr><tr data-d="6"><td>Samstag</td><td>08:00 – 14:00</td></tr><tr data-d="0"><td>Sonntag</td><td>geschlossen</td></tr>
       </table>
-      <p style="margin:0;color:var(--mute);line-height:1.6;font-size:15px">Hauptstraße 12 · 4040 Linz-Urfahr<br>Tel. 0732 000 000 · hallo@salon-mia.at</p>
-      <a href="#termin" class="btn" style="align-self:flex-start">Online buchen</a>
     </div>
-    <div class="map rv"><iframe title="Karte – Linz Urfahr" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=Hauptstra%C3%9Fe+12,+4040+Linz&output=embed"></iframe></div>
-  </div>
-</section>
+  </section>
+</div>
 
-<section id="faq">
-  <div class="wrap">
-    <div class="sec-head rv"><div><span class="eyebrow">Fragen</span><h2 style="margin-top:12px">Gut zu <em>wissen.</em></h2></div></div>
-    <div class="faq rv">
-      <div class="q"><button type="button">Kann ich ohne Termin kommen?<span>+</span></button><div><p>Ja, wenn gerade etwas frei ist. Sicherer ist die Online-Buchung – dann wartest du garantiert nicht.</p></div></div>
-      <div class="q"><button type="button">Wie storniere ich?<span>+</span></button><div><p>Über den Link in deiner Bestätigung, bis 24 Stunden vorher kostenlos.</p></div></div>
-      <div class="q"><button type="button">Gibt es Parkplätze?<span>+</span></button><div><p>Kurzparkzone direkt vor dem Salon, die Haltestelle Rudolfstraße ist zwei Minuten entfernt.</p></div></div>
-      <div class="q"><button type="button">Welche Produkte verwendet ihr?<span>+</span></button><div><p>Pflanzenfarben und Olaplex-Pflege. Wenn du Allergien hast, sag es bei der Buchung – wir planen einen Test ein.</p></div></div>
+<!-- ============ LEISTUNGEN ============ -->
+<div class="page" id="p-leistungen" data-page="leistungen">
+  <header class="page-head"><div class="wrap"><div><span class="eyebrow">Leistungen &amp; Preise</span><h1 style="margin-top:16px">Klar, <em>bevor</em><br>du Platz nimmst.</h1></div><p>Alle Preise inklusive Beratung, Waschen und Föhnen. Bei sehr langem oder dichtem Haar sagen wir dir einen Aufpreis vorher.</p></div></header>
+  <section>
+    <div class="wrap svc-layout">
+      <aside class="svc-side">
+        <figure><img id="svc-img" src="../assets/img/schnitt-800.webp" width="800" height="1000" alt="" loading="lazy"></figure>
+        <p>Beispielpreise einer Demo-Website, kein echtes Angebot.</p>
+        <a href="#termin" class="btn" style="align-self:flex-start">Jetzt buchen</a>
+      </aside>
+      <div id="svc-cats"></div>
     </div>
-  </div>
-</section>
+  </section>
+</div>
+
+<!-- ============ TEAM ============ -->
+<div class="page" id="p-team" data-page="team">
+  <header class="page-head"><div class="wrap"><div><span class="eyebrow">Team</span><h1 style="margin-top:16px">Vier Menschen,<br><em>ein</em> Anspruch.</h1></div><p>Jede und jeder hat eine Spezialität. Bei der Buchung kannst du dir deine Lieblingsperson aussuchen.</p></div></header>
+  <section>
+    <div class="wrap team" id="team-grid"></div>
+  </section>
+</div>
+
+<!-- ============ GALERIE ============ -->
+<div class="page" id="p-galerie" data-page="galerie">
+  <header class="page-head"><div class="wrap"><div><span class="eyebrow">Galerie</span><h1 style="margin-top:16px">Looks aus<br>dem <em>Salon.</em></h1></div><p>Klick auf ein Bild für die große Ansicht. Gefällt dir ein Look? Zeig das Foto einfach bei deinem Termin.</p></div></header>
+  <section>
+    <div class="wrap">
+      <div class="filters" role="group" aria-label="Galerie filtern">
+        <button class="filter" type="button" data-f="alle" aria-pressed="true">Alle</button>
+        <button class="filter" type="button" data-f="schnitt" aria-pressed="false">Schnitt</button>
+        <button class="filter" type="button" data-f="styling" aria-pressed="false">Styling</button>
+        <button class="filter" type="button" data-f="salon" aria-pressed="false">Salon</button>
+      </div>
+      <div class="masonry" id="masonry"></div>
+    </div>
+  </section>
+  <dialog class="lb" id="lb"><button type="button" id="lb-close" aria-label="Schließen">×</button><img id="lb-img" alt=""><p id="lb-cap"></p></dialog>
+</div>
+
+<!-- ============ TERMIN ============ -->
+<div class="page" id="p-termin" data-page="termin">
+  <header class="page-head"><div class="wrap"><div><span class="eyebrow">Online-Termin</span><h1 style="margin-top:16px">In vier Klicks<br><em>gebucht.</em></h1></div><p>Wähle Leistung, Person und Zeit. Du bekommst sofort eine Bestätigung, ohne Anruf und ohne Warteschleife.</p></div></header>
+  <section>
+    <div class="wrap booking">
+      <div>
+        <ol class="steps" id="steps"><li data-s="1"><b>1</b>Leistung</li><li data-s="2"><b>2</b>Person</li><li data-s="3"><b>3</b>Datum &amp; Zeit</li><li data-s="4"><b>4</b>Deine Daten</li></ol>
+        <div class="step" data-step="1"><h3>Was darf's sein?</h3><div class="opts" id="opt-svc"></div></div>
+        <div class="step" data-step="2"><h3>Bei wem?</h3><div class="opts" id="opt-person"></div></div>
+        <div class="step" data-step="3"><h3>Wann passt es dir?</h3>
+          <div class="cal"><div><div class="month" id="month"></div><div class="days" id="days"></div></div><div><div class="month" id="slot-title">Uhrzeit</div><div class="slots" id="slots"></div></div></div>
+        </div>
+        <div class="step" data-step="4"><h3>Fast geschafft.</h3>
+          <form class="fields" id="bk-form" novalidate>
+            <div class="f"><label for="b-name">Name</label><input id="b-name" type="text" autocomplete="name" required></div>
+            <div class="f"><label for="b-tel">Telefon</label><input id="b-tel" type="tel" autocomplete="tel" required></div>
+            <div class="f full"><label for="b-mail">E-Mail für die Bestätigung</label><input id="b-mail" type="email" autocomplete="email"></div>
+            <div class="f full"><label for="b-note">Anmerkung (optional)</label><textarea id="b-note" placeholder="Erster Besuch, Foto vom Wunschlook, Allergien …"></textarea></div>
+            <label class="check"><input type="checkbox" id="b-sms" checked> Erinnerung per SMS einen Tag vorher</label>
+          </form>
+        </div>
+        <p class="err" id="bk-err" role="alert"></p>
+        <div class="nav-step" id="bk-nav"><button class="btn line" type="button" id="bk-back">Zurück</button><button class="btn" type="button" id="bk-next">Weiter <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></button></div>
+        <div class="done" id="bk-done" role="status"><div class="ok"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div><h3>Termin bestätigt.</h3><p id="bk-done-t"></p><p style="margin-top:14px;font-size:13px">Das ist eine Demo. In der echten Version landet der Termin jetzt im Kalender des Salons und du bekommst eine E-Mail.</p><button class="btn line" type="button" id="bk-again" style="margin-top:24px">Neuen Termin buchen</button></div>
+      </div>
+      <aside class="summary">
+        <figure><img id="sum-img" src="../assets/img/salon-bogen-800.webp" width="800" height="533" alt="" loading="lazy"></figure>
+        <div class="in">
+          <h4>Deine Buchung</h4>
+          <dl><div><dt>Leistung</dt><dd id="s-svc">–</dd></div><div><dt>Person</dt><dd id="s-person">–</dd></div><div><dt>Datum</dt><dd id="s-date">–</dd></div><div><dt>Uhrzeit</dt><dd id="s-time">–</dd></div><div><dt>Dauer</dt><dd id="s-dur">–</dd></div></dl>
+          <div class="total"><span>Preis vor Ort</span><b id="s-price">–</b></div>
+        </div>
+      </aside>
+    </div>
+  </section>
+</div>
 </main>
 
-<footer><div class="wrap"><span>© Salon Mia · Linz · Demo-Website</span><span>Impressum · Datenschutz · Instagram</span></div></footer>
+<footer>
+  <div class="wrap">
+    <div><span class="logo">Salon <span style="font-style:italic;color:var(--gold-2)">Mia</span></span><p>Friseursalon am Hauptplatz.<br>Demo-Website für das Premium-Paket · Fotos: Unsplash</p></div>
+    <div><h5>Seiten</h5><a href="#leistungen">Leistungen</a><br><a href="#team">Team</a><br><a href="#galerie">Galerie</a><br><a href="#termin">Termin buchen</a></div>
+    <div><h5>Kontakt</h5><p>Hauptplatz 12<br>3830 Waidhofen an der Thaya<br>02842 000 00</p></div>
+    <div><h5>Rechtliches</h5><a href="#start">Impressum</a><br><a href="#start">Datenschutz</a></div>
+  </div>
+</footer>
 
 <script>
 (function(){
-  document.querySelectorAll('.rv').forEach(el=>new IntersectionObserver((es,o)=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');o.unobserve(e.target)}}),{threshold:.12}).observe(el));
-  var d=new Date().getDay(), tr=document.querySelector('#hours tr[data-d="'+d+'"]'); if(tr) tr.classList.add('today');
-  addEventListener('scroll',()=>{var h=document.documentElement;document.getElementById('prog').style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%'},{passive:true});
-  document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));t.classList.add('on');document.querySelectorAll('.plist').forEach(p=>p.classList.toggle('on',p.dataset.p===t.dataset.t));}));
-  document.querySelectorAll('.q button').forEach(b=>b.addEventListener('click',()=>{var q=b.parentElement,a=q.querySelector('div');var o=q.classList.toggle('open');a.style.maxHeight=o?a.scrollHeight+'px':0;}));
+  var IMG='../assets/img/';
+  var HOURS={0:null,1:null,2:[9,18],3:[9,18],4:[9,20],5:[9,18],6:[8,14]};
+  var WD=['So','Mo','Di','Mi','Do','Fr','Sa'], WDL=['Sonntag','Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag'];
+  var MON=['Jänner','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
 
-  /* ---- Booking widget ---- */
-  var services=[{n:'Damen · Schnitt & Föhnen',t:'60 Min.',p:'58 €'},{n:'Herren · Schnitt',t:'40 Min.',p:'34 €'},{n:'Ansatzfarbe + Schnitt',t:'120 Min.',p:'ab 110 €'},{n:'Balayage',t:'180 Min.',p:'ab 160 €'},{n:'Hochsteckfrisur',t:'60 Min.',p:'ab 75 €'},{n:'Kinder bis 12',t:'30 Min.',p:'22 €'}];
-  var team=[{n:'Egal – nächste freie',r:'Schnellste Option',i:'✓'},{n:'Mia',r:'Inhaberin · Farbe',i:'M'},{n:'Lena',r:'Schnitt & Bobs',i:'L'},{n:'Tobias',r:'Herren & Bart',i:'T'}];
-  var times=['09:00','09:45','10:30','11:15','13:00','13:45','14:30','15:15','16:00','16:45','17:30','18:15'];
-  var st={step:0,s:null,t:null,d:null,h:null}, panel=document.getElementById('panel'), steps=[].slice.call(document.querySelectorAll('#steps .step'));
-  function days(){var out=[],dt=new Date(),n=0;while(out.length<7){dt.setDate(dt.getDate()+(n?1:1));n++;var w=dt.getDay();out.push({l:['So','Mo','Di','Mi','Do','Fr','Sa'][w],n:dt.getDate(),off:w===0||w===1,key:dt.toDateString()});}return out;}
-  function render(){
-    steps.forEach((s,i)=>{s.classList.toggle('on',i===st.step);s.classList.toggle('done',i<st.step)});
-    var h='';
-    if(st.step===0){h='<h3>Was darf’s sein?</h3><div class="opts">'+services.map((s,i)=>'<button type="button" class="opt'+(st.s===i?' sel':'')+'" data-i="'+i+'"><span><b>'+s.n+'</b><small>'+s.t+'</small></span><span class="pr">'+s.p+'</span></button>').join('')+'</div><div class="panel-foot"><span></span><button type="button" class="btn" data-next'+(st.s===null?' disabled style="opacity:.4"':'')+'>Weiter</button></div>';}
-    else if(st.step===1){h='<h3>Bei wem?</h3><div class="opts">'+team.map((t,i)=>'<button type="button" class="opt'+(st.t===i?' sel':'')+'" data-i="'+i+'"><span class="team-opt"><span class="ava">'+t.i+'</span><span><b>'+t.n+'</b><small>'+t.r+'</small></span></span></button>').join('')+'</div><div class="panel-foot"><button type="button" class="btn ghost" data-back style="color:var(--ink);border-color:var(--line)">Zurück</button><button type="button" class="btn" data-next'+(st.t===null?' disabled style="opacity:.4"':'')+'>Weiter</button></div>';}
-    else if(st.step===2){var ds=days();h='<h3>Wann passt es?</h3><div class="days">'+ds.map((d)=>'<button type="button" class="day'+(st.d===d.key?' sel':'')+'" data-k="'+d.key+'"'+(d.off?' disabled':'')+'><small>'+d.l+'</small>'+d.n+'</button>').join('')+'</div>';
-      if(st.d){var seed=st.d.length;h+='<div class="times">'+times.map((t,i)=>'<button type="button" class="time'+(st.h===t?' sel':'')+'" data-t="'+t+'"'+(((i*7+seed)%5===0)?' disabled':'')+'>'+t+'</button>').join('')+'</div>';}
-      else h+='<p class="lead" style="font-size:15px">Wähle zuerst einen Tag – dann siehst du die freien Zeiten.</p>';
-      h+='<div class="panel-foot"><button type="button" class="btn ghost" data-back style="color:var(--ink);border-color:var(--line)">Zurück</button><button type="button" class="btn" data-next'+(!st.h?' disabled style="opacity:.4"':'')+'>Weiter</button></div>';}
-    else if(st.step===3){var dd=new Date(st.d);h='<h3>Fast fertig.</h3><div class="summary"><div><span>Leistung</span><b>'+services[st.s].n+'</b></div><div><span>Stylist/in</span><b>'+team[st.t].n+'</b></div><div><span>Termin</span><b>'+dd.toLocaleDateString('de-AT',{weekday:'short',day:'2-digit',month:'2-digit'})+' · '+st.h+'</b></div><div><span>Preis</span><b>'+services[st.s].p+'</b></div></div><div class="fin"><input type="text" placeholder="Dein Name" id="bn"><input type="text" placeholder="Handynummer für die Bestätigung" id="bp"></div><div class="panel-foot"><button type="button" class="btn ghost" data-back style="color:var(--ink);border-color:var(--line)">Zurück</button><button type="button" class="btn" data-finish>Verbindlich buchen</button></div>';}
-    else {h='<div class="conf"><div class="ok"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12l5 5L20 7"/></svg></div><h3>Gebucht!</h3><p class="lead" style="font-size:16px">Das ist eine Demo – in der echten Version bekommst du jetzt eine SMS mit Termin, Stornolink und Kalender-Eintrag.</p><button type="button" class="btn" data-reset>Noch einen Termin</button></div>';}
-    panel.innerHTML=h;
-    panel.querySelectorAll('.opt').forEach(b=>b.addEventListener('click',()=>{if(st.step===0)st.s=+b.dataset.i;else st.t=+b.dataset.i;render();}));
-    panel.querySelectorAll('.day').forEach(b=>b.addEventListener('click',()=>{st.d=b.dataset.k;st.h=null;render();}));
-    panel.querySelectorAll('.time').forEach(b=>b.addEventListener('click',()=>{st.h=b.dataset.t;render();}));
-    var nx=panel.querySelector('[data-next]'); if(nx) nx.addEventListener('click',()=>{if(!nx.disabled){st.step++;render();}});
-    var bk=panel.querySelector('[data-back]'); if(bk) bk.addEventListener('click',()=>{st.step--;render();});
-    var fi=panel.querySelector('[data-finish]'); if(fi) fi.addEventListener('click',()=>{st.step=4;render();});
-    var rs=panel.querySelector('[data-reset]'); if(rs) rs.addEventListener('click',()=>{st={step:0,s:null,t:null,d:null,h:null};render();});
+  var CATS=[
+    {id:'schnitt',name:'Schnitt',img:'schnitt',note:'inkl. Beratung, Waschen & Föhnen',items:[
+      ['d-schnitt','Damen · Schnitt & Föhnen','Beratung, Waschen, Schnitt, Styling',60,58],
+      ['h-schnitt','Herren · Schnitt','inkl. Waschen & Styling',40,34],
+      ['k-schnitt','Kinder bis 12','mit Geduld und Spiegel-Show',30,22],
+      ['bart','Bart · Formen & Pflege','Konturen, Öl, heißes Tuch',20,18]]},
+    {id:'farbe',name:'Farbe',img:'buerste',note:'Pflanzenfarbe ohne Ammoniak möglich',items:[
+      ['ansatz','Ansatzfarbe','inkl. Föhnen',75,62],
+      ['balayage','Balayage','freihand, inkl. Glossing & Pflege',180,160],
+      ['straehnen','Strähnen · Folie','halber oder ganzer Kopf',120,85],
+      ['glossing','Glossing','Glanz & Farbauffrischung',30,36]]},
+    {id:'styling',name:'Styling & Pflege',img:'lockenstab',note:'für Alltag, Ball und Hochzeit',items:[
+      ['foehn','Föhnfrisur','Waschen & Styling',30,32],
+      ['wellen','Wellen & Locken','mit Lockenstab',45,45],
+      ['hochsteck','Hochsteckfrisur','Probetermin möglich',75,75],
+      ['pflege','Pflegebehandlung','Olaplex oder Keratin',30,28]]}
+  ];
+  var SVC={}; CATS.forEach(function(c){c.items.forEach(function(i){SVC[i[0]]={id:i[0],name:i[1],desc:i[2],dur:i[3],price:i[4],cat:c.id}})});
+  var TEAM=[
+    {id:'mia',name:'Mia Berger',role:'Inhaberin · Meisterin',img:'team-mia',text:'Gründete den Salon 2014. Liebt präzise Bobs und Schnitte, die ohne Föhn sitzen.',tags:['Schnitt','Beratung']},
+    {id:'lena',name:'Lena Huber',role:'Coloristin',img:'team-lena',text:'Gelernt in Wien. Spezialistin für Balayage und natürliche Blondtöne.',tags:['Balayage','Blond']},
+    {id:'sara',name:'Sara Koller',role:'Stylistin',img:'team-sara',text:'Macht Hochsteckfrisuren für Hochzeiten und Bälle im ganzen Waldviertel.',tags:['Hochsteck','Braut']},
+    {id:'jonas',name:'Jonas Brandl',role:'Barber',img:'team-jonas',text:'Für Herrenschnitte, Fades und Bärte. Donnerstags bis 20 Uhr im Salon.',tags:['Herren','Bart']}
+  ];
+  var GAL=[
+    ['bob','schnitt','Präziser Bob',800,1423],['locken','styling','Weiche Wellen',800,533],['ergebnis','schnitt','Schulterlanger Lob',800,1199],
+    ['salon-hell','salon','Der Salon',800,533],['lockenstab','styling','Beach Waves',800,1424],['schnitt','schnitt','Spitzen schneiden',800,1000],
+    ['styling','styling','Hochsteck-Probe',800,533],['salon-bogen','salon','Empfang',800,533],['locken-hoch','styling','Volumen & Locken',800,1424],
+    ['foehnen','schnitt','Föhnen mit Rundbürste',800,534],['waschbecken','salon','Waschplatz',800,1200],['buerste','styling','Glanz-Finish',800,1200]
+  ];
+  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+  function eur(n){return n+' €'}
+
+  /* ---------- Router ---------- */
+  var pages=document.querySelectorAll('.page'), links=document.querySelectorAll('.menu a'), menu=document.getElementById('menu'), burger=document.getElementById('burger');
+  function route(){
+    var id=(location.hash||'#start').slice(1); if(!document.getElementById('p-'+id)) id='start';
+    pages.forEach(function(p){p.classList.toggle('active',p.dataset.page===id)});
+    links.forEach(function(a){a.toggleAttribute('aria-current',false); if(a.getAttribute('href')==='#'+id) a.setAttribute('aria-current','page')});
+    menu.classList.remove('open'); burger.setAttribute('aria-expanded','false');
+    window.scrollTo(0,0); reveal();
   }
-  render();
+  addEventListener('hashchange',route);
+  burger.addEventListener('click',function(){var o=menu.classList.toggle('open');burger.setAttribute('aria-expanded',o)});
+
+  /* ---------- Reveal ---------- */
+  var io='IntersectionObserver' in window ? new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{rootMargin:'0px 0px -6% 0px'}) : null;
+  function reveal(){document.querySelectorAll('.page.active .rv:not(.in)').forEach(function(el){io?io.observe(el):el.classList.add('in')})}
+
+  /* ---------- Öffnungszeiten ---------- */
+  var today=new Date(); today.setHours(0,0,0,0);
+  document.querySelectorAll('[data-hours] tr[data-d="'+new Date().getDay()+'"]').forEach(function(tr){tr.classList.add('today')});
+
+  /* ---------- Leistungen ---------- */
+  var svcImg=document.getElementById('svc-img');
+  document.getElementById('svc-cats').innerHTML=CATS.map(function(c){
+    return '<div class="cat" data-img="'+c.img+'"><div class="cat-head"><h3>'+c.name+'</h3><span>'+c.note+'</span></div><ul class="svc-list">'+
+      c.items.map(function(i){return '<li><span class="n">'+esc(i[1])+'</span><span class="d">'+esc(i[2])+'</span><span class="t">'+i[3]+' Min.</span><span class="p">'+(i[0]==='balayage'||i[0]==='straehnen'||i[0]==='hochsteck'?'ab ':'')+eur(i[4])+'</span></li>'}).join('')+'</ul></div>';
+  }).join('');
+  if(io){var catIo=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){var n=e.target.dataset.img; if(svcImg.dataset.n!==n){svcImg.dataset.n=n;svcImg.src=IMG+n+'-800.webp'}}})},{rootMargin:'-40% 0px -50% 0px'});
+    document.querySelectorAll('.cat').forEach(function(c){catIo.observe(c)});}
+
+  /* ---------- Team ---------- */
+  document.getElementById('team-grid').innerHTML=TEAM.map(function(t){
+    return '<article class="member rv"><figure><img src="'+IMG+t.img+'-800.webp" width="800" height="1100" alt="Porträt von '+t.name+'" loading="lazy"></figure><div><span class="role">'+t.role+'</span><h3 style="margin-top:6px">'+t.name+'</h3></div><p>'+t.text+'</p><div class="tags">'+t.tags.map(function(x){return '<span>'+x+'</span>'}).join('')+'</div><a class="btn line" href="#termin" data-pick="'+t.id+'">Bei '+t.name.split(' ')[0]+' buchen</a></article>';
+  }).join('');
+
+  /* ---------- Galerie ---------- */
+  var mas=document.getElementById('masonry');
+  mas.innerHTML=GAL.map(function(g,i){return '<button class="shot" type="button" data-cat="'+g[1]+'" data-i="'+i+'"><img src="'+IMG+g[0]+'-800.webp" width="'+g[3]+'" height="'+g[4]+'" alt="'+esc(g[2])+'" loading="lazy"><span>'+esc(g[2])+'</span></button>'}).join('');
+  document.querySelectorAll('.filter').forEach(function(b){b.addEventListener('click',function(){
+    var f=b.dataset.f; document.querySelectorAll('.filter').forEach(function(x){x.setAttribute('aria-pressed',x===b)});
+    mas.querySelectorAll('.shot').forEach(function(s){s.hidden=!(f==='alle'||s.dataset.cat===f)});
+  })});
+  var lb=document.getElementById('lb'), lbImg=document.getElementById('lb-img'), lbCap=document.getElementById('lb-cap');
+  mas.addEventListener('click',function(e){var s=e.target.closest('.shot'); if(!s) return; var g=GAL[+s.dataset.i];
+    lbImg.src=IMG+g[0]+'-1600.webp'; lbImg.alt=g[2]; lbCap.textContent=g[2]; if(lb.showModal) lb.showModal(); });
+  document.getElementById('lb-close').addEventListener('click',function(){lb.close()});
+  lb.addEventListener('click',function(e){if(e.target===lb) lb.close()});
+
+  /* ---------- Buchung ---------- */
+  var B={step:1,svc:null,person:null,date:null,time:null};
+  var optSvc=document.getElementById('opt-svc'), optP=document.getElementById('opt-person');
+  optSvc.innerHTML=['d-schnitt','h-schnitt','ansatz','balayage','wellen','hochsteck','bart','pflege'].map(function(k){var s=SVC[k];
+    return '<button class="opt" type="button" data-svc="'+k+'" aria-pressed="false"><span><b>'+esc(s.name)+'</b><small>'+s.dur+' Min. · '+esc(s.desc)+'</small></span><span class="pr">'+eur(s.price)+'</span></button>'}).join('');
+  optP.innerHTML='<button class="opt person" type="button" data-person="egal" aria-pressed="false"><span style="width:52px;height:52px;border-radius:50%;border:1px dashed var(--line-2);display:flex;align-items:center;justify-content:center;color:var(--gold);flex:none">✦</span><span><b>Egal, Hauptsache bald</b><small>Wir teilen dich der ersten freien Person zu</small></span></button>'+
+    TEAM.map(function(t){return '<button class="opt person" type="button" data-person="'+t.id+'" aria-pressed="false"><img src="'+IMG+t.img+'-800.webp" alt="" width="52" height="52" loading="lazy"><span><b>'+t.name+'</b><small>'+t.role+'</small></span></button>'}).join('');
+
+  function hash(str){var h=2166136261; for(var i=0;i<str.length;i++){h^=str.charCodeAt(i);h=Math.imul(h,16777619)} return (h>>>0)}
+  function slotsFor(date){var t=HOURS[date.getDay()]; if(!t) return []; var dur=B.svc?SVC[B.svc].dur:45, out=[];
+    for(var m=t[0]*60; m+dur<=t[1]*60; m+=30){var hh=Math.floor(m/60), mm=m%60, label=(hh<10?'0':'')+hh+':'+(mm?mm:'00');
+      var busy=hash(date.toDateString()+label+(B.person||''))%100<38;
+      var now=new Date(); if(date.toDateString()===now.toDateString() && m<=now.getHours()*60+now.getMinutes()+60) busy=true;
+      out.push({t:label,busy:busy})}
+    return out}
+  function fmtDate(d){return WDL[d.getDay()]+', '+d.getDate()+'. '+MON[d.getMonth()]}
+
+  var daysEl=document.getElementById('days'), slotsEl=document.getElementById('slots');
+  function renderDays(){
+    var start=new Date(today); var html=['Mo','Di','Mi','Do','Fr','Sa','So'].map(function(w){return '<span class="wd">'+w+'</span>'}).join('');
+    var lead=(start.getDay()+6)%7; for(var i=0;i<lead;i++) html+='<span></span>';
+    for(var k=0;k<21;k++){var d=new Date(start); d.setDate(start.getDate()+k); var open=HOURS[d.getDay()] && slotsFor(d).some(function(s){return !s.busy});
+      var sel=B.date && d.toDateString()===B.date.toDateString();
+      html+='<button class="day" type="button" data-k="'+k+'" '+(open?'':'disabled ')+'aria-pressed="'+(!!sel)+'" aria-label="'+fmtDate(d)+(open?'':' – keine Termine')+'"><b>'+d.getDate()+'</b><small>'+(k===0?'heute':WD[d.getDay()])+'</small></button>';}
+    daysEl.innerHTML=html;
+    var end=new Date(start); end.setDate(start.getDate()+20);
+    document.getElementById('month').textContent=MON[start.getMonth()]+(end.getMonth()!==start.getMonth()?' – '+MON[end.getMonth()]:'')+' '+end.getFullYear();
+  }
+  function renderSlots(){
+    if(!B.date){slotsEl.innerHTML='<p class="slot-empty">Wähle zuerst einen Tag.</p>';document.getElementById('slot-title').textContent='Uhrzeit';return}
+    document.getElementById('slot-title').textContent=fmtDate(B.date);
+    var s=slotsFor(B.date); slotsEl.innerHTML=s.map(function(x){return '<button class="slot" type="button" data-t="'+x.t+'" '+(x.busy?'disabled aria-label="'+x.t+' belegt"':'')+' aria-pressed="'+(B.time===x.t)+'">'+x.t+'</button>'}).join('');
+  }
+  daysEl.addEventListener('click',function(e){var b=e.target.closest('.day'); if(!b||b.disabled) return; var d=new Date(today); d.setDate(today.getDate()+(+b.dataset.k)); B.date=d; B.time=null; renderDays(); renderSlots(); sum()});
+  slotsEl.addEventListener('click',function(e){var b=e.target.closest('.slot'); if(!b||b.disabled) return; B.time=b.dataset.t; renderSlots(); sum(); err('')});
+  optSvc.addEventListener('click',function(e){var b=e.target.closest('.opt'); if(!b) return; B.svc=b.dataset.svc; B.time=null; optSvc.querySelectorAll('.opt').forEach(function(x){x.setAttribute('aria-pressed',x===b)}); sum(); err('')});
+  optP.addEventListener('click',function(e){var b=e.target.closest('.opt'); if(!b) return; B.person=b.dataset.person; B.time=null; optP.querySelectorAll('.opt').forEach(function(x){x.setAttribute('aria-pressed',x===b)}); sum(); err('')});
+
+  function sum(){
+    var s=B.svc?SVC[B.svc]:null, p=B.person?(B.person==='egal'?{name:'Erste freie Person'}:TEAM.filter(function(t){return t.id===B.person})[0]):null;
+    document.getElementById('s-svc').textContent=s?s.name:'–';
+    document.getElementById('s-person').textContent=p?p.name:'–';
+    document.getElementById('s-date').textContent=B.date?fmtDate(B.date):'–';
+    document.getElementById('s-time').textContent=B.time?B.time+' Uhr':'–';
+    document.getElementById('s-dur').textContent=s?s.dur+' Minuten':'–';
+    document.getElementById('s-price').textContent=s?(['balayage','hochsteck'].indexOf(s.id)>-1?'ab ':'')+eur(s.price):'–';
+    var img=s?CATS.filter(function(c){return c.id===s.cat})[0].img:'salon-bogen';
+    if(p&&p.img) img=p.img;
+    var si=document.getElementById('sum-img'); if(si.dataset.n!==img){si.dataset.n=img; si.src=IMG+img+'-800.webp'; si.style.objectPosition=p&&p.img?'50% 22%':'50% 50%'}
+  }
+  var errEl=document.getElementById('bk-err'); function err(t){errEl.textContent=t}
+  var back=document.getElementById('bk-back'), next=document.getElementById('bk-next');
+  function go(n){B.step=n;
+    document.querySelectorAll('.step').forEach(function(s){s.classList.toggle('on',+s.dataset.step===n)});
+    document.querySelectorAll('#steps li').forEach(function(li){var k=+li.dataset.s; li.classList.toggle('on',k===n); li.classList.toggle('done',k<n)});
+    back.style.visibility=n===1?'hidden':'visible';
+    next.firstChild.nodeValue=n===4?'Verbindlich buchen ':'Weiter ';
+    if(n===3){renderDays(); renderSlots()}
+    err('');
+  }
+  next.addEventListener('click',function(){
+    if(B.step===1&&!B.svc) return err('Bitte wähle eine Leistung.');
+    if(B.step===2&&!B.person) return err('Bitte wähle eine Person oder „Egal“.');
+    if(B.step===3&&!(B.date&&B.time)) return err('Bitte wähle einen Tag und eine freie Uhrzeit.');
+    if(B.step===4){var n=document.getElementById('b-name'), t=document.getElementById('b-tel');
+      if(!n.value.trim()){n.focus();return err('Bitte gib deinen Namen an.')}
+      if(t.value.replace(/\D/g,'').length<6){t.focus();return err('Bitte gib eine Telefonnummer an, damit wir dich bei Änderungen erreichen.')}
+      document.getElementById('bk-done-t').textContent=SVC[B.svc].name+' am '+fmtDate(B.date)+' um '+B.time+' Uhr. Wir freuen uns auf dich, '+n.value.trim().split(' ')[0]+'!';
+      document.querySelectorAll('.step,#steps,#bk-nav').forEach(function(x){x.style.display='none'}); document.getElementById('bk-done').classList.add('on'); err(''); return;}
+    go(B.step+1);
+  });
+  back.addEventListener('click',function(){if(B.step>1) go(B.step-1)});
+  document.getElementById('bk-again').addEventListener('click',function(){
+    B={step:1,svc:null,person:null,date:null,time:null}; document.getElementById('bk-form').reset();
+    document.querySelectorAll('.opt').forEach(function(x){x.setAttribute('aria-pressed','false')});
+    document.querySelectorAll('.step,#steps,#bk-nav').forEach(function(x){x.style.display=''}); document.getElementById('bk-done').classList.remove('on'); sum(); go(1);
+  });
+  document.addEventListener('click',function(e){var a=e.target.closest('[data-pick]'); if(!a) return; B.person=a.dataset.pick;
+    optP.querySelectorAll('.opt').forEach(function(x){x.setAttribute('aria-pressed',x.dataset.person===B.person)}); sum();});
+
+  /* nächster freier Termin auf der Startseite */
+  (function(){for(var k=0;k<14;k++){var d=new Date(today); d.setDate(today.getDate()+k); var f=slotsFor(d).filter(function(s){return !s.busy})[0];
+    if(f){document.getElementById('quick-d').textContent=(k===0?'Heute':k===1?'Morgen':fmtDate(d))+' um '+f.t+' Uhr';return}}})();
+
+  go(1); sum(); route();
 })();
 </script>
 </body>

@@ -243,18 +243,17 @@ section{position:relative;z-index:1}
 .gal-dev button[aria-pressed="true"]{background:var(--border-strong);color:var(--text)}
 .gal-dev svg{width:17px;height:17px}
 .gal-win[data-device="phone"] .gal-live{display:none}
-.gal-stage{position:relative;aspect-ratio:16/10;overflow:hidden;background:#06080B}
+.gal-stage{position:relative;display:block;aspect-ratio:16/10;overflow:hidden;background:#06080B;cursor:pointer}
 .gal-win[data-device="phone"] .gal-stage{aspect-ratio:390/760}
-.gal-stage iframe{position:absolute;top:0;left:0;border:0;transform-origin:0 0;background:#fff;opacity:0;visibility:hidden;transition:opacity .45s}
-.gal-stage iframe.on{visibility:visible}
-.gal-stage iframe.on.loaded{opacity:1}
-.gal-load{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
-.gal-shield{position:absolute;inset:0;z-index:2;display:flex;align-items:flex-end;justify-content:center;padding:20px;border:0;background:transparent;cursor:pointer}
-.gal-shield span{display:inline-flex;align-items:center;gap:10px;padding:11px 18px;border-radius:999px;background:rgba(11,13,16,.82);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid var(--border-strong);color:var(--text);font-size:14px;font-weight:500;opacity:0;transform:translateY(6px);transition:opacity .3s,transform .4s var(--ease)}
-.gal-stage:hover .gal-shield span,.gal-shield:focus-visible span{opacity:1;transform:none}
-@media (hover:none){.gal-shield span{opacity:1;transform:none}}
-.gal-stage.active .gal-shield{display:none}
-body.in-frame .cursor,body.in-frame .cursor-ring{opacity:0}
+.gal-shot{position:absolute;left:0;top:0;width:100%;height:auto;transform:translate3d(0,0,0);transition:transform 1.1s cubic-bezier(.45,0,.2,1),opacity .35s;will-change:transform}
+.gal-shot.fade{opacity:0}
+.gal-hint{position:absolute;left:50%;bottom:18px;z-index:2;transform:translateX(-50%);display:inline-flex;align-items:center;gap:10px;padding:11px 18px;border-radius:999px;background:rgba(11,13,16,.88);border:1px solid var(--border-strong);color:var(--text);font-size:14px;font-weight:500;white-space:nowrap;pointer-events:none;transition:opacity .3s}
+.gal-hint svg{width:14px;height:14px}
+.gal-stage:hover .gal-hint .ha{display:none}
+.gal-hint .hb{display:none}
+.gal-stage:hover .gal-hint .hb{display:inline}
+@media (hover:none){.gal-hint .ha{display:none}.gal-hint .hb{display:inline}}
+.gal-stage:focus-visible{outline:2px solid var(--accent-2);outline-offset:-2px}
 .gal-info{display:grid;grid-template-columns:1fr auto;gap:20px;align-items:center}
 .gal-info h3{margin:0 0 8px;font-weight:800;font-size:clamp(26px,2.6vw,34px);letter-spacing:-.04em}
 .gal-info p{margin:0;color:var(--muted);font-size:17px;line-height:1.55;max-width:620px}
@@ -576,7 +575,7 @@ footer a{color:var(--muted);transition:color .3s}footer a:hover{color:var(--text
         <span class="mono acc rv">// Und so sieht das fertig aus</span>
         <h2 class="h2 rv" style="margin-top:14px">Schon gebaut.<br><em>Schon online.</em></h2>
       </div>
-      <p class="lead rv">Zwei Beispiele für lokale Betriebe und drei echte Projekte. Wähl eins aus, klick ins Fenster und scroll dich durch die echte Seite.</p>
+      <p class="lead rv">Zwei Beispiele für lokale Betriebe und drei echte Projekte. Wähl eins aus und fahr mit der Maus übers Fenster. Ein Klick öffnet die echte Seite.</p>
     </div>
     <div class="gal rv">
       <div class="gal-list" id="gal-list" role="tablist" aria-label="Projekte"></div>
@@ -590,10 +589,10 @@ footer a{color:var(--muted);transition:color .3s}footer a:hover{color:var(--text
               <button type="button" id="gd-phone" aria-pressed="false" aria-label="Handy-Ansicht" data-hover><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="7" y="2.5" width="10" height="19" rx="2.2"/><path d="M11 18.5h2"/></svg></button>
             </div>
           </div>
-          <div class="gal-stage" id="gal-stage" role="tabpanel">
-            <span class="gal-load" id="gal-load">Lädt …</span>
-            <button type="button" class="gal-shield" id="gal-shield" aria-label="Seite im Fenster bedienen"><span>Klicken und darin scrollen</span></button>
-          </div>
+          <a class="gal-stage" id="gal-stage" role="tabpanel" href="#" target="_blank" rel="noopener" data-hover>
+            <img class="gal-shot" id="gal-shot" alt="" decoding="async">
+            <span class="gal-hint"><span class="ha">Maus drauf: Seite scrollt durch</span><span class="hb">Klicken: live öffnen</span><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 11l6-6M6 5h5v5"/></svg></span>
+          </a>
         </div>
         <div class="gal-info">
           <div><h3 id="gal-title"></h3><p id="gal-desc"></p><div class="tags" id="gal-tags"></div></div>
@@ -924,73 +923,72 @@ footer a{color:var(--muted);transition:color .3s}footer a:hover{color:var(--text
       .to(o, { v: 50, duration: 1.2, ease: 'power3.out', onUpdate: () => { setBa(o.v); baRange.value = o.v; } });
   } });
 
-  /* ---- Projekte: Live-Galerie ---- */
+  /* ---- Projekte: Galerie mit Vorschaubildern ---- */
   const PROJECTS = [
-    { name: 'Salon Mia · One-Pager', kind: 'Beispiel · 790 €', src: 'demos/salon-mia/', url: 'salon-mia.at · Demo',
-      desc: 'So sieht das 790-€-Paket aus: eine Seite mit Leistungen, Preisliste, Öffnungszeiten, Karte und Terminanfrage. Fiktiver Friseur in Linz.',
+    { id: 'salon-mia', name: 'Salon Mia · One-Pager', kind: 'Beispiel · 790 €', src: 'demos/salon-mia/', url: 'salon-mia.at · Demo',
+      desc: 'Das 790-€-Paket: eine Seite mit Leistungen, Preis-Tabs, Galerie, Öffnungszeiten mit Live-Status und Terminanfrage. Fiktiver Salon, echte Fotos.',
       tags: ['One-Pager · 790 €', 'Friseur', 'Demo'] },
-    { name: 'Salon Mia · Premium', kind: 'Beispiel · 2.400 €', src: 'demos/salon-mia-premium/', url: 'salon-mia.at/premium · Demo',
-      desc: 'Das 2.400-€-Paket: Online-Terminbuchung in vier Klicks, Galerie, Preis-Tabs, Team, Karte und FAQ. Gleicher Salon, deutlich mehr Website.',
+    { id: 'salon-mia-premium', name: 'Salon Mia · Premium', kind: 'Beispiel · 2.400 €', src: 'demos/salon-mia-premium/', url: 'salon-mia.at/premium · Demo',
+      desc: 'Das 2.400-€-Paket: fünf Unterseiten, Team, Galerie mit Großansicht und eine echte Online-Buchung mit Kalender und freien Zeiten.',
       tags: ['Premium · 2.400 €', 'Online-Buchung', 'Demo'] },
-    { name: 'Nymo', kind: 'App-Landingpage', src: 'https://jthofstetter.github.io/nymo-website/', url: 'jthofstetter.github.io/nymo-website',
+    { id: 'nymo', name: 'Nymo', kind: 'App-Landingpage', src: 'https://jthofstetter.github.io/nymo-website/', url: 'jthofstetter.github.io/nymo-website',
       desc: 'App-Landingpage mit interaktivem Globus. Anonyme Gespräche mit Menschen im gleichen Alter, weltweit und ohne Profile.',
       tags: ['App-Landingpage', 'Interaktiver Globus'] },
-    { name: 'King of the Spot', kind: 'Warteliste mit 3D', src: 'https://jthofstetter.github.io/kingofthespot-website/', url: 'jthofstetter.github.io/kingofthespot-website',
+    { id: 'kingofthespot', name: 'King of the Spot', kind: 'Warteliste mit 3D', src: 'https://jthofstetter.github.io/kingofthespot-website/', url: 'jthofstetter.github.io/kingofthespot-website',
       desc: 'Warteliste mit 3D-Krone. Rekord-Challenges an echten Spots: Wer den Rekord hält, ist King.',
       tags: ['3D-Krone', 'Warteliste'] },
-    { name: 'JustJoin', kind: 'App-Landingpage', src: 'https://jthofstetter.github.io/justjoin-website/', url: 'jthofstetter.github.io/justjoin-website',
+    { id: 'justjoin', name: 'JustJoin', kind: 'App-Landingpage', src: 'https://jthofstetter.github.io/justjoin-website/', url: 'jthofstetter.github.io/justjoin-website',
       desc: 'App-Landingpage mit Waben-Animation. Spontane Aktivitäten in der Nähe finden und per QuickJoin mitmachen.',
       tags: ['App-Landingpage', 'Waben-Animation'] }
   ];
-  const galList = $('gal-list'), galWin = $('gal-win'), galStage = $('gal-stage'), galShield = $('gal-shield'), galLoad = $('gal-load');
-  const frames = {};
+  const galList = $('gal-list'), galWin = $('gal-win'), galStage = $('gal-stage'), galShot = $('gal-shot');
   let gi = 0, device = innerWidth < 700 ? 'phone' : 'desktop', galStarted = false;
-  const VW = { desktop: 1440, phone: 390 };
+  const shotSrc = (i, d) => `img/previews/${PROJECTS[i].id}-${d === 'phone' ? 'mobile' : 'desktop'}.webp`;
+  const preload = (i) => { ['desktop', 'phone'].forEach(d => { const im = new Image(); im.src = shotSrc(i, d); }); };
 
-  const fitFrames = () => {
-    const w = galStage.clientWidth, h = galStage.clientHeight; if (!w || !h) return;
-    const vw = VW[device], sc = w / vw;
-    Object.values(frames).forEach(f => { f.style.width = vw + 'px'; f.style.height = (h / sc) + 'px'; f.style.transform = `scale(${sc})`; });
+  // Durchscrollen beim Drüberfahren: Dauer passt sich der Seitenlänge an
+  const scrollShot = (on) => {
+    const dist = Math.max(0, galShot.offsetHeight - galStage.clientHeight);
+    if (on && !reduce && dist > 0) {
+      galShot.style.transition = `transform ${Math.min(14, 2 + dist / 380).toFixed(1)}s cubic-bezier(.45,0,.35,1), opacity .35s`;
+      galShot.style.transform = `translate3d(0,${-dist}px,0)`;
+    } else {
+      galShot.style.transition = 'transform .9s cubic-bezier(.45,0,.2,1), opacity .35s';
+      galShot.style.transform = 'translate3d(0,0,0)';
+    }
   };
-  const hideScrollbars = (f) => { try {
-    const d = f.contentDocument; if (!d || d.getElementById('jh-noscroll')) return;
-    const st = d.createElement('style'); st.id = 'jh-noscroll';
-    st.textContent = 'html{scrollbar-width:none}html::-webkit-scrollbar,body::-webkit-scrollbar{display:none}';
-    d.head.appendChild(st);
-  } catch (e) { /* fremde Domain: Scrollleiste bleibt */ } };
-  const frameFor = (i) => {
-    if (frames[i]) return frames[i];
-    const f = document.createElement('iframe');
-    f.title = PROJECTS[i].name; f.src = PROJECTS[i].src;
-    f.addEventListener('load', () => { f.classList.add('loaded'); hideScrollbars(f); if (+f.dataset.i === gi) galLoad.hidden = true; });
-    f.dataset.i = i; frames[i] = f; galStage.insertBefore(f, galShield); fitFrames();
-    return f;
+  const loadShot = () => {
+    const src = shotSrc(gi, device);
+    if (galShot.getAttribute('src') === src) return;
+    galShot.classList.add('fade');
+    const im = new Image();
+    im.onload = () => { galShot.style.transition = 'none'; galShot.style.transform = 'translate3d(0,0,0)';
+      galShot.src = src; requestAnimationFrame(() => galShot.classList.remove('fade')); };
+    im.src = src;
   };
-  const deactivate = () => galStage.classList.remove('active');
   const showProject = (i) => {
     gi = i; const p = PROJECTS[i];
     [...galList.children].forEach((b, j) => { b.setAttribute('aria-selected', j === i); b.tabIndex = j === i ? 0 : -1; });
     galStage.setAttribute('aria-labelledby', 'gt-' + i);
+    galStage.href = p.src; galStage.setAttribute('aria-label', p.name + ' live öffnen (neuer Tab)');
+    galShot.alt = 'Vorschau der Website ' + p.name;
     $('gal-url').textContent = p.url; $('gal-title').textContent = p.name; $('gal-desc').textContent = p.desc;
     $('gal-tags').innerHTML = p.tags.map(t => `<span>${esc(t)}</span>`).join('');
     $('gal-link').href = p.src;
-    deactivate();
-    if (!galStarted) return;
-    const f = frameFor(i);
-    Object.values(frames).forEach(x => x.classList.toggle('on', x === f));
-    galLoad.hidden = f.classList.contains('loaded');
+    if (galStarted) loadShot();
   };
   const setDevice = (d) => {
     device = d; galWin.dataset.device = d;
     $('gd-desktop').setAttribute('aria-pressed', d === 'desktop'); $('gd-phone').setAttribute('aria-pressed', d === 'phone');
-    fitFrames();
+    if (galStarted) loadShot();
   };
   PROJECTS.forEach((p, i) => {
     const b = document.createElement('button');
     b.type = 'button'; b.className = 'gal-tab'; b.id = 'gt-' + i; b.dataset.hover = '';
     b.setAttribute('role', 'tab'); b.setAttribute('aria-controls', 'gal-stage');
     b.innerHTML = `<span class="n">0${i + 1}</span><b>${esc(p.name)}</b><small>${esc(p.kind)}</small>`;
-    b.addEventListener('click', () => { if (i !== gi || !galStarted) showProject(i); });
+    b.addEventListener('click', () => { if (i !== gi) showProject(i); b.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'smooth' }); });
+    b.addEventListener('mouseenter', () => preload(i), { once: true });
     galList.appendChild(b);
   });
   galList.addEventListener('keydown', e => {
@@ -999,14 +997,13 @@ footer a{color:var(--muted);transition:color .3s}footer a:hover{color:var(--text
   });
   $('gd-desktop').addEventListener('click', () => setDevice('desktop'));
   $('gd-phone').addEventListener('click', () => setDevice('phone'));
-  galShield.addEventListener('click', () => galStage.classList.add('active'));
-  galStage.addEventListener('mouseleave', deactivate);
-  document.addEventListener('touchstart', e => { if (!galStage.contains(e.target)) deactivate(); }, { passive: true });
-  new IntersectionObserver(es => es.forEach(e => { if (!e.isIntersecting) deactivate(); })).observe(galStage);
-  new ResizeObserver(fitFrames).observe(galStage);
+  galStage.addEventListener('mouseenter', () => scrollShot(true));
+  galStage.addEventListener('mouseleave', () => scrollShot(false));
+  galStage.addEventListener('focus', () => scrollShot(true));
+  galStage.addEventListener('blur', () => scrollShot(false));
   setDevice(device); showProject(0);
   new IntersectionObserver((es, o) => { if (!es.some(e => e.isIntersecting)) return;
-    galStarted = true; showProject(gi); o.disconnect(); }, { rootMargin: '400px' }).observe(galStage);
+    galStarted = true; loadShot(); preload(1); o.disconnect(); }, { rootMargin: '600px' }).observe(galStage);
 
   /* ---- FAQ ---- */
   document.querySelectorAll('.faq-item').forEach(item => {

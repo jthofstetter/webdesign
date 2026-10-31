@@ -3,116 +3,219 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Salon Mia · Friseur in Linz – Demo-Website</title>
-<meta name="description" content="Demo-Website (One-Pager) eines fiktiven Friseursalons in Linz – gestaltet von Jannik Hofstetter.">
+<title>Salon Mia · Friseur in Waidhofen an der Thaya – Demo-Website</title>
+<meta name="description" content="Demo-Website (One-Pager) eines fiktiven Friseursalons in Waidhofen an der Thaya – gestaltet von Jannik Hofstetter.">
 <meta name="robots" content="noindex">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;1,9..144,300&family=Inter:wght@400;500;600&display=swap">
+<link rel="preload" href="../assets/fonts/bodoni-moda.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../assets/fonts/manrope.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" as="image" href="../assets/img/hero-kundin-1600.webp" fetchpriority="high">
 <style>
-:root{--cream:#F6F1EA;--cream-2:#EEE6DB;--ink:#1C1A18;--mute:#6F6761;--line:#DCD2C5;--blush:#C98B7E;--blush-2:#A86D62;--serif:'Fraunces',Georgia,serif;--sans:Inter,system-ui,sans-serif}
+@font-face{font-family:'Bodoni Moda';src:url(../assets/fonts/bodoni-moda.woff2) format('woff2');font-weight:400 900;font-style:normal;font-display:swap}
+@font-face{font-family:'Bodoni Moda';src:url(../assets/fonts/bodoni-moda-italic.woff2) format('woff2');font-weight:400 900;font-style:italic;font-display:swap}
+@font-face{font-family:'Manrope';src:url(../assets/fonts/manrope.woff2) format('woff2');font-weight:200 800;font-style:normal;font-display:swap}
+/* Salon Mia – redaktionell, hell, Bodoni + Manrope, ein Cognac-Akzent */
+:root{
+  --paper:#F7F4EF; --stone:#ECE5DB; --stone-2:#E2D8CB; --ink:#171310; --ink-2:#2A231E;
+  --mute:#6C625A; --line:#D9CFC2; --accent:#8A4B32; --accent-soft:#B97A5E;
+  --serif:'Bodoni Moda','Didot','Bodoni 72',Georgia,serif; --sans:'Manrope',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --r:4px;
+}
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0;background:var(--cream);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+html{scroll-behavior:smooth;scroll-padding-top:84px}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
 a{color:inherit;text-decoration:none}
-img,svg{display:block}
-.wrap{width:min(1120px,100% - 40px);margin-inline:auto}
-.eyebrow{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--blush-2);font-weight:600}
-h1,h2,h3{font-family:var(--serif);font-weight:300;letter-spacing:-.02em;margin:0;line-height:1.05}
-h2{font-size:clamp(34px,4.5vw,56px)}
-h2 em,h1 em{font-style:italic;color:var(--blush-2)}
-.btn{display:inline-flex;align-items:center;gap:10px;min-height:52px;padding:0 26px;border-radius:999px;background:var(--ink);color:var(--cream);font-weight:500;font-size:15px;transition:background .3s,transform .3s}
-.btn:hover{background:var(--blush-2);transform:translateY(-2px)}
-.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--ink)}
-.btn.ghost:hover{background:var(--ink);color:var(--cream)}
-/* demo badge */
-.demo-badge{position:fixed;left:16px;bottom:16px;z-index:50;display:flex;align-items:center;gap:10px;background:#0B0D10;color:#ECEEF2;padding:10px 14px 10px 12px;border-radius:999px;font-size:12px;box-shadow:0 20px 40px -20px rgba(0,0,0,.6)}
+img{display:block;max-width:100%;height:auto}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.wrap{width:min(1240px,100% - 48px);margin-inline:auto}
+@media (max-width:600px){.wrap{width:calc(100% - 32px)}}
+.eyebrow{font-size:12px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--accent)}
+h1,h2,h3{font-family:var(--serif);font-weight:400;margin:0;letter-spacing:-.01em;line-height:1.02;text-wrap:balance}
+h2{font-size:clamp(40px,5.4vw,76px)}
+em{font-style:italic}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:12px;min-height:54px;padding:0 28px;border-radius:999px;background:var(--ink);color:var(--paper);font-weight:600;font-size:15px;letter-spacing:.01em;border:1px solid var(--ink);cursor:pointer;transition:background .25s,color .25s,border-color .25s}
+.btn:hover{background:var(--accent);border-color:var(--accent)}
+.btn.line{background:transparent;color:var(--ink);border-color:var(--ink)}
+.btn.line:hover{background:var(--ink);color:var(--paper)}
+.btn svg{width:16px;height:16px}
+
+/* Demo-Hinweis */
+.demo-badge{position:fixed;left:16px;bottom:16px;z-index:60;display:flex;align-items:center;gap:10px;background:#0B0D10;color:#ECEEF2;padding:10px 16px 10px 12px;border-radius:999px;font-size:12px;box-shadow:0 18px 40px -18px rgba(0,0,0,.55)}
 .demo-badge i{width:8px;height:8px;border-radius:50%;background:#3B7BFF}
-.demo-badge a{color:#7AA6FF;font-weight:600}
-/* nav */
-.nav{position:sticky;top:0;z-index:40;background:rgba(246,241,234,.85);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-.nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:18px 0}
-.logo{font-family:var(--serif);font-size:24px;font-weight:500;letter-spacing:-.02em}
-.nav nav{display:flex;gap:28px;font-size:14px;color:var(--mute)}
+.demo-badge a{color:#8FB1FF;font-weight:600}
+
+/* Navigation */
+.nav{position:sticky;top:0;z-index:50;background:rgba(247,244,239,.94);border-bottom:1px solid transparent;transition:border-color .3s}
+.nav.scrolled{border-bottom-color:var(--line)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:24px;min-height:76px}
+.logo{font-family:var(--serif);font-size:28px;letter-spacing:-.01em;line-height:1}
+.logo span{font-style:italic;color:var(--accent)}
+.nav nav{display:flex;gap:34px;font-size:14px;font-weight:500;color:var(--mute)}
 .nav nav a:hover{color:var(--ink)}
-@media (max-width:760px){.nav nav{display:none}}
-/* hero */
-.hero{padding:88px 0 72px}
-.hero .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:56px;align-items:center}
-.hero h1{font-size:clamp(48px,7vw,96px)}
-.hero p{font-size:19px;line-height:1.6;color:var(--mute);max-width:480px;margin:0}
-.hero-copy{display:flex;flex-direction:column;gap:28px}
+.nav .btn{min-height:44px;padding:0 20px;font-size:14px}
+@media (max-width:860px){.nav nav{display:none}}
+@media (max-width:600px){.demo-badge{left:50%;transform:translateX(-50%);bottom:12px;white-space:nowrap}.demo-badge .t{display:none}}
+
+/* Hero */
+.hero{padding:56px 0 96px}
+.hero .wrap{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:64px;align-items:center}
+.hero-copy{display:flex;flex-direction:column;gap:30px}
+.hero h1{font-size:clamp(56px,8.4vw,128px);line-height:.95;letter-spacing:-.025em}
+.hero h1 em{color:var(--accent)}
+.hero p{margin:0;font-size:19px;color:var(--mute);max-width:44ch}
 .hero-cta{display:flex;gap:12px;flex-wrap:wrap}
-.hero-visual{position:relative;aspect-ratio:4/5;border-radius:280px 280px 24px 24px;background:linear-gradient(160deg,#E9D6CC 0%,#C98B7E 55%,#8E5A50 100%);overflow:hidden}
-.hero-visual::after{content:"";position:absolute;inset:0;background:radial-gradient(60% 50% at 40% 30%,rgba(255,255,255,.35),transparent 70%)}
-.hero-visual span{position:absolute;left:24px;bottom:24px;background:var(--cream);border-radius:999px;padding:10px 16px;font-size:13px;font-weight:500}
-.hero-visual .foto{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.75);font-size:12px;letter-spacing:.14em;text-transform:uppercase}
-@media (max-width:760px){.hero .wrap{grid-template-columns:1fr}.hero-visual{aspect-ratio:4/3;border-radius:24px}}
-/* ticker */
-.ticker{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:16px 0;overflow:hidden}
-.ticker div{display:flex;gap:40px;width:max-content;white-space:nowrap;animation:tk 28s linear infinite;font-family:var(--serif);font-style:italic;font-size:20px;color:var(--mute)}
-.ticker span::after{content:"✦";margin-left:40px;color:var(--blush)}
-@keyframes tk{to{transform:translateX(-50%)}}
-/* sections */
-section{padding:96px 0}
-.sec-head{display:flex;flex-direction:column;gap:14px;margin-bottom:48px;max-width:640px}
-.sec-head p{margin:0;color:var(--mute);font-size:17px;line-height:1.6}
-.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
-.card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:30px;display:flex;flex-direction:column;gap:14px;transition:transform .4s,box-shadow .4s}
-.card:hover{transform:translateY(-6px);box-shadow:0 30px 60px -30px rgba(28,26,24,.3)}
-.card h3{font-size:26px}
-.card p{margin:0;color:var(--mute);line-height:1.6;font-size:15px}
-.card .ic{width:44px;height:44px;border-radius:50%;background:var(--cream-2);display:flex;align-items:center;justify-content:center;color:var(--blush-2)}
-@media (max-width:760px){.cards{grid-template-columns:1fr}}
-/* prices */
-.prices{background:var(--ink);color:var(--cream)}
-.prices .eyebrow{color:var(--blush)}
-.prices h2 em{color:var(--blush)}
-.prices .sec-head p{color:#B9B0A6}
-.plist{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 56px}
-.prow{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:18px 0;border-bottom:1px solid #332F2B}
-.prow span:first-child{font-size:17px}
-.prow small{display:block;color:#8F867C;font-size:13px;margin-top:3px}
-.prow b{font-family:var(--serif);font-weight:500;font-size:22px;white-space:nowrap}
-.prices .note{margin-top:28px;color:#8F867C;font-size:13px}
-@media (max-width:760px){.plist{grid-template-columns:1fr}}
-/* hours + map */
-.info .wrap{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:stretch}
-.hours{background:#fff;border:1px solid var(--line);border-radius:20px;padding:36px;display:flex;flex-direction:column;gap:22px}
-.hours table{width:100%;border-collapse:collapse;font-size:16px}
-.hours td{padding:12px 0;border-bottom:1px solid var(--line)}
-.hours td:last-child{text-align:right;font-weight:500}
-.hours tr.today td{color:var(--blush-2);font-weight:600}
-.hours .addr{color:var(--mute);line-height:1.6;font-size:15px}
-.map{border-radius:20px;overflow:hidden;border:1px solid var(--line);min-height:380px;background:var(--cream-2)}
-.map iframe{width:100%;height:100%;min-height:380px;border:0;filter:grayscale(1) contrast(1.05)}
-@media (max-width:760px){.info .wrap{grid-template-columns:1fr}}
-/* contact */
-.contact .wrap{display:grid;grid-template-columns:.9fr 1.1fr;gap:56px;align-items:start}
-.contact form{background:#fff;border:1px solid var(--line);border-radius:20px;padding:36px;display:grid;grid-template-columns:1fr 1fr;gap:18px}
-.f{display:flex;flex-direction:column;gap:6px}
-.f.full{grid-column:1/-1}
-.f label{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);font-weight:600}
-.f input,.f select,.f textarea{border:1px solid var(--line);border-radius:12px;padding:14px;font:inherit;font-size:15px;background:var(--cream);color:var(--ink);outline:none;transition:border-color .3s}
-.f input:focus,.f select:focus,.f textarea:focus{border-color:var(--blush-2)}
-.contact .sent{display:none;grid-column:1/-1;background:var(--cream-2);border-radius:12px;padding:18px;color:var(--blush-2);font-weight:500}
-@media (max-width:760px){.contact .wrap{grid-template-columns:1fr}.contact form{grid-template-columns:1fr}}
-footer{border-top:1px solid var(--line);padding:28px 0;font-size:13px;color:var(--mute)}
-footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
-.rv{opacity:0;transform:translateY(24px);transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1)}
-.rv.in{opacity:1;transform:none}
-@media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none}.ticker div{animation:none}}
+.hero-facts{display:flex;gap:40px;flex-wrap:wrap;padding-top:26px;border-top:1px solid var(--line)}
+.hero-facts div{display:flex;flex-direction:column;gap:2px}
+.hero-facts b{font-family:var(--serif);font-weight:400;font-size:30px;line-height:1}
+.hero-facts span{font-size:13px;color:var(--mute)}
+.hero-media{position:relative}
+.hero-media .main{aspect-ratio:4/5;overflow:hidden;border-radius:var(--r)}
+.hero-media .main img{width:100%;height:100%;object-fit:cover;object-position:50% 35%}
+.hero-media .inset{position:absolute;left:-56px;bottom:-40px;width:42%;aspect-ratio:4/5;overflow:hidden;border-radius:var(--r);border:8px solid var(--paper)}
+.hero-media .inset img{width:100%;height:100%;object-fit:cover}
+.open-pill{position:absolute;top:20px;right:20px;display:inline-flex;align-items:center;gap:8px;padding:9px 14px;border-radius:999px;background:var(--paper);font-size:13px;font-weight:600}
+.open-pill i{width:8px;height:8px;border-radius:50%;background:#3E8E5A}
+.open-pill.closed i{background:#B4573D}
+@media (max-width:900px){
+  .hero{padding:24px 0 72px}
+  .hero .wrap{grid-template-columns:1fr;gap:44px}
+  .hero-media{order:-1}
+  .hero-media .main{aspect-ratio:4/3.4}
+  .hero-media .inset{display:none}
+}
+
+/* Statement mit Bild */
+.statement{padding:40px 0 120px}
+.statement .wrap{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:24px;align-items:end}
+.statement figure{grid-column:1 / span 7;margin:0;aspect-ratio:3/2;overflow:hidden;border-radius:var(--r)}
+.statement figure img{width:100%;height:100%;object-fit:cover}
+.statement .txt{grid-column:9 / span 4;display:flex;flex-direction:column;gap:22px;padding-bottom:12px}
+.statement blockquote{margin:0;font-family:var(--serif);font-size:clamp(28px,2.6vw,38px);line-height:1.18}
+.statement blockquote em{color:var(--accent)}
+.statement p{margin:0;color:var(--mute)}
+.sig{display:flex;align-items:center;gap:14px}
+.sig img{width:52px;height:52px;border-radius:50%;object-fit:cover;object-position:50% 25%}
+.sig b{display:block;font-weight:600}
+.sig span{font-size:14px;color:var(--mute)}
+@media (max-width:900px){.statement .wrap{grid-template-columns:1fr}.statement figure,.statement .txt{grid-column:auto}}
+
+/* Leistungen */
+.services{padding:120px 0;background:var(--stone)}
+.sec-head{display:flex;justify-content:space-between;align-items:flex-end;gap:32px;flex-wrap:wrap;margin-bottom:64px}
+.sec-head p{margin:0;max-width:42ch;color:var(--mute);font-size:17px}
+.svc{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px}
+.svc article{display:flex;flex-direction:column;gap:20px}
+.svc figure{margin:0;aspect-ratio:4/5;overflow:hidden;border-radius:var(--r);background:var(--stone-2)}
+.svc figure img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s cubic-bezier(.2,.7,.2,1)}
+.svc article:hover figure img{transform:scale(1.04)}
+.svc .meta{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.svc h3{font-size:34px}
+.svc .from{font-size:14px;color:var(--mute);white-space:nowrap}
+.svc p{margin:0;color:var(--mute)}
+@media (max-width:900px){.svc{grid-template-columns:1fr;gap:56px}.svc figure{aspect-ratio:4/3.2}}
+
+/* Preise */
+.prices{padding:120px 0}
+.prices .wrap{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,7fr);gap:72px;align-items:start}
+.prices .intro{position:sticky;top:120px;display:flex;flex-direction:column;gap:22px}
+.prices .intro p{margin:0;color:var(--mute)}
+.ptabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.ptab{min-height:44px;padding:0 18px;border-radius:999px;border:1px solid var(--line);background:transparent;font:inherit;font-size:14px;font-weight:600;color:var(--mute);cursor:pointer;transition:all .2s}
+.ptab[aria-selected="true"]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.plist{list-style:none;margin:0;padding:0}
+.plist li{display:grid;grid-template-columns:1fr auto;gap:4px 24px;padding:22px 0;border-bottom:1px solid var(--line)}
+.plist li:first-child{border-top:1px solid var(--line)}
+.plist .n{font-size:18px;font-weight:500}
+.plist .d{grid-column:1;font-size:14px;color:var(--mute)}
+.plist .p{grid-row:1 / span 2;grid-column:2;align-self:center;font-family:var(--serif);font-size:28px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.pnote{margin:20px 0 0;font-size:13px;color:var(--mute)}
+@media (max-width:900px){.prices .wrap{grid-template-columns:1fr;gap:40px}.prices .intro{position:static}}
+
+/* Galerie */
+.gallery{padding:0 0 120px}
+.gal-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:40px}
+.mosaic{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));grid-auto-rows:120px;gap:16px}
+.mosaic figure{margin:0;overflow:hidden;border-radius:var(--r);background:var(--stone)}
+.mosaic img{width:100%;height:100%;object-fit:cover}
+.m1{grid-column:1 / span 4;grid-row:1 / 5}
+.m2{grid-column:5 / span 5;grid-row:1 / 4}
+.m3{grid-column:10 / span 3;grid-row:1 / 5}
+.m4{grid-column:1 / span 4;grid-row:5 / 8}
+.m5{grid-column:5 / span 5;grid-row:4 / 8}
+.m6{grid-column:10 / span 3;grid-row:5 / 8}
+@media (max-width:900px){
+  .mosaic{grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:120px;grid-auto-flow:row dense;gap:10px}
+  .m1,.m3,.m4,.m6{grid-column:auto;grid-row:span 2}
+  .m2,.m5{grid-column:1 / -1;grid-row:span 2}
+}
+
+/* Besuch */
+.visit{padding:120px 0;background:var(--ink);color:var(--paper)}
+.visit .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:72px;align-items:start}
+.visit .eyebrow{color:var(--accent-soft)}
+.visit h2 em{color:var(--accent-soft)}
+.visit p{color:#B8ADA3;margin:0}
+.visit-left{display:flex;flex-direction:column;gap:28px}
+.addr{display:grid;gap:18px;padding-top:28px;border-top:1px solid #3A322C}
+.addr div{display:grid;grid-template-columns:110px 1fr;gap:16px;font-size:16px}
+.addr dt,.addr span.k{color:#8F857C;font-size:13px;letter-spacing:.12em;text-transform:uppercase;padding-top:3px}
+.addr a{border-bottom:1px solid #5A4F47}
+.addr a:hover{border-color:var(--accent-soft)}
+.hours{width:100%;border-collapse:collapse;font-size:17px}
+.hours td{padding:16px 0;border-bottom:1px solid #3A322C}
+.hours td:last-child{text-align:right;font-variant-numeric:tabular-nums}
+.hours tr.today td{color:#fff}
+.hours tr.today td:first-child::after{content:"Heute";margin-left:12px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);background:var(--accent-soft);padding:3px 8px;border-radius:999px;vertical-align:2px}
+.hours tr:not(.today) td{color:#B8ADA3}
+@media (max-width:900px){.visit .wrap{grid-template-columns:1fr;gap:56px}}
+
+/* Termin */
+.book{padding:120px 0}
+.book .wrap{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:72px;align-items:start}
+.book-left{display:flex;flex-direction:column;gap:24px}
+.book-left p{margin:0;color:var(--mute)}
+.book-left figure{margin:12px 0 0;aspect-ratio:4/3;overflow:hidden;border-radius:var(--r)}
+.book-left figure img{width:100%;height:100%;object-fit:cover}
+form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
+.f{display:flex;flex-direction:column;gap:8px;min-width:0}
+.f.full{grid-column:1 / -1}
+.f label,.f legend{font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);padding:0}
+.f input,.f select,.f textarea{width:100%;min-height:54px;padding:14px 16px;border:1px solid var(--line);border-radius:var(--r);background:#fff;font:inherit;font-size:16px;color:var(--ink);transition:border-color .2s}
+.f textarea{min-height:120px;resize:vertical}
+.f input:focus,.f select:focus,.f textarea:focus{outline:none;border-color:var(--ink)}
+fieldset{border:0;margin:0;padding:0;min-width:0}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.chips label{position:relative;cursor:pointer;text-transform:none;letter-spacing:0;font-size:15px;font-weight:500;color:var(--ink)}
+.chips input{position:absolute;opacity:0;width:1px;height:1px}
+.chips span{display:inline-flex;align-items:center;min-height:44px;padding:0 18px;border:1px solid var(--line);border-radius:999px;background:#fff;transition:all .2s}
+.chips input:checked+span{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.chips input:focus-visible+span{outline:2px solid var(--accent);outline-offset:2px}
+.form-foot{grid-column:1 / -1;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.form-foot small{color:var(--mute);font-size:13px}
+.sent{grid-column:1 / -1;display:none;padding:22px 24px;border-radius:var(--r);background:var(--stone);font-weight:500}
+.sent.show{display:block}
+@media (max-width:900px){.book .wrap{grid-template-columns:1fr;gap:48px}.book-left figure{display:none}}
+@media (max-width:560px){form{grid-template-columns:1fr}}
+
+footer{border-top:1px solid var(--line);padding:32px 0 96px}
+footer .wrap{display:flex;justify-content:space-between;gap:16px 32px;flex-wrap:wrap;font-size:14px;color:var(--mute)}
+footer .logo{font-size:22px;color:var(--ink)}
+
+/* sanftes Einblenden, Inhalte bleiben ohne JS sichtbar */
+.js .rv{opacity:0;transform:translateY(18px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1)}
+.js .rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.js .rv{opacity:1;transform:none;transition:none}.svc figure img{transition:none}}
 </style>
+<script>document.documentElement.classList.add('js')</script>
 </head>
 <body>
 
-<div class="demo-badge"><i></i>Demo-Website · fiktiver Betrieb · <a href="../../#arbeiten">← zurück zu Jannik</a></div>
+<div class="demo-badge"><i></i>Demo<span class="t"> · fiktiver Salon</span> · <a href="../../#arbeiten">← zurück zu Jannik</a></div>
 
-<header class="nav">
+<header class="nav" id="nav">
   <div class="wrap">
-    <a href="#top" class="logo">Salon Mia</a>
-    <nav><a href="#leistungen">Leistungen</a><a href="#preise">Preise</a><a href="#info">Öffnungszeiten</a><a href="#termin">Termin</a></nav>
-    <a href="#termin" class="btn" style="min-height:44px;padding:0 20px;font-size:14px">Termin anfragen</a>
+    <a href="#top" class="logo">Salon <span>Mia</span></a>
+    <nav aria-label="Hauptnavigation"><a href="#leistungen">Leistungen</a><a href="#preise">Preise</a><a href="#galerie">Galerie</a><a href="#besuch">Öffnungszeiten</a></nav>
+    <a href="#termin" class="btn">Termin anfragen</a>
   </div>
 </header>
 
@@ -120,92 +223,187 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 <section class="hero">
   <div class="wrap">
     <div class="hero-copy">
-      <span class="eyebrow rv">Friseursalon · Linz-Urfahr</span>
-      <h1 class="rv">Schön ist,<br>was zu <em>dir</em> passt.</h1>
-      <p class="rv">Schnitt, Farbe und Styling in ruhiger Atmosphäre – mit Zeit für ein echtes Gespräch darüber, was du willst. Seit 2014 in Urfahr.</p>
+      <span class="eyebrow rv">Friseursalon · Waidhofen an der Thaya</span>
+      <h1 class="rv">Haare mit <em>Haltung.</em></h1>
+      <p class="rv">Schnitt, Farbe und Styling ohne Eile. Wir nehmen uns Zeit für ein echtes Gespräch und schneiden so, dass es auch zu Hause sitzt.</p>
       <div class="hero-cta rv">
-        <a href="#termin" class="btn">Termin anfragen</a>
-        <a href="#preise" class="btn ghost">Preise ansehen</a>
+        <a href="#termin" class="btn">Termin anfragen <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+        <a href="#preise" class="btn line">Preise ansehen</a>
+      </div>
+      <div class="hero-facts rv">
+        <div><b>seit 2014</b><span>am Hauptplatz</span></div>
+        <div><b>4</b><span>Stylistinnen &amp; Stylisten</span></div>
+        <div><b>Di–Sa</b><span>Donnerstag bis 20 Uhr</span></div>
       </div>
     </div>
-    <div class="hero-visual rv"><div class="foto">[Foto · Salon]</div><span>Mo–Sa · ohne Wartezeit mit Termin</span></div>
+    <div class="hero-media rv">
+      <div class="main"><img src="../assets/img/hero-kundin-1600.webp" srcset="../assets/img/hero-kundin-800.webp 800w, ../assets/img/hero-kundin-1600.webp 1600w" sizes="(max-width:900px) 100vw, 46vw" width="1600" height="2400" alt="Stylistin bespricht mit einer Kundin den neuen Schnitt im hellen Salon" fetchpriority="high"></div>
+      <div class="inset"><img src="../assets/img/schnitt-800.webp" width="800" height="1000" alt="Nahaufnahme: Spitzen werden mit der Schere geschnitten" loading="lazy"></div>
+      <span class="open-pill" id="open-pill"><i></i><span id="open-text">Heute geöffnet</span></span>
+    </div>
   </div>
 </section>
 
-<div class="ticker" aria-hidden="true"><div>
-  <span>Damen &amp; Herren</span><span>Balayage &amp; Farbe</span><span>Hochsteckfrisuren</span><span>Kinderhaarschnitt</span><span>Bart &amp; Pflege</span><span>Pflanzenfarbe</span>
-  <span>Damen &amp; Herren</span><span>Balayage &amp; Farbe</span><span>Hochsteckfrisuren</span><span>Kinderhaarschnitt</span><span>Bart &amp; Pflege</span><span>Pflanzenfarbe</span>
-</div></div>
-
-<section id="leistungen">
+<section class="statement">
   <div class="wrap">
-    <div class="sec-head rv"><span class="eyebrow">Leistungen</span><h2>Drei Dinge, die wir <em>richtig</em> gut können.</h2></div>
-    <div class="cards">
-      <div class="card rv"><div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M20 4 8.1 15.9M14.5 14.5 20 20M8.1 8.1 12 12"/></svg></div><h3>Schnitt</h3><p>Beratung, Waschen, Schnitt und Föhnen. Wir schneiden so, dass es auch zu Hause ohne Aufwand sitzt.</p></div>
-      <div class="card rv"><div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3v3M5.6 5.6l2.1 2.1M3 12h3M5.6 18.4l2.1-2.1M12 18v3M18.4 18.4l-2.1-2.1M21 12h-3M18.4 5.6l-2.1 2.1"/><circle cx="12" cy="12" r="3.5"/></svg></div><h3>Farbe</h3><p>Balayage, Strähnen, Ansatz oder Pflanzenfarbe – natürlich wirkend und pflegeleicht herauswachsend.</p></div>
-      <div class="card rv"><div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s-7-4.5-7-11a7 7 0 0 1 14 0c0 6.5-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg></div><h3>Styling</h3><p>Hochsteckfrisuren und Make-up-Beratung für Hochzeit, Ball oder einfach einen besonderen Abend.</p></div>
+    <figure class="rv"><img src="../assets/img/salon-hell-1600.webp" srcset="../assets/img/salon-hell-800.webp 800w, ../assets/img/salon-hell-1600.webp 1600w" sizes="(max-width:900px) 100vw, 58vw" width="1600" height="1067" alt="Heller Salon mit Holzboden, Spiegeln und schwarzen Stühlen" loading="lazy"></figure>
+    <div class="txt rv">
+      <span class="eyebrow">Unser Salon</span>
+      <blockquote>„Ein guter Schnitt fängt mit <em>Zuhören</em> an, nicht mit der Schere.“</blockquote>
+      <p>Bei uns gibt es keine Fließband-Termine. Jede Behandlung beginnt mit einer Beratung, und du gehst mit einem Schnitt, der zu deinem Alltag passt.</p>
+      <div class="sig"><img src="../assets/img/team-mia-800.webp" width="800" height="1007" alt="" loading="lazy"><div><b>Mia Berger</b><span>Inhaberin &amp; Friseurmeisterin</span></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="services" id="leistungen">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="eyebrow rv">Leistungen</span><h2 class="rv" style="margin-top:16px">Was wir <em>gut</em> können.</h2></div>
+      <p class="rv">Drei Schwerpunkte, ein Anspruch: Du sollst dich im Spiegel wiedererkennen, nur ein bisschen besser.</p>
+    </div>
+    <div class="svc">
+      <article class="rv"><figure><img src="../assets/img/schnitt-800.webp" srcset="../assets/img/schnitt-800.webp 800w, ../assets/img/schnitt-1600.webp 1600w" sizes="(max-width:900px) 100vw, 31vw" width="800" height="1000" alt="Stylistin schneidet nasses, langes Haar" loading="lazy"></figure>
+        <div class="meta"><h3>Schnitt</h3><span class="from">ab 34 €</span></div><p>Beratung, Waschen, Schnitt und Föhnen. Für Damen, Herren und Kinder.</p></article>
+      <article class="rv"><figure><img src="../assets/img/buerste-800.webp" srcset="../assets/img/buerste-800.webp 800w, ../assets/img/buerste-1600.webp 1600w" sizes="(max-width:900px) 100vw, 31vw" width="800" height="1200" alt="Blondes Haar wird mit der Rundbürste in Form gebracht" loading="lazy"></figure>
+        <div class="meta"><h3>Farbe</h3><span class="from">ab 62 €</span></div><p>Balayage, Strähnen, Ansatz oder Pflanzenfarbe. Natürlich wirkend und pflegeleicht.</p></article>
+      <article class="rv"><figure><img src="../assets/img/lockenstab-800.webp" srcset="../assets/img/lockenstab-800.webp 800w, ../assets/img/lockenstab-1600.webp 1600w" sizes="(max-width:900px) 100vw, 31vw" width="800" height="1424" alt="Weiche Wellen werden mit dem Lockenstab geformt" loading="lazy"></figure>
+        <div class="meta"><h3>Styling</h3><span class="from">ab 45 €</span></div><p>Wellen, Hochsteckfrisuren und Looks für Hochzeit, Ball oder einen besonderen Abend.</p></article>
     </div>
   </div>
 </section>
 
 <section class="prices" id="preise">
   <div class="wrap">
-    <div class="sec-head rv"><span class="eyebrow">Preise</span><h2>Ehrlich und <em>vorher</em> klar.</h2><p>Alle Preise inklusive Beratung, Waschen und Föhnen. Längeres oder dichtes Haar kann einen kleinen Aufpreis bedeuten – das sagen wir dir vorher.</p></div>
-    <div class="plist">
-      <div class="prow rv"><span>Damen · Schnitt &amp; Föhnen<small>ca. 60 Minuten</small></span><b>58 €</b></div>
-      <div class="prow rv"><span>Herren · Schnitt<small>ca. 40 Minuten</small></span><b>34 €</b></div>
-      <div class="prow rv"><span>Kinder bis 12<small>ca. 30 Minuten</small></span><b>22 €</b></div>
-      <div class="prow rv"><span>Bart · Formen &amp; Pflege<small>ca. 20 Minuten</small></span><b>18 €</b></div>
-      <div class="prow rv"><span>Ansatzfarbe<small>inkl. Schnitt ab 110 €</small></span><b>ab 62 €</b></div>
-      <div class="prow rv"><span>Balayage<small>inkl. Glossing &amp; Pflege</small></span><b>ab 160 €</b></div>
-      <div class="prow rv"><span>Hochsteckfrisur<small>Probe-Termin möglich</small></span><b>ab 75 €</b></div>
-      <div class="prow rv"><span>Pflegebehandlung<small>Olaplex / Keratin</small></span><b>ab 28 €</b></div>
+    <div class="intro">
+      <span class="eyebrow rv">Preise</span>
+      <h2 class="rv">Klar, <em>bevor</em> du Platz nimmst.</h2>
+      <p class="rv">Alle Preise inklusive Beratung, Waschen und Föhnen. Bei sehr langem oder dichtem Haar sagen wir dir einen Aufpreis vorher.</p>
+      <a href="#termin" class="btn line rv" style="align-self:flex-start">Termin anfragen</a>
     </div>
-    <p class="note rv">Beispielpreise einer Demo-Website – kein echtes Angebot.</p>
+    <div class="rv">
+      <div class="ptabs" role="tablist" aria-label="Preiskategorie">
+        <button class="ptab" role="tab" aria-selected="true" data-cat="schnitt" type="button">Schnitt</button>
+        <button class="ptab" role="tab" aria-selected="false" data-cat="farbe" type="button">Farbe</button>
+        <button class="ptab" role="tab" aria-selected="false" data-cat="styling" type="button">Styling &amp; Pflege</button>
+      </div>
+      <ul class="plist" id="plist" aria-live="polite"></ul>
+      <p class="pnote">Beispielpreise einer Demo-Website, kein echtes Angebot.</p>
+    </div>
   </div>
 </section>
 
-<section class="info" id="info">
+<section class="gallery" id="galerie">
   <div class="wrap">
-    <div class="hours rv">
-      <div><span class="eyebrow">Öffnungszeiten</span><h2 style="font-size:34px;margin-top:10px">Wann wir <em>da</em> sind.</h2></div>
-      <table id="hours">
-        <tr data-d="1"><td>Montag</td><td>geschlossen</td></tr>
-        <tr data-d="2"><td>Dienstag</td><td>09:00 – 18:00</td></tr>
-        <tr data-d="3"><td>Mittwoch</td><td>09:00 – 18:00</td></tr>
-        <tr data-d="4"><td>Donnerstag</td><td>09:00 – 20:00</td></tr>
-        <tr data-d="5"><td>Freitag</td><td>09:00 – 18:00</td></tr>
-        <tr data-d="6"><td>Samstag</td><td>08:00 – 14:00</td></tr>
-        <tr data-d="0"><td>Sonntag</td><td>geschlossen</td></tr>
-      </table>
-      <div class="addr">Hauptstraße 12 · 4040 Linz-Urfahr<br>Tel. 0732 000 000 · hallo@salon-mia.at<br>Parken: Kurzparkzone, 2 Min. zur Haltestelle Rudolfstraße</div>
+    <div class="gal-head">
+      <div><span class="eyebrow rv">Galerie</span><h2 class="rv" style="margin-top:16px">Aus dem <em>Salon.</em></h2></div>
+      <a href="#termin" class="btn line rv">Diesen Look anfragen</a>
     </div>
-    <div class="map rv"><iframe title="Karte – Linz Urfahr" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=Hauptstra%C3%9Fe+12,+4040+Linz&output=embed"></iframe></div>
+    <div class="mosaic">
+      <figure class="m1 rv"><img src="../assets/img/bob-800.webp" width="800" height="1423" alt="Glatter, kinnlanger Bob von hinten" loading="lazy"></figure>
+      <figure class="m2 rv"><img src="../assets/img/locken-800.webp" srcset="../assets/img/locken-800.webp 800w, ../assets/img/locken-1600.webp 1600w" sizes="(max-width:900px) 100vw, 40vw" width="800" height="533" alt="Stylistin formt Wellen bei einer Kundin" loading="lazy"></figure>
+      <figure class="m3 rv"><img src="../assets/img/ergebnis-800.webp" width="800" height="1199" alt="Frau mit frisch geschnittenem, schulterlangem Bob" loading="lazy"></figure>
+      <figure class="m4 rv"><img src="../assets/img/foehnen-800.webp" width="800" height="534" alt="Haare werden mit Föhn und Rundbürste getrocknet" loading="lazy"></figure>
+      <figure class="m5 rv"><img src="../assets/img/salon-bogen-800.webp" srcset="../assets/img/salon-bogen-800.webp 800w, ../assets/img/salon-bogen-1600.webp 1600w" sizes="(max-width:900px) 100vw, 40vw" width="800" height="533" alt="Empfang mit Rundbogen und Regal voller Pflegeprodukte" loading="lazy"></figure>
+      <figure class="m6 rv"><img src="../assets/img/locken-hoch-800.webp" width="800" height="1424" alt="Lange, braune Haare mit weichen Locken" loading="lazy"></figure>
+    </div>
   </div>
 </section>
 
-<section class="contact" id="termin">
+<section class="visit" id="besuch">
   <div class="wrap">
-    <div class="sec-head rv" style="margin-bottom:0"><span class="eyebrow">Termin</span><h2>Wir melden uns <em>heute</em> noch.</h2><p>Schreib uns, was du möchtest und wann es dir passt. Wir bestätigen per SMS oder E-Mail – meist innerhalb weniger Stunden.</p></div>
-    <form class="rv" id="form">
-      <div class="f"><label for="n">Name</label><input id="n" type="text" required placeholder="Dein Name"></div>
-      <div class="f"><label for="t">Telefon oder E-Mail</label><input id="t" type="text" required placeholder="Wie erreichen wir dich?"></div>
-      <div class="f"><label for="s">Leistung</label><select id="s"><option>Schnitt Damen</option><option>Schnitt Herren</option><option>Farbe / Balayage</option><option>Styling / Hochsteckfrisur</option><option>Weiß noch nicht</option></select></div>
-      <div class="f"><label for="w">Wunschtermin</label><input id="w" type="text" placeholder="z. B. Donnerstag nachmittags"></div>
-      <div class="f full"><label for="m">Anmerkung</label><textarea id="m" rows="3" placeholder="Lange Haare, erster Besuch, Allergien …"></textarea></div>
-      <div class="f full"><button type="submit" class="btn" style="justify-content:center">Terminanfrage senden</button></div>
-      <div class="sent" id="sent">Danke! Das ist eine Demo – in der echten Version landet deine Anfrage jetzt direkt beim Salon.</div>
+    <div class="visit-left">
+      <span class="eyebrow rv">Besuch</span>
+      <h2 class="rv">Wann wir <em>da</em> sind.</h2>
+      <p class="rv">Ohne Termin klappt es oft, mit Termin wartest du nicht. Donnerstags haben wir für Berufstätige bis 20 Uhr offen.</p>
+      <dl class="addr rv" style="margin:0">
+        <div><dt>Adresse</dt><dd style="margin:0">Hauptplatz 12<br>3830 Waidhofen an der Thaya</dd></div>
+        <div><dt>Telefon</dt><dd style="margin:0">02842 000 00</dd></div>
+        <div><dt>E-Mail</dt><dd style="margin:0">hallo@salon-mia.at</dd></div>
+        <div><dt>Parken</dt><dd style="margin:0">Kurzparkzone am Hauptplatz, 2 Minuten zu Fuß</dd></div>
+      </dl>
+    </div>
+    <table class="hours rv" id="hours" aria-label="Öffnungszeiten">
+      <tr data-d="1"><td>Montag</td><td>geschlossen</td></tr>
+      <tr data-d="2"><td>Dienstag</td><td>09:00 – 18:00</td></tr>
+      <tr data-d="3"><td>Mittwoch</td><td>09:00 – 18:00</td></tr>
+      <tr data-d="4"><td>Donnerstag</td><td>09:00 – 20:00</td></tr>
+      <tr data-d="5"><td>Freitag</td><td>09:00 – 18:00</td></tr>
+      <tr data-d="6"><td>Samstag</td><td>08:00 – 14:00</td></tr>
+      <tr data-d="0"><td>Sonntag</td><td>geschlossen</td></tr>
+    </table>
+  </div>
+</section>
+
+<section class="book" id="termin">
+  <div class="wrap">
+    <div class="book-left">
+      <span class="eyebrow rv">Termin</span>
+      <h2 class="rv">Wir melden uns <em>heute</em> noch.</h2>
+      <p class="rv">Sag uns, was du dir vorstellst und wann es dir passt. Wir bestätigen per SMS oder E-Mail, meist innerhalb weniger Stunden.</p>
+      <figure class="rv"><img src="../assets/img/styling-800.webp" srcset="../assets/img/styling-800.webp 800w, ../assets/img/styling-1600.webp 1600w" sizes="40vw" width="800" height="533" alt="Zwei Stylistinnen arbeiten gemeinsam an einer Frisur" loading="lazy"></figure>
+    </div>
+    <form id="form" class="rv" novalidate>
+      <fieldset class="f full"><legend>Was darf's sein?</legend>
+        <div class="chips">
+          <label><input type="radio" name="leistung" value="Schnitt" checked><span>Schnitt</span></label>
+          <label><input type="radio" name="leistung" value="Farbe"><span>Farbe</span></label>
+          <label><input type="radio" name="leistung" value="Styling"><span>Styling</span></label>
+          <label><input type="radio" name="leistung" value="Beratung"><span>Erst mal Beratung</span></label>
+        </div>
+      </fieldset>
+      <div class="f"><label for="f-name">Name</label><input id="f-name" name="name" type="text" autocomplete="name" required></div>
+      <div class="f"><label for="f-kontakt">Telefon oder E-Mail</label><input id="f-kontakt" name="kontakt" type="text" required></div>
+      <div class="f full"><label for="f-wann">Wunschtermin</label><input id="f-wann" name="wann" type="text" placeholder="z. B. Donnerstag ab 17 Uhr"></div>
+      <div class="f full"><label for="f-msg">Anmerkung</label><textarea id="f-msg" name="nachricht" placeholder="Erster Besuch, lange Haare, Allergien …"></textarea></div>
+      <div class="form-foot"><small>Unverbindlich. Wir rufen nicht ungefragt an.</small><button type="submit" class="btn">Anfrage senden</button></div>
+      <p class="sent" id="sent" role="status">Danke! Das ist eine Demo. In der echten Version landet deine Anfrage jetzt direkt im Salon.</p>
     </form>
   </div>
 </section>
 </main>
 
-<footer><div class="wrap"><span>© Salon Mia · Linz · Demo-Website</span><span>Impressum · Datenschutz</span></div></footer>
+<footer><div class="wrap"><span class="logo">Salon Mia</span><span>Hauptplatz 12 · 3830 Waidhofen an der Thaya</span><span>Demo-Website · Fotos: Unsplash</span></div></footer>
 
 <script>
-document.querySelectorAll('.rv').forEach(el=>new IntersectionObserver((es,o)=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');o.unobserve(e.target)}}),{threshold:.15}).observe(el));
-var d=new Date().getDay(), tr=document.querySelector('#hours tr[data-d="'+d+'"]'); if(tr) tr.classList.add('today');
-document.getElementById('form').addEventListener('submit',function(e){e.preventDefault();document.getElementById('sent').style.display='block';this.reset();});
+(function(){
+  var nav=document.getElementById('nav');
+  addEventListener('scroll',function(){nav.classList.toggle('scrolled',scrollY>8)},{passive:true});
+
+  var els=document.querySelectorAll('.rv');
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{rootMargin:'0px 0px -8% 0px'});
+    els.forEach(function(el){io.observe(el)});
+  } else els.forEach(function(el){el.classList.add('in')});
+
+  /* Öffnungszeiten: heute markieren + offen/geschlossen */
+  var H={1:null,2:[9,18],3:[9,18],4:[9,20],5:[9,18],6:[8,14],0:null};
+  var now=new Date(), d=now.getDay(), h=now.getHours()+now.getMinutes()/60;
+  var tr=document.querySelector('#hours tr[data-d="'+d+'"]'); if(tr) tr.classList.add('today');
+  var pill=document.getElementById('open-pill'), txt=document.getElementById('open-text'), t=H[d];
+  if(t && h>=t[0] && h<t[1]){ txt.textContent='Jetzt geöffnet · bis '+t[1]+' Uhr'; }
+  else { pill.classList.add('closed'); var n=d; for(var i=1;i<8;i++){n=(d+i)%7; if(H[n]) break;}
+    var names=['So','Mo','Di','Mi','Do','Fr','Sa']; var next=(t && h<t[0])?'heute':names[n];
+    txt.textContent='Geschlossen · öffnet '+next+' '+(t && h<t[0]?t[0]:H[n][0])+' Uhr'; }
+
+  /* Preise */
+  var P={
+    schnitt:[['Damen · Schnitt & Föhnen','ca. 60 Minuten','58 €'],['Herren · Schnitt','ca. 40 Minuten','34 €'],['Kinder bis 12','ca. 30 Minuten','22 €'],['Bart · Formen & Pflege','ca. 20 Minuten','18 €'],['Pony nachschneiden','für Stammkundinnen','8 €']],
+    farbe:[['Ansatzfarbe','inkl. Föhnen, mit Schnitt ab 110 €','ab 62 €'],['Balayage','inkl. Glossing & Pflege','ab 160 €'],['Strähnen · Folie','halber oder ganzer Kopf','ab 85 €'],['Pflanzenfarbe','ohne Ammoniak','ab 74 €'],['Glossing','Glanz & Farbauffrischung','36 €']],
+    styling:[['Föhnfrisur','Waschen & Styling','32 €'],['Wellen & Locken','mit Lockenstab','45 €'],['Hochsteckfrisur','Probetermin möglich','ab 75 €'],['Pflegebehandlung','Olaplex oder Keratin','ab 28 €'],['Kopfmassage','15 Minuten, zum Abschalten','14 €']]
+  };
+  var list=document.getElementById('plist'), tabs=document.querySelectorAll('.ptab');
+  function show(c){ list.innerHTML=P[c].map(function(r){return '<li><span class="n">'+r[0]+'</span><span class="d">'+r[1]+'</span><span class="p">'+r[2]+'</span></li>'}).join('');
+    tabs.forEach(function(b){b.setAttribute('aria-selected',b.dataset.cat===c)}); }
+  tabs.forEach(function(b){b.addEventListener('click',function(){show(b.dataset.cat)})});
+  show('schnitt');
+
+  /* Formular (Demo) */
+  var form=document.getElementById('form');
+  form.addEventListener('submit',function(e){e.preventDefault();
+    if(!form.name.value.trim()||!form.kontakt.value.trim()){ (form.name.value.trim()?form.kontakt:form.name).focus(); return; }
+    document.getElementById('sent').classList.add('show'); form.reset(); });
+})();
 </script>
 </body>
 </html>
