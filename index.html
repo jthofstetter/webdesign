@@ -186,39 +186,107 @@ section{position:relative;z-index:1}
 .bw-bar i{width:10px;height:10px;border-radius:50%;background:var(--border-strong)}
 .bw-bar .url{margin-left:12px;font-family:var(--mono);font-size:12px;color:var(--dim);background:var(--bg);padding:5px 14px;border-radius:999px;border:1px solid var(--border);min-width:200px}
 .bw-bar .parts{margin-left:auto;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent-2)}
-.site{--sa:#3B7BFF;--sb:#ffffff;--sc:#0B0D10;--sm:#6B7280;--ss:#F3F4F6;background:var(--sb);color:var(--sc);min-height:560px;display:flex;flex-direction:column;font-family:var(--font);transition:background .6s,color .6s}
-.site>*{will-change:transform,opacity}
-.s-nav{display:flex;justify-content:space-between;align-items:center;padding:18px 36px;border-bottom:1px solid rgba(127,127,127,.15)}
-.s-nav b{font-weight:800;font-size:17px;letter-spacing:-.02em;display:flex;align-items:center;gap:8px}
-.s-nav b i{width:10px;height:10px;background:var(--sa);border-radius:3px}
-.s-nav span{display:flex;gap:22px;font-size:13px;color:var(--sm)}
-.s-nav em{font-style:normal;background:var(--sa);color:#fff;padding:8px 14px;border-radius:999px;font-size:12px;font-weight:600}
-.s-hero{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;padding:48px 36px 40px;align-items:center}
-.s-hero small{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--sa);font-weight:600;display:block;margin-bottom:12px}
-.s-hero h3{margin:0 0 12px;font-weight:800;font-size:clamp(28px,3vw,44px);letter-spacing:-.04em;line-height:1}
-.s-hero p{margin:0 0 18px;color:var(--sm);font-size:14px;line-height:1.55;max-width:380px}
-.s-hero em{font-style:normal;display:inline-block;background:var(--sc);color:var(--sb);padding:11px 18px;border-radius:999px;font-size:13px;font-weight:600}
-.s-img{aspect-ratio:4/3;border-radius:16px;background:linear-gradient(145deg,var(--sa),var(--sc));display:flex;align-items:flex-end;padding:16px;color:rgba(255,255,255,.7);font-size:11px;letter-spacing:.1em;text-transform:uppercase}
-.s-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;padding:0 36px 36px}
-.s-card{background:var(--ss);border-radius:14px;padding:18px;font-size:13px;line-height:1.5;color:var(--sm)}
-.s-card b{display:block;color:var(--sc);font-size:15px;margin-bottom:4px}
-.s-card i{display:block;width:28px;height:28px;border-radius:8px;background:var(--sa);margin-bottom:12px;opacity:.9}
-.s-spec{padding:0 36px 36px}
-.s-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 28px}
-.s-list div{display:flex;justify-content:space-between;padding:11px 0;border-bottom:1px solid rgba(127,127,127,.18);font-size:13px}
-.s-list b{font-weight:600}
-.s-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
-.s-prod{background:var(--ss);border-radius:12px;overflow:hidden;font-size:12px}
-.s-prod i{display:block;aspect-ratio:1;background:linear-gradient(160deg,var(--sa),var(--ss))}
-.s-prod div{padding:10px 12px;display:flex;justify-content:space-between;color:var(--sm)}
-.s-prod b{color:var(--sc);font-weight:600}
-.s-team{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
-.s-team div{background:var(--ss);border-radius:12px;padding:14px;font-size:12px;color:var(--sm)}
-.s-team i{display:block;width:44px;height:44px;border-radius:50%;background:var(--sa);margin-bottom:10px}
-.s-team b{display:block;color:var(--sc);font-weight:600}
-.s-foot{margin-top:auto;padding:16px 36px;font-size:11px;color:var(--sm);border-top:1px solid rgba(127,127,127,.15);display:flex;justify-content:space-between}
-.s-title{font-weight:800;font-size:22px;letter-spacing:-.03em;margin:0 0 14px}
-@media (max-width:900px){.s-hero{grid-template-columns:1fr;padding:32px 22px}.s-row{grid-template-columns:1fr;padding:0 22px 24px}.s-spec{padding:0 22px 24px}.s-list{grid-template-columns:1fr}.s-grid,.s-team{grid-template-columns:repeat(2,1fr)}.s-nav{padding:14px 22px}.s-nav span{display:none}.s-foot{padding:14px 22px}}
+@media (max-width:560px){.bw-bar .url{min-width:0}.bw-bar .parts{display:none}}
+
+/* Mini-Websites im Baukasten: je Branche eigene Tokens */
+.site{--s-bg:#F7F4EF;--s-ink:#171310;--s-mute:#6C625A;--s-line:#DDD3C6;--s-soft:#EEE7DD;--s-acc:#8A4B32;--s-acc-ink:#fff;--s-head:'Instrument Serif',Georgia,serif;--s-hw:400;--s-hls:-.01em;--s-htt:none;--s-r:6px;--s-btn-r:999px;
+  background:var(--s-bg);color:var(--s-ink);font-family:var(--font);display:flex;flex-direction:column;transition:background .5s,color .5s}
+.site[data-kind="mode"]{--s-bg:#FFFFFF;--s-ink:#111111;--s-mute:#6E6E6E;--s-line:#E6E6E6;--s-soft:#F4F3F1;--s-acc:#111111;--s-acc-ink:#fff;--s-head:'Inter Tight',system-ui,sans-serif;--s-hw:800;--s-hls:-.045em;--s-htt:uppercase;--s-r:0px;--s-btn-r:0px}
+.site[data-kind="essen"]{--s-bg:#15100C;--s-ink:#F6EDE2;--s-mute:#BBAA98;--s-line:#3A2E25;--s-soft:#1F1813;--s-acc:#D65A31;--s-acc-ink:#fff;--s-head:'Instrument Serif',Georgia,serif;--s-hw:400;--s-hls:-.01em;--s-htt:none;--s-r:10px;--s-btn-r:999px}
+.site[data-kind="business"]{--s-bg:#F5F7FA;--s-ink:#0E1A2B;--s-mute:#5B6878;--s-line:#DCE2EA;--s-soft:#FFFFFF;--s-acc:#1D4ED8;--s-acc-ink:#fff;--s-head:'Inter Tight',system-ui,sans-serif;--s-hw:700;--s-hls:-.035em;--s-htt:none;--s-r:14px;--s-btn-r:10px}
+.site img{display:block;width:100%;height:100%;object-fit:cover}
+.s-h{font-family:var(--s-head);font-weight:var(--s-hw);letter-spacing:var(--s-hls);text-transform:var(--s-htt);line-height:1;margin:0;text-wrap:balance}
+.s-h em{font-style:italic;color:var(--s-acc)}
+.site[data-kind="mode"] .s-h em{font-style:normal;color:var(--s-mute)}
+.s-btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 20px;border-radius:var(--s-btn-r);font-size:13px;font-weight:600;white-space:nowrap;background:var(--s-acc);color:var(--s-acc-ink);border:1px solid var(--s-acc)}
+.s-btn.ghost{background:transparent;color:var(--s-ink);border-color:var(--s-line)}
+.s-eyebrow{font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--s-acc)}
+.site[data-kind="mode"] .s-eyebrow{color:var(--s-mute)}
+
+.s-nav{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:18px 40px;border-bottom:1px solid var(--s-line)}
+.s-logo{font-family:var(--s-head);font-weight:var(--s-hw);letter-spacing:var(--s-hls);text-transform:var(--s-htt);font-size:22px;line-height:1;white-space:nowrap}
+.site[data-kind="mode"] .s-logo{font-size:17px;letter-spacing:.24em;font-weight:700}
+.site[data-kind="business"] .s-logo{font-size:18px;display:flex;align-items:center;gap:10px}
+.site[data-kind="business"] .s-logo::before{content:"";width:22px;height:22px;border-radius:6px;background:var(--s-acc);box-shadow:inset -8px -8px 0 rgba(255,255,255,.25)}
+.s-links{display:flex;gap:26px;font-size:13px;color:var(--s-mute)}
+.s-nav .s-btn{min-height:38px;padding:0 16px;font-size:12px}
+
+.s-hero{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:48px;align-items:center;padding:52px 40px 48px;position:relative}
+.s-copy{display:flex;flex-direction:column;gap:18px;position:relative;z-index:1}
+.s-copy .s-h{font-size:clamp(34px,4.2vw,64px)}
+.s-copy p{margin:0;color:var(--s-mute);font-size:15px;line-height:1.6;max-width:42ch}
+.s-cta{display:flex;gap:10px;flex-wrap:wrap}
+.s-facts{display:flex;gap:28px;flex-wrap:wrap;padding-top:16px;border-top:1px solid var(--s-line);font-size:12px;color:var(--s-mute)}
+.s-facts b{display:block;font-size:14px;color:var(--s-ink);font-weight:600}
+.s-media{position:relative;aspect-ratio:4/5;border-radius:var(--s-r);overflow:hidden;background:var(--s-soft)}
+.site[data-kind="friseur"] .s-media{border-radius:240px 240px 8px 8px;aspect-ratio:4/4.6}
+.s-badge{position:absolute;left:16px;bottom:16px;display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:12px;background:var(--s-bg);color:var(--s-ink);font-size:12px;box-shadow:0 18px 40px -20px rgba(0,0,0,.45)}
+.s-badge i{width:8px;height:8px;border-radius:50%;background:#2F9E5B;flex:none}
+.s-badge b{font-weight:600}
+/* Mode: Bild bis an den Rand */
+.site[data-kind="mode"] .s-hero{padding:0 0 0 40px;gap:40px;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.site[data-kind="mode"] .s-copy{padding:48px 0}
+.site[data-kind="mode"] .s-media{aspect-ratio:auto;height:100%;min-height:520px}
+/* Restaurant: Vollbild-Aufmacher */
+.site[data-kind="essen"] .s-hero{grid-template-columns:minmax(0,1fr);min-height:500px;align-items:end;padding:64px 40px 44px}
+.site[data-kind="essen"] .s-media{position:absolute;inset:0;aspect-ratio:auto;border-radius:0}
+.site[data-kind="essen"] .s-media::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(21,16,12,.92) 0%,rgba(21,16,12,.6) 45%,rgba(21,16,12,.1) 100%),linear-gradient(0deg,rgba(21,16,12,.85),transparent 45%)}
+.site[data-kind="essen"] .s-copy{max-width:560px}
+.site[data-kind="essen"] .s-copy p{color:#E3D5C5}
+.site[data-kind="essen"] .s-facts{border-top-color:rgba(246,237,226,.2)}
+.site[data-kind="essen"] .s-badge{display:none}
+/* Business: Bild mit Karte */
+.site[data-kind="business"] .s-media{aspect-ratio:5/4.2}
+
+.s-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;padding:8px 40px 52px}
+.s-card{display:flex;flex-direction:column;gap:10px;font-size:13px;line-height:1.55;color:var(--s-mute)}
+.s-card figure{margin:0 0 6px;aspect-ratio:4/3;border-radius:var(--s-r);overflow:hidden;background:var(--s-soft)}
+.s-card b{display:block;color:var(--s-ink);font-size:16px;font-weight:600}
+.site[data-kind="friseur"] .s-card b,.site[data-kind="essen"] .s-card b{font-family:var(--s-head);font-weight:400;font-size:24px;letter-spacing:-.01em}
+.s-card .ic{width:44px;height:44px;border-radius:12px;background:#E7EDFB;color:var(--s-acc);display:flex;align-items:center;justify-content:center;margin-bottom:4px}
+.s-card .ic svg{width:22px;height:22px}
+.site[data-kind="business"] .s-card{background:#fff;border:1px solid var(--s-line);border-radius:var(--s-r);padding:22px}
+
+.s-spec{padding:48px 40px 52px;background:var(--s-soft);border-top:1px solid var(--s-line)}
+.site[data-kind="mode"] .s-spec{background:#fff}
+.s-spec-head{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;margin-bottom:26px}
+.s-spec-head .s-h{font-size:clamp(26px,2.6vw,38px)}
+.s-spec-head span{font-size:13px;color:var(--s-mute)}
+.s-prices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 40px}
+.s-prices div{display:grid;grid-template-columns:1fr auto;gap:2px 16px;padding:14px 0;border-bottom:1px solid var(--s-line);font-size:14px}
+.s-prices small{grid-column:1;color:var(--s-mute);font-size:12px}
+.s-prices b{grid-row:1 / span 2;grid-column:2;align-self:center;font-family:var(--s-head);font-weight:400;font-size:22px;white-space:nowrap}
+.s-menu{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 40px}
+.s-menu div{display:grid;grid-template-columns:64px 1fr auto;gap:2px 16px;align-items:center;padding:12px 0;border-bottom:1px solid var(--s-line)}
+.s-menu figure{grid-row:1 / span 2;margin:0;width:64px;height:64px;border-radius:50%;overflow:hidden}
+.s-menu span{font-size:15px;font-weight:500}
+.s-menu small{grid-column:2;color:var(--s-mute);font-size:12px}
+.s-menu b{grid-row:1 / span 2;grid-column:3;font-family:var(--s-head);font-weight:400;font-size:22px;white-space:nowrap;color:var(--s-ink)}
+.s-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
+.s-prod{display:flex;flex-direction:column;gap:8px;font-size:13px}
+.s-prod figure{margin:0;aspect-ratio:3/4;overflow:hidden;background:var(--s-soft);position:relative}
+.s-prod figure em{position:absolute;left:10px;top:10px;font-style:normal;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;background:#fff;padding:4px 8px}
+.s-prod .r{display:flex;justify-content:space-between;gap:8px}
+.s-prod b{font-weight:600}
+.s-prod small{color:var(--s-mute)}
+.s-dots{display:flex;gap:5px}
+.s-dots i{width:10px;height:10px;border-radius:50%;border:1px solid rgba(0,0,0,.15)}
+.s-team{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
+.s-team div{display:flex;flex-direction:column;gap:4px;font-size:12px;color:var(--s-mute)}
+.s-team figure{margin:0 0 8px;aspect-ratio:4/5;border-radius:var(--s-r);overflow:hidden;background:var(--s-soft)}
+.s-team figure img{object-position:50% 25%}
+.s-team b{font-size:15px;font-weight:600;color:var(--s-ink)}
+.s-foot{padding:18px 40px;font-size:12px;color:var(--s-mute);border-top:1px solid var(--s-line);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+@media (max-width:900px){
+  .s-nav{padding:14px 20px}.s-links{display:none}
+  .s-hero,.site[data-kind="mode"] .s-hero{grid-template-columns:1fr;padding:28px 20px 32px;gap:28px}
+  .site[data-kind="mode"] .s-copy{padding:0}.site[data-kind="mode"] .s-media{min-height:0;aspect-ratio:4/4.4;order:-1}
+  .site[data-kind="essen"] .s-hero{min-height:520px;padding:28px 20px}
+  .s-media{order:-1}.site[data-kind="friseur"] .s-media{aspect-ratio:4/3.6;border-radius:160px 160px 8px 8px}
+  .s-row{grid-template-columns:1fr;padding:0 20px 32px}
+  .s-spec{padding:32px 20px}.s-prices,.s-menu{grid-template-columns:1fr}.s-grid,.s-team{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .s-foot{padding:14px 20px}
+}
 
 /* ===== Projekte: Live-Galerie ===== */
 .proj{padding:160px 0 0}
@@ -287,44 +355,67 @@ section{position:relative;z-index:1}
 .ba-label{position:absolute;top:18px;z-index:3;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;padding:7px 12px;border-radius:999px;pointer-events:none}
 .ba-label.l{left:18px;background:rgba(0,0,0,.65);color:#fff}
 .ba-label.r{right:18px;background:var(--accent);color:#fff}
-/* the "old" website */
-.old{position:absolute;inset:0;background:#ffffff;font-family:'Times New Roman',Times,serif;color:#000;padding:0;overflow:hidden}
-.old-top{background:linear-gradient(#5b8dd6,#2a5fb0);height:14%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:clamp(14px,2.4vw,34px);font-weight:700;text-shadow:2px 2px 0 #123;letter-spacing:.02em;font-style:italic}
-.old-menu{background:#e6e6e6;border-top:2px solid #999;border-bottom:2px solid #999;display:flex;gap:4%;justify-content:center;padding:1.2% 0;font-size:clamp(9px,1.1vw,15px)}
-.old-menu span{color:#0000ee;text-decoration:underline}
-.old-body{display:grid;grid-template-columns:28% 1fr;gap:3%;padding:3% 4%;font-size:clamp(9px,1.05vw,15px);line-height:1.45}
-.old-side{background:#f3f3f3;border:1px solid #bbb;padding:3%;display:flex;flex-direction:column;gap:6%}
-.old-side b{display:block;background:#2a5fb0;color:#fff;padding:3% 5%;font-size:.95em}
-.old-side u{color:#0000ee;display:block}
-.old-side .cnt{margin-top:auto;border:1px solid #999;background:#000;color:#0f0;font-family:'Courier New',monospace;text-align:center;padding:3%;font-size:.9em}
-.old-main h4{margin:0 0 2%;font-size:1.6em;color:#2a5fb0}
-.old-main p{margin:0 0 2%}
-.old-main .img{float:right;width:38%;aspect-ratio:4/3;background:repeating-linear-gradient(45deg,#dcdcdc 0 6px,#ececec 6px 12px);border:2px inset #aaa;margin:0 0 2% 3%;display:flex;align-items:center;justify-content:center;color:#888;font-size:.8em;text-align:center}
+/* the "old" website – nachgebaute Homepage von 2009 */
+.old{position:absolute;inset:0;display:flex;flex-direction:column;background:#fffdf3 url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='8' height='8'><rect width='8' height='8' fill='%23fffdf3'/><rect width='4' height='4' fill='%23f6f1dc'/></svg>");font-family:'Times New Roman',Times,serif;color:#000;overflow:hidden;font-size:clamp(8px,1.12vw,16px);line-height:1.35}
+.old-top{position:relative;height:15%;flex:none;display:flex;align-items:center;gap:3%;padding:0 3%;background:linear-gradient(#7fb0ec,#2a5fb0 60%,#1c4a93);border-bottom:3px ridge #9ab}
+.old-top img{height:78%;width:auto;border:2px solid #fff;box-shadow:2px 2px 0 #123}
+.old-top b{font-family:'Comic Sans MS','Comic Sans','Chalkboard SE',cursive;font-size:2.3em;color:#ffe25a;text-shadow:2px 2px 0 #b3261e,4px 4px 0 #123;letter-spacing:.01em}
+.old-top small{display:block;font-family:Arial,sans-serif;color:#fff;font-size:.8em;font-weight:700;text-shadow:1px 1px 0 #000}
+.old-menu{background:linear-gradient(#f4f4f4,#cfcfcf);border-bottom:2px solid #888;display:flex;gap:1.5%;justify-content:center;padding:.8% 0;font-family:Verdana,Arial,sans-serif;font-size:.85em}
+.old-menu span{color:#0000ee;text-decoration:underline;padding:0 1%;border-right:1px solid #999}
+.old-menu span:last-child{border:0}
+.old-body{flex:1;display:grid;grid-template-columns:24% minmax(0,1fr);gap:2.5%;padding:2% 3% 4%;min-height:0}
+.old-main{min-width:0}
+.old-cols{display:grid;grid-template-columns:1fr 1fr;gap:3%;clear:both;margin-top:.6em}
+.old-box{border:2px solid #2a5fb0;background:#fff}
+.old-box b{display:block;background:#2a5fb0;color:#fff;padding:.2em .5em;font-family:Verdana,Arial,sans-serif;font-size:.85em}
+.old-box div{padding:.4em .6em;font-size:.9em}
+.old-box .new{position:static;display:inline;background:none;color:#e00;font-family:Arial,sans-serif;font-weight:700;font-size:.8em}
+.old-gif{display:inline-block;margin-top:.5em;padding:.15em .5em;background:repeating-linear-gradient(45deg,#ffd400 0 8px,#111 8px 16px);color:#fff;font-family:Arial,sans-serif;font-weight:700;font-size:.75em;text-shadow:1px 1px 0 #000}
+.old-side{display:flex;flex-direction:column;gap:.6em}
+.old-side b{display:block;background:#2a5fb0;color:#fff;padding:.25em .5em;font-family:Verdana,Arial,sans-serif;font-size:.85em}
+.old-side u{display:block;color:#0000ee;font-family:Verdana,Arial,sans-serif;font-size:.85em;background:#e8eefa;border:1px outset #c9d6ee;padding:.25em .5em;text-decoration:underline}
+.old-side .cnt{margin-top:.6em;border:2px inset #999;background:#000;color:#3f3;font-family:'Courier New',monospace;text-align:center;padding:.3em;letter-spacing:.2em}
+.old-side .gb{font-family:'Comic Sans MS','Comic Sans',cursive;color:#c00;font-size:.85em;text-align:center}
+.old-main h4{margin:0 0 .4em;font-size:1.7em;color:#b3261e;font-family:'Comic Sans MS','Comic Sans',cursive}
+.old-main p{margin:0 0 .6em}
+.old-photo{float:right;margin:0 0 .6em 3%;width:34%;background:#fff;border:1px solid #999;padding:.4em;box-shadow:3px 3px 0 #bbb;font-size:.75em;text-align:center;color:#555}
+.old-photo img{width:100%;height:auto;display:block;margin-bottom:.3em}
 .old-main .blink{color:#e00;font-weight:700;animation:blink 1.1s steps(2) infinite}
 @keyframes blink{to{visibility:hidden}}
-.old-main marquee,.old-mq{display:block;background:#ffffcc;border:1px dashed #cc9;padding:1% 2%;color:#900;white-space:nowrap;overflow:hidden}
-.old-mq span{display:inline-block;animation:oldmq 12s linear infinite;padding-left:100%}
+.old-table{border-collapse:collapse;margin:.3em 0 .7em;font-family:Arial,sans-serif;font-size:.85em;background:#fff}
+.old-table td,.old-table th{border:1px solid #777;padding:.15em .7em}
+.old-table th{background:#ffff99}
+.old-mq{display:block;background:#ffffcc;border:1px dashed #cc9;padding:.3em .6em;color:#900;white-space:nowrap;overflow:hidden;clear:both}
+.old-mq span{display:inline-block;animation:oldmq 14s linear infinite;padding-left:100%}
 @keyframes oldmq{to{transform:translateX(-200%)}}
-.old-foot{position:absolute;bottom:0;left:0;right:0;background:#e6e6e6;border-top:2px solid #999;text-align:center;font-size:clamp(8px,.9vw,12px);padding:1.2% 0;color:#333}
-/* the "new" website (mini Salon Mia) */
-.new{position:absolute;inset:0;background:#F6F1EA;color:#1C1A18;font-family:var(--font);overflow:hidden}
-.new-nav{display:flex;justify-content:space-between;align-items:center;padding:2.4% 4%;border-bottom:1px solid #DCD2C5;font-size:clamp(9px,1.1vw,15px)}
-.new-nav b{font-family:Georgia,'Times New Roman',serif;font-weight:500;font-size:1.5em;letter-spacing:-.02em}
-.new-nav span{display:flex;gap:1.6em;color:#6F6761}
-.new-nav em{font-style:normal;background:#1C1A18;color:#F6F1EA;padding:.6em 1.2em;border-radius:999px;font-weight:500}
-.new-hero{display:grid;grid-template-columns:1.1fr .9fr;gap:5%;padding:5% 4% 3%;align-items:center}
-.new-hero small{display:block;font-size:clamp(7px,.8vw,11px);letter-spacing:.18em;text-transform:uppercase;color:#A86D62;font-weight:600;margin-bottom:5%}
-.new-hero h4{margin:0 0 5%;font-family:Georgia,'Times New Roman',serif;font-weight:300;font-size:clamp(20px,3.6vw,52px);line-height:1.02;letter-spacing:-.02em}
-.new-hero h4 i{color:#A86D62}
-.new-hero p{margin:0 0 6%;color:#6F6761;font-size:clamp(9px,1.1vw,15px);line-height:1.55;max-width:90%}
-.new-hero em{font-style:normal;display:inline-block;background:#1C1A18;color:#F6F1EA;padding:.75em 1.4em;border-radius:999px;font-size:clamp(9px,1.05vw,14px);font-weight:500}
-.new-img{aspect-ratio:4/5;border-radius:38% 38% 8% 8%;background:linear-gradient(160deg,#E9D6CC,#C98B7E 55%,#8E5A50)}
-.new-row{display:grid;grid-template-columns:repeat(3,1fr);gap:2%;padding:0 4%}
-.new-row div{background:#fff;border:1px solid #DCD2C5;border-radius:12px;padding:3% 4%;font-size:clamp(8px,1vw,14px);color:#6F6761}
-.new-row b{display:block;color:#1C1A18;font-family:Georgia,serif;font-weight:400;font-size:1.4em;margin-bottom:.3em}
+.old-foot{flex:none;background:#e6e6e6;border-top:2px solid #999;text-align:center;font-size:.75em;padding:.5em 0;color:#333;font-family:Verdana,Arial,sans-serif}
+/* the "new" website – Ausschnitt der echten Demo */
+.new{position:absolute;inset:0;background:#F7F4EF;color:#171310;font-family:var(--font);overflow:hidden;font-size:clamp(8px,1vw,15px)}
+.new-nav{display:flex;justify-content:space-between;align-items:center;padding:1.6% 4%;border-bottom:1px solid #DDD3C6}
+.new-nav b{font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:1.9em;letter-spacing:-.01em}
+.new-nav b i{color:#8A4B32}
+.new-nav span{display:flex;gap:2em;color:#6C625A;font-size:.95em}
+.new-nav em{font-style:normal;background:#171310;color:#F7F4EF;padding:.65em 1.3em;border-radius:999px;font-weight:600;font-size:.9em}
+.new-hero{display:grid;grid-template-columns:1.05fr .95fr;gap:5%;padding:3.6% 4% 2.6%;align-items:center}
+.new-hero small{display:block;font-size:.72em;letter-spacing:.2em;text-transform:uppercase;color:#8A4B32;font-weight:600;margin-bottom:1.2em}
+.new-hero h4{margin:0 0 .45em;font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:4.2em;line-height:.95;letter-spacing:-.02em}
+.new-hero h4 i{color:#8A4B32}
+.new-hero p{margin:0 0 1.4em;color:#6C625A;font-size:1em;line-height:1.55;max-width:34ch}
+.new-cta{display:flex;gap:.6em;flex-wrap:wrap}
+.new-cta em{font-style:normal;display:inline-block;background:#171310;color:#F7F4EF;padding:.8em 1.4em;border-radius:999px;font-size:.92em;font-weight:600}
+.new-cta em+em{background:transparent;color:#171310;border:1px solid #171310}
+.new-img{position:relative;aspect-ratio:4/4.3;border-radius:999px 999px 8px 8px;overflow:hidden}
+.new-img img{width:100%;height:100%;object-fit:cover;object-position:50% 35%}
+.new-img span{position:absolute;left:5%;bottom:5%;background:#F7F4EF;border-radius:999px;padding:.5em 1em;font-size:.8em;font-weight:600;display:flex;align-items:center;gap:.5em}
+.new-img span i{width:.6em;height:.6em;border-radius:50%;background:#2F9E5B}
+.new-row{display:grid;grid-template-columns:repeat(3,1fr);gap:2.4%;padding:0 4%}
+.new-row div{display:grid;grid-template-columns:28% 1fr;gap:6%;align-items:center;background:#fff;border:1px solid #DDD3C6;border-radius:8px;padding:2.4%;font-size:.85em;color:#6C625A;line-height:1.4}
+.new-row img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:6px}
+.new-row b{display:block;color:#171310;font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:1.6em;margin-bottom:.15em}
 .ba-note{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-top:28px;align-items:center}
 .ba-note .mono{max-width:640px;text-transform:none;letter-spacing:0;font-size:14px;line-height:1.6}
-@media (max-width:900px){.ba-stage{aspect-ratio:4/5}.new-hero{grid-template-columns:1fr}.new-img{display:none}.new-row{grid-template-columns:1fr}.old-body{grid-template-columns:1fr}.old-side{display:none}}
+@media (max-width:900px){.ba-stage{aspect-ratio:4/5.4}.old,.new{font-size:12px}.new-nav span{display:none}.new-hero{grid-template-columns:1fr;gap:1.2em;padding:5% 5% 4%}.new-img{order:-1;aspect-ratio:16/10;border-radius:120px 120px 8px 8px}.new-hero h4{font-size:2.8em}.new-row{grid-template-columns:1fr;gap:.6em;padding:0 5%}.old-body{grid-template-columns:1fr}.old-side{display:none}.old-top b{font-size:1.6em}.old-photo{width:44%}.old-table{display:none}.old-cols{grid-template-columns:1fr}.old-cols .old-box+.old-box{display:none}.old-photo{display:none}}
 
 /* ===== About ===== */
 .about{padding:160px 0;border-top:1px solid var(--border)}
@@ -555,14 +646,8 @@ footer a{color:var(--muted);transition:color .3s}footer a:hover{color:var(--text
       <button class="kind" type="button" role="tab" data-kind="business" data-hover><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2M2 13h20"/></svg>Business</button>
     </div>
     <div class="bw rv" data-hover>
-      <div class="bw-bar"><i></i><i></i><i></i><span class="url" id="b-url">salon-mia.at</span><span class="parts" id="b-parts">Teile 0 / 7</span></div>
-      <div class="site" id="site" aria-live="polite">
-        <div class="s-nav" data-part><b><i></i><span id="b-name">Salon Mia</span></b><span id="b-links"></span><em id="b-cta">Termin</em></div>
-        <div class="s-hero" data-part><div><small id="b-eyebrow"></small><h3 id="b-h"></h3><p id="b-p"></p><em id="b-btn"></em></div><div class="s-img" id="b-img"></div></div>
-        <div class="s-row" id="b-row" data-part></div>
-        <div class="s-spec" data-part><p class="s-title" id="b-stitle"></p><div id="b-special"></div></div>
-        <div class="s-foot" data-part><span id="b-foot"></span><span>Impressum · Datenschutz</span></div>
-      </div>
+      <div class="bw-bar"><i></i><i></i><i></i><span class="url" id="b-url">salon-mia.at</span><span class="parts" id="b-parts">Teile 0 / 8</span></div>
+      <div class="site" id="site" data-kind="friseur" aria-live="polite"></div>
     </div>
   </div>
 </section>
@@ -619,30 +704,39 @@ footer a{color:var(--muted);transition:color .3s}footer a:hover{color:var(--text
         <span class="ba-label l">Vorher · 2009</span><span class="ba-label r">Nachher · 2026</span>
         <div class="ba-pane before" aria-hidden="true">
           <div class="old">
-            <div class="old-top">*** Willkommen beim Friseursalon Mia ***</div>
-            <div class="old-menu"><span>Home</span><span>Über uns</span><span>Preise</span><span>Gästebuch</span><span>Links</span><span>Kontakt</span></div>
+            <div class="old-top"><img src="img/builder/alt-salon.jpg" alt="" width="220" height="147"><div><b>Friseursalon Mia</b><small>Ihr Friseur in Waidhofen an der Thaya !!!</small></div></div>
+            <div class="old-menu"><span>Home</span><span>Über uns</span><span>Preise</span><span>Bilder</span><span>Gästebuch</span><span>Links</span><span>Kontakt</span></div>
             <div class="old-body">
-              <div class="old-side"><b>Navigation</b><u>Startseite</u><u>Unser Team</u><u>Preisliste (PDF)</u><u>Anfahrt</u><u>Gästebuch</u><div class="cnt">Besucher: 004871</div></div>
+              <div class="old-side"><b>Navigation</b><u>» Startseite</u><u>» Unser Team</u><u>» Preisliste (PDF)</u><u>» Anfahrt</u><u>» Gästebuch</u><div class="gb">Tragen Sie sich in unser Gästebuch ein !!</div><div class="cnt">004871</div><div style="font-size:.75em;text-align:center;font-family:Arial,sans-serif">Besucher seit 2009</div></div>
               <div class="old-main">
-                <div class="img">Bild wird<br>geladen …</div>
+                <div class="old-photo"><img src="img/builder/alt-salon.jpg" alt="Unscharfes, kleines Foto des Salons" width="220" height="147">Unser Salon (Foto 2008)</div>
                 <h4>Herzlich Willkommen!</h4>
                 <p>Wir begrüßen Sie recht herzlich auf unserer Homepage. Unser Friseursalon befindet sich in Waidhofen an der Thaya und bietet Ihnen Haarschnitte für Damen, Herren und Kinder zu günstigen Preisen.</p>
-                <p><span class="blink">NEU!!!</span> Jetzt auch Strähnen und Dauerwelle. Termine telefonisch unter 02842 / 000 00 (Mo–Fr 9–17 Uhr, nicht in der Mittagspause).</p>
-                <div class="old-mq"><span>+++ Wir machen Urlaub vom 12.8. bis 26.8. +++ Diese Seite wird am besten mit Internet Explorer 6 angezeigt +++</span></div>
-                <p>Letzte Aktualisierung: 03.11.2009 &nbsp;|&nbsp; <u style="color:#0000ee">Impressum</u> &nbsp;|&nbsp; Optimiert für 1024×768</p>
+                <p><span class="blink">NEU!!!</span> Jetzt auch Strähnen und Dauerwelle. Termine <u>nur telefonisch</u> unter 02842 / 000 00 (Mo–Fr 9–17 Uhr, nicht in der Mittagspause).</p>
+                <table class="old-table"><tr><th>Leistung</th><th>Preis</th></tr><tr><td>Damen Waschen/Schneiden/Föhnen</td><td>38,- Euro</td></tr><tr><td>Herren Haarschnitt</td><td>19,- Euro</td></tr><tr><td>Dauerwelle (inkl. Schnitt)</td><td>auf Anfrage</td></tr></table>
+                <div class="old-mq"><span>+++ Wir machen Urlaub vom 12.8. bis 26.8. +++ Diese Seite wird am besten mit Internet Explorer 6 angezeigt +++ Letzte Aktualisierung: 03.11.2009 +++</span></div>
+                <div class="old-cols">
+                  <div class="old-box"><b>Öffnungszeiten</b><div>Di – Fr: 9.00 – 12.00 und 14.00 – 18.00<br>Sa: 8.00 – 12.00<br>Mo: Ruhetag<br><i>Termine bitte telefonisch vereinbaren!</i></div></div>
+                  <div class="old-box"><b>Aktuelles</b><div>• 01.12.2009: Gutscheine für Weihnachten erhältlich! <span class="new">NEU</span><br>• 15.09.2009: Wir haben neue Haarpflege-Produkte<br>• 03.06.2009: Unsere Homepage ist online!!!</div></div>
+                </div>
+                <span class="old-gif">⚠ SEITE IM AUFBAU ⚠</span>
               </div>
             </div>
-            <div class="old-foot">© 2009 Friseursalon Mia · Hauptplatz 12 · 3830 Waidhofen/Thaya · Diese Seite verwendet Frames</div>
+            <div class="old-foot">© 2009 Friseursalon Mia · Hauptplatz 12 · 3830 Waidhofen/Thaya · Optimiert für 1024×768 · Diese Seite verwendet Frames</div>
           </div>
         </div>
         <div class="ba-pane after" aria-hidden="true">
           <div class="new">
-            <div class="new-nav"><b>Salon Mia</b><span>Leistungen · Preise · Team · Kontakt</span><em>Termin buchen</em></div>
+            <div class="new-nav"><b>Salon <i>Mia</i></b><span>Leistungen · Preise · Galerie · Öffnungszeiten</span><em>Termin buchen</em></div>
             <div class="new-hero">
-              <div><small>Friseursalon · Waidhofen an der Thaya</small><h4>Schön ist,<br>was zu <i>dir</i> passt.</h4><p>Schnitt, Farbe und Styling mit Zeit für ein echtes Gespräch. Termin online in 30 Sekunden.</p><em>Online buchen</em></div>
-              <div class="new-img"></div>
+              <div><small>Friseursalon · Waidhofen an der Thaya</small><h4>Haare mit<br><i>Haltung.</i></h4><p>Schnitt, Farbe und Styling ohne Eile. Termin online buchen, auch um Mitternacht.</p><div class="new-cta"><em>Termin buchen</em><em>Preise ansehen</em></div></div>
+              <div class="new-img"><img src="demos/assets/img/hero-kundin-800.webp" alt="Beratung im hellen Salon" loading="lazy" decoding="async"><span><i></i>Heute frei: 14:30</span></div>
             </div>
-            <div class="new-row"><div><b>Schnitt</b>Beratung, Waschen, Schnitt, Föhnen.</div><div><b>Farbe</b>Balayage, Strähnen, Pflanzenfarbe.</div><div><b>Styling</b>Hochsteckfrisuren für Hochzeit und Ball.</div></div>
+            <div class="new-row">
+              <div><img src="demos/assets/img/schnitt-800.webp" alt="" loading="lazy" decoding="async"><span><b>Schnitt</b>ab 34 € · Beratung inklusive</span></div>
+              <div><img src="demos/assets/img/buerste-800.webp" alt="" loading="lazy" decoding="async"><span><b>Farbe</b>Balayage &amp; Pflanzenfarbe</span></div>
+              <div><img src="demos/assets/img/lockenstab-800.webp" alt="" loading="lazy" decoding="async" style="object-position:50% 25%"><span><b>Styling</b>Wellen &amp; Hochsteck</span></div>
+            </div>
           </div>
         </div>
         <div class="ba-handle" aria-hidden="true"><i><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5"/></svg></i></div>
@@ -842,48 +936,100 @@ footer a{color:var(--muted);transition:color .3s}footer a:hover{color:var(--text
   });
 
   /* ---- Builder: website assembles itself ---- */
+  const IMG_D = 'demos/assets/img/', IMG_B = 'img/builder/';
+  const pic = (base, name, alt, pos) => {
+    const big = base === IMG_D ? 1600 : 1200, small = base === IMG_D ? 800 : 500;
+    return `<img src="${base}${name}-${small}.webp" srcset="${base}${name}-${small}.webp ${small}w, ${base}${name}-${big}.webp ${big}w" sizes="(max-width:900px) 92vw, 46vw" alt="${alt}" decoding="async"${pos ? ` style="object-position:${pos}"` : ''}>`;
+  };
+  const thumb = (base, name, alt, pos) => `<img src="${base}${name}-${base === IMG_D ? 800 : 500}.webp" alt="${alt}" decoding="async"${pos ? ` style="object-position:${pos}"` : ''}>`;
+  const ICONS = {
+    buch: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19V5a2 2 0 0 1 2-2h12v18H6a2 2 0 0 1-2-2Z"/><path d="M8 7h6M8 11h6"/></svg>',
+    chart: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h16M7 16v-5M12 16V8M17 16v-8"/></svg>',
+    rocket: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19c1-3 3-5 6-6M14 4c3 0 6 3 6 6l-7 7-6-6 7-7Z"/><circle cx="15" cy="9" r="1.5"/></svg>'
+  };
   const KINDS = {
-    friseur: { url: 'salon-mia.at', name: 'Salon Mia', links: ['Leistungen', 'Preise', 'Team', 'Kontakt'], cta: 'Termin buchen',
-      pal: { sa: '#A86D62', sb: '#F6F1EA', sc: '#1C1A18', sm: '#6F6761', ss: '#EEE6DB' },
-      eyebrow: 'Friseursalon · Waidhofen an der Thaya', h: 'Schön ist, was zu dir passt.', p: 'Schnitt, Farbe und Styling mit Zeit für ein echtes Gespräch. Termin online in 30 Sekunden.', btn: 'Online buchen', img: 'Salon · Foto',
-      cards: [['Schnitt', 'Beratung, Waschen, Schnitt, Föhnen.'], ['Farbe', 'Balayage, Strähnen, Pflanzenfarbe.'], ['Styling', 'Hochsteckfrisuren für Hochzeit und Ball.']],
-      stitle: 'Preisliste', special: 'list', items: [['Damen · Schnitt', '58 €'], ['Herren · Schnitt', '34 €'], ['Ansatzfarbe', 'ab 62 €'], ['Balayage', 'ab 160 €'], ['Kinder', '22 €'], ['Hochsteckfrisur', 'ab 75 €']],
-      foot: 'Di–Sa · Hauptplatz 12, Waidhofen' },
-    mode: { url: 'studio-nord.shop', name: 'Studio Nord', links: ['Neu', 'Damen', 'Herren', 'Sale'], cta: 'Warenkorb · 2',
-      pal: { sa: '#111111', sb: '#FFFFFF', sc: '#111111', sm: '#7A7A7A', ss: '#F2F2F2' },
-      eyebrow: 'Neue Kollektion · Herbst', h: 'Weniger, aber richtig.', p: 'Zeitlose Basics aus Bio-Baumwolle, im Waldviertel entworfen und in Portugal genäht. Versandfrei ab 80 €.', btn: 'Kollektion ansehen', img: 'Kampagne · Foto',
-      cards: [['Kostenloser Versand', 'Ab 80 € – und Retoure immer gratis.'], ['Fair produziert', 'GOTS-zertifiziert, kurze Wege.'], ['Click & Collect', 'Online bestellen, im Laden abholen.']],
-      stitle: 'Bestseller', special: 'grid', items: [['Wollmantel Camel', '289 €'], ['Oversize Hemd', '89 €'], ['Rippstrick Pullover', '129 €'], ['Wide Leg Hose', '119 €']],
-      foot: 'Studio Nord · Hauptplatz 5, Waidhofen' },
-    essen: { url: 'trattoria-luca.at', name: 'Trattoria Luca', links: ['Speisekarte', 'Reservieren', 'Bestellen', 'Über uns'], cta: 'Jetzt bestellen',
-      pal: { sa: '#C8462F', sb: '#17130F', sc: '#F7EFE4', sm: '#B3A596', ss: '#241E18' },
-      eyebrow: 'Italienisch · Abholung & Lieferung', h: 'Pasta wie bei Nonna. Bestellt in 2 Minuten.', p: 'Handgemachte Pasta, Pizza aus dem Steinofen. Online bestellen, in 25 Minuten abholen oder liefern lassen.', btn: 'Speisekarte & bestellen', img: 'Gericht · Foto',
-      cards: [['Online bestellen', 'Warenkorb, Zahlung, fertig – kein Anruf nötig.'], ['Tisch reservieren', 'Freie Zeiten live, Bestätigung sofort.'], ['Mittagsmenü', 'Mo–Fr 11:30–14:00, täglich neu.']],
-      stitle: 'Speisekarte · Auswahl', special: 'list', items: [['Tagliatelle al Ragù', '14,90 €'], ['Pizza Margherita', '10,50 €'], ['Lasagne della Casa', '13,90 €'], ['Risotto ai Funghi', '15,50 €'], ['Tiramisù', '6,50 €'], ['Aperol Spritz', '5,90 €']],
-      foot: 'Täglich 11:30–22:00 · Hauptplatz 8, Waidhofen' },
-    business: { url: 'kanzlei-berg.at', name: 'Kanzlei Berg', links: ['Leistungen', 'Team', 'Karriere', 'Kontakt'], cta: 'Erstgespräch',
-      pal: { sa: '#1E4FC2', sb: '#F7F8FA', sc: '#0F172A', sm: '#64748B', ss: '#FFFFFF' },
-      eyebrow: 'Steuerberatung · Waidhofen & Zwettl', h: 'Klarheit bei Zahlen. Ruhe im Kopf.', p: 'Steuerberatung für Selbstständige und KMU – digital, verständlich, erreichbar. Erstgespräch kostenlos.', btn: 'Erstgespräch vereinbaren', img: 'Team · Foto',
-      cards: [['Buchhaltung', 'Digital, monatlich, ohne Papierkram.'], ['Jahresabschluss', 'Termingerecht und erklärt.'], ['Gründung', 'Von der Rechtsform bis zur ersten Rechnung.']],
-      stitle: 'Unser Team', special: 'team', items: [['Dr. Anna Berg', 'Partnerin'], ['Markus Steiner', 'Steuerberater'], ['Julia Pichler', 'Bilanzbuchhalterin'], ['Felix Wagner', 'Lohnverrechnung']],
-      foot: 'Mo–Fr 08:00–17:00 · Hauptplatz 15, Waidhofen' }
+    friseur: { url: 'salon-mia.at', logo: 'Salon <em>Mia</em>', links: ['Leistungen', 'Preise', 'Team', 'Kontakt'], cta: 'Termin buchen',
+      eyebrow: 'Friseursalon · Waidhofen an der Thaya', h: 'Haare mit <em>Haltung.</em>',
+      p: 'Schnitt, Farbe und Styling ohne Eile. Wir nehmen uns Zeit für ein echtes Gespräch und schneiden so, dass es auch zu Hause sitzt.',
+      btn1: 'Termin buchen', btn2: 'Preise ansehen', facts: [['seit 2014', 'am Hauptplatz'], ['4 Stylisten', 'ein Anspruch'], ['Do bis 20 Uhr', 'für Berufstätige']],
+      hero: pic(IMG_D, 'hero-kundin', 'Beratung im hellen Salon', '50% 35%'), badge: '<i></i><span><b>Heute frei:</b> 14:30 und 16:00</span>',
+      cards: [{ img: thumb(IMG_D, 'schnitt', 'Spitzen schneiden'), t: 'Schnitt', d: 'Beratung, Waschen, Schnitt und Föhnen. Für Damen, Herren und Kinder.' },
+              { img: thumb(IMG_D, 'buerste', 'Föhnen mit Rundbürste'), t: 'Farbe', d: 'Balayage, Strähnen oder Pflanzenfarbe. Natürlich und pflegeleicht.' },
+              { img: thumb(IMG_D, 'lockenstab', 'Wellen mit dem Lockenstab', '50% 30%'), t: 'Styling', d: 'Wellen und Hochsteckfrisuren für Hochzeit, Ball und besondere Abende.' }],
+      spec: { title: 'Preisliste', sub: 'inkl. Beratung, Waschen & Föhnen', type: 'prices',
+        items: [['Damen · Schnitt & Föhnen', 'ca. 60 Min.', '58 €'], ['Herren · Schnitt', 'ca. 40 Min.', '34 €'], ['Ansatzfarbe', 'mit Schnitt ab 110 €', 'ab 62 €'], ['Balayage', 'inkl. Glossing', 'ab 160 €'], ['Kinder bis 12', 'ca. 30 Min.', '22 €'], ['Hochsteckfrisur', 'Probetermin möglich', 'ab 75 €']] },
+      foot: ['Salon Mia · Hauptplatz 12, 3830 Waidhofen an der Thaya', 'Di–Sa geöffnet · 02842 000 00'] },
+    mode: { url: 'studio-nord.at', logo: 'STUDIO NORD', links: ['Neu', 'Damen', 'Herren', 'Lookbook'], cta: 'Warenkorb (2)',
+      eyebrow: 'Herbst / Winter 2026', h: 'Weniger,<br>aber <em>richtig.</em>',
+      p: 'Zeitlose Basics aus Merino, Leinen und Bio-Baumwolle. Entworfen im Waldviertel, fair genäht in Portugal.',
+      btn1: 'Kollektion ansehen', btn2: 'Lookbook', facts: [['Gratis Versand', 'ab 80 €'], ['30 Tage', 'Rückgabe'], ['Click & Collect', 'am Hauptplatz']],
+      hero: pic(IMG_B, 'mode-hero', 'Zwei Frauen in Outfits aus der Herbstkollektion', '50% 30%'), badge: '',
+      cards: [{ img: thumb(IMG_B, 'mode-stapel', 'Gestapelte Strickpullover'), t: 'Neu: Merino-Strick', d: 'Weich, warm und waschbar. In sechs Naturtönen.' },
+              { img: thumb(IMG_B, 'mode-staender', 'Kleiderstange mit Basics'), t: 'Fair produziert', d: 'Kleine Familienbetriebe in Portugal, GOTS-zertifizierte Stoffe.' },
+              { img: thumb(IMG_B, 'mode-laden', 'Blick in den Laden', '50% 60%'), t: 'Click & Collect', d: 'Online reservieren, nach zwei Stunden im Laden anprobieren.' }],
+      spec: { title: 'Bestseller', sub: 'Alle ansehen →', type: 'grid',
+        items: [['mode-bomber', 'Bomberjacke', 'Rost · Recycling-Nylon', '189 €', ['#A8573A', '#2B2B2B', '#7C7F68'], 'Neu'],
+                ['mode-strick', 'Merino-Pullover', 'Sand · 100 % Merino', '129 €', ['#CDBBA0', '#F1ECE3', '#3A3A3A'], ''],
+                ['mode-tee', 'Basic Tee', 'Grau meliert · Bio-Baumwolle', '39 €', ['#B9BDC2', '#FFFFFF', '#111111'], ''],
+                ['mode-anzug', 'Leinen-Anzug', 'Sand · zweiteilig', '349 €', ['#C9AE8A', '#3D3A35'], 'Limitiert']] },
+      foot: ['Studio Nord · Hauptplatz 5, 3830 Waidhofen an der Thaya', 'Mo–Fr 9–18, Sa 9–14 · Versand in ganz Österreich'] },
+    essen: { url: 'trattoria-luca.at', logo: 'Trattoria <em>Luca</em>', links: ['Speisekarte', 'Mittagsmenü', 'Reservieren', 'Über uns'], cta: 'Tisch reservieren',
+      eyebrow: 'Holzofen-Pizza & Pasta · seit 2009', h: 'Wie in Neapel.<br><em>Nur näher.</em>',
+      p: 'Teig 48 Stunden gereift, Pizza in 90 Sekunden im Holzofen gebacken. Am Tisch, zum Mitnehmen oder online bestellt.',
+      btn1: 'Online bestellen', btn2: 'Tisch reservieren', facts: [['Abholung', 'in 20 Minuten'], ['Mittagsmenü', '11,90 € · Di–Fr'], ['Di–So', '11:30–22:00']],
+      hero: pic(IMG_B, 'rest-hero', 'Zwei frisch gebackene Holzofen-Pizzen', '50% 58%'), badge: '',
+      cards: [{ img: thumb(IMG_B, 'rest-pizza', 'Frische Pizza aus dem Ofen'), t: 'Online bestellen', d: 'Warenkorb, bezahlen, abholen. Ohne Anruf und Warteschleife.' },
+              { img: thumb(IMG_B, 'rest-lokal', 'Gastraum der Trattoria', '50% 40%'), t: 'Tisch reservieren', d: 'Freie Tische live sehen, Bestätigung kommt sofort per E-Mail.' },
+              { img: thumb(IMG_B, 'rest-pomodoro', 'Pasta mit Tomatensauce und Wein', '50% 55%'), t: 'Mittagsmenü', d: 'Di–Fr 11:30–14:00. Vorspeise und Hauptgang, täglich neu.' }],
+      spec: { title: 'Aus der Karte', sub: 'Ganze Speisekarte →', type: 'menu',
+        items: [['rest-margherita', 'Pizza Margherita', 'San-Marzano-Tomaten, Fior di Latte, Basilikum', '10,50'],
+                ['rest-diavola', 'Pizza Diavola', 'scharfe Salami, Chili, Mozzarella', '12,90'],
+                ['rest-ragu', 'Spaghetti al Ragù', 'sechs Stunden geschmort', '13,90'],
+                ['rest-scoglio', 'Linguine allo Scoglio', 'Muscheln, Garnelen, Kirschtomaten', '17,90'],
+                ['rest-pomodoro', 'Paccheri al Pomodoro', 'mit cremiger Burrata', '14,90'],
+                ['rest-antipasti', 'Antipasto Misto', 'für zwei · Salumi, Käse, Gemüse', '16,50']] },
+      foot: ['Trattoria Luca · Hauptplatz 8, 3830 Waidhofen an der Thaya', 'Reservierung 02842 000 08'] },
+    business: { url: 'kanzlei-berg.at', logo: 'Kanzlei Berg', links: ['Leistungen', 'Team', 'Karriere', 'Kontakt'], cta: 'Erstgespräch',
+      eyebrow: 'Steuerberatung · Waidhofen & Zwettl', h: 'Klarheit bei Zahlen. <em>Ruhe im Kopf.</em>',
+      p: 'Steuerberatung für Selbstständige, Landwirtschaft und KMU im Waldviertel. Digital, verständlich und persönlich erreichbar.',
+      btn1: 'Kostenloses Erstgespräch', btn2: 'Leistungen', facts: [['seit 1998', 'im Waldviertel'], ['Antwort', 'innerhalb von 24 h'], ['Digital', 'und vor Ort']],
+      hero: pic(IMG_B, 'biz-hero', 'Beratungsgespräch im Büro', '50% 40%'), badge: '<i></i><span><b>Erstgespräch</b> · 30 Min. · kostenlos</span>',
+      cards: [{ icon: ICONS.buch, t: 'Buchhaltung', d: 'Belege fotografieren, wir erledigen den Rest. Monatlich und ohne Papierkram.' },
+              { icon: ICONS.chart, t: 'Jahresabschluss', d: 'Pünktlich fertig und so erklärt, dass Sie Ihre Zahlen wirklich verstehen.' },
+              { icon: ICONS.rocket, t: 'Gründung', d: 'Von der Rechtsform bis zur ersten Rechnung. Mit Förderungen im Blick.' }],
+      spec: { title: 'Ihr Team', sub: 'Wir sind für Sie da →', type: 'team',
+        items: [['biz-anna', 'Mag. Anna Berg', 'Steuerberaterin · Partnerin'], ['biz-markus', 'Markus Steiner', 'Steuerberater'],
+                ['biz-julia', 'Julia Pichler', 'Bilanzbuchhalterin'], ['biz-felix', 'Felix Wagner', 'Lohnverrechnung']] },
+      foot: ['Kanzlei Berg · Hauptplatz 15, 3830 Waidhofen an der Thaya', 'Mo–Fr 08:00–17:00 · Termine auch in Zwettl'] }
   };
   const site = document.getElementById('site'), $ = id => document.getElementById(id);
   const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
-  const fillSite = (k) => {
-    Object.entries(k.pal).forEach(([n, v]) => site.style.setProperty('--' + n, v));
-    $('b-url').textContent = k.url; $('b-name').textContent = k.name; $('b-cta').textContent = k.cta;
-    $('b-links').innerHTML = k.links.map(l => `<a href="#baukasten" onclick="return false">${esc(l)}</a>`).join('');
-    $('b-eyebrow').textContent = k.eyebrow; $('b-h').textContent = k.h; $('b-p').textContent = k.p; $('b-btn').textContent = k.btn; $('b-img').textContent = k.img;
-    $('b-row').innerHTML = k.cards.map(c => `<div class="s-card" data-part><i></i><b>${esc(c[0])}</b>${esc(c[1])}</div>`).join('');
-    $('b-stitle').textContent = k.stitle;
-    const sp = $('b-special');
-    if (k.special === 'list') sp.innerHTML = `<div class="s-list">${k.items.map(i => `<div><span>${esc(i[0])}</span><b>${esc(i[1])}</b></div>`).join('')}</div>`;
-    else if (k.special === 'grid') sp.innerHTML = `<div class="s-grid">${k.items.map(i => `<div class="s-prod"><i></i><div><b>${esc(i[0])}</b><span>${esc(i[1])}</span></div></div>`).join('')}</div>`;
-    else sp.innerHTML = `<div class="s-team">${k.items.map(i => `<div><i></i><b>${esc(i[0])}</b>${esc(i[1])}</div>`).join('')}</div>`;
-    $('b-foot').textContent = k.foot;
+  const specHTML = (sp) => {
+    if (sp.type === 'prices') return `<div class="s-prices">${sp.items.map(i => `<div><span>${esc(i[0])}</span><small>${esc(i[1])}</small><b>${esc(i[2])}</b></div>`).join('')}</div>`;
+    if (sp.type === 'menu') return `<div class="s-menu">${sp.items.map(i => `<div><figure>${thumb(IMG_B, i[0], esc(i[1]))}</figure><span>${esc(i[1])}</span><small>${esc(i[2])}</small><b>${esc(i[3])}</b></div>`).join('')}</div>`;
+    if (sp.type === 'grid') return `<div class="s-grid">${sp.items.map(i => `<div class="s-prod"><figure>${thumb(IMG_B, i[0], esc(i[1]))}${i[5] ? `<em>${esc(i[5])}</em>` : ''}</figure><div class="r"><b>${esc(i[1])}</b><span>${esc(i[3])}</span></div><small>${esc(i[2])}</small><span class="s-dots">${i[4].map(c => `<i style="background:${c}"></i>`).join('')}</span></div>`).join('')}</div>`;
+    return `<div class="s-team">${sp.items.map(i => `<div><figure>${thumb(IMG_B, i[0], 'Porträt ' + esc(i[1]))}</figure><b>${esc(i[1])}</b>${esc(i[2])}</div>`).join('')}</div>`;
   };
-  const partsOf = () => gsap.utils.toArray('#site .s-nav, #site .s-hero > div, #site .s-card, #site .s-spec, #site .s-foot');
+  const fillSite = (name) => {
+    const k = KINDS[name];
+    site.dataset.kind = name;
+    $('b-url').textContent = k.url;
+    site.innerHTML = `
+      <div class="s-nav"><span class="s-logo">${k.logo}</span><span class="s-links">${k.links.map(l => `<span>${esc(l)}</span>`).join('')}</span><span class="s-btn">${esc(k.cta)}</span></div>
+      <div class="s-hero">
+        <div class="s-copy"><span class="s-eyebrow">${esc(k.eyebrow)}</span><h3 class="s-h">${k.h}</h3><p>${esc(k.p)}</p>
+          <div class="s-cta"><span class="s-btn">${esc(k.btn1)}</span><span class="s-btn ghost">${esc(k.btn2)}</span></div>
+          <div class="s-facts">${k.facts.map(f => `<span><b>${esc(f[0])}</b>${esc(f[1])}</span>`).join('')}</div></div>
+        <div class="s-media">${k.hero}${k.badge ? `<span class="s-badge">${k.badge}</span>` : ''}</div>
+      </div>
+      <div class="s-row">${k.cards.map(c => `<div class="s-card">${c.img ? `<figure>${c.img}</figure>` : `<span class="ic">${c.icon}</span>`}<b>${esc(c.t)}</b>${esc(c.d)}</div>`).join('')}</div>
+      <div class="s-spec"><div class="s-spec-head"><h4 class="s-h">${esc(k.spec.title)}</h4><span>${esc(k.spec.sub)}</span></div>${specHTML(k.spec)}</div>
+      <div class="s-foot"><span>${esc(k.foot[0])}</span><span>${esc(k.foot[1])}</span></div>`;
+  };
+  // Bilder der nächsten Branchen vorab laden, damit der Wechsel sofort sitzt
+  const warm = (name) => { const tmp = document.createElement('div'); const k = KINDS[name];
+    tmp.innerHTML = k.hero + k.cards.map(c => c.img || '').join(''); tmp.querySelectorAll('img').forEach(i => { const im = new Image(); im.src = i.getAttribute('src'); }); };
+  const partsOf = () => gsap.utils.toArray('#site .s-nav, #site .s-copy, #site .s-media, #site .s-card, #site .s-spec, #site .s-foot');
   let building = false, current = 'friseur', autoTimer = null, userTouched = false;
   const build = (name) => {
     if (building) return; building = true; current = name;
@@ -892,7 +1038,7 @@ footer a{color:var(--muted);transition:color .3s}footer a:hover{color:var(--text
     const tl = gsap.timeline({ onComplete: () => building = false });
     const old = partsOf();
     if (old.length) tl.to(old, { opacity: 0, duration: .2, ease: 'power1.in' });
-    tl.add(() => { fillSite(KINDS[name]); label.textContent = `Teile 0 / ${partsOf().length}`; });
+    tl.add(() => { fillSite(name); label.textContent = `Teile 0 / ${partsOf().length}`; });
     tl.add(() => {
       const parts = partsOf(), total = parts.length;
       gsap.set(parts, { opacity: 0, y: 12 });
@@ -904,10 +1050,10 @@ footer a{color:var(--muted);transition:color .3s}footer a:hover{color:var(--text
   const order = Object.keys(KINDS);
   const startAuto = () => {}; // kein automatisches Durchwechseln mehr
   const stopAuto = () => { clearInterval(autoTimer); autoTimer = null; };
-  document.querySelectorAll('.kind').forEach(b => b.addEventListener('click', () => { userTouched = true; stopAuto(); build(b.dataset.kind); }));
-  fillSite(KINDS.friseur); gsap.set(partsOf(), { opacity: 0 });
+  document.querySelectorAll('.kind').forEach(b => { b.addEventListener('click', () => { userTouched = true; stopAuto(); build(b.dataset.kind); }); b.addEventListener('mouseenter', () => warm(b.dataset.kind), { once: true }); });
+  fillSite('friseur'); gsap.set(partsOf(), { opacity: 0 });
   ScrollTrigger.create({ trigger: '.builder', start: 'top 70%', end: 'bottom 20%',
-    onEnter: () => { if (!site.dataset.built) { site.dataset.built = '1'; build('friseur'); } startAuto(); }, onEnterBack: startAuto, onLeave: stopAuto, onLeaveBack: stopAuto });
+    onEnter: () => { if (!site.dataset.built) { site.dataset.built = '1'; build('friseur'); setTimeout(() => ['mode', 'essen', 'business'].forEach(warm), 1500); } startAuto(); }, onEnterBack: startAuto, onLeave: stopAuto, onLeaveBack: stopAuto });
 
   /* ---- Before / After slider ---- */
   const ba = document.getElementById('ba'), baRange = document.getElementById('ba-range');
