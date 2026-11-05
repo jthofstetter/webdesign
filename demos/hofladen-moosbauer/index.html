@@ -1,0 +1,584 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hofladen Moosbauer · Weihnachts-Vorbestellung – Demo-Website</title>
+<meta name="description" content="Demo-Website eines fiktiven Hofladens im Waldviertel mit Weihnachts-Vorbestellung, Abholterminen und Packliste – gestaltet von Jannik Hofstetter.">
+<meta name="robots" content="noindex">
+<link rel="preload" href="../assets/fonts/zilla-slab-700.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../assets/fonts/manrope.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+@font-face{font-family:'Zilla Slab';src:url(../assets/fonts/zilla-slab-500.woff2) format('woff2');font-weight:500;font-style:normal;font-display:swap}
+@font-face{font-family:'Zilla Slab';src:url(../assets/fonts/zilla-slab-500-italic.woff2) format('woff2');font-weight:500;font-style:italic;font-display:swap}
+@font-face{font-family:'Zilla Slab';src:url(../assets/fonts/zilla-slab-700.woff2) format('woff2');font-weight:600 700;font-style:normal;font-display:swap}
+@font-face{font-family:'Manrope';src:url(../assets/fonts/manrope.woff2) format('woff2');font-weight:200 800;font-style:normal;font-display:swap}
+/* Hofladen Moosbauer – Kalkweiß, Granit, Graumohn, Fichte; der Bestellzettel ist das eine laute Element */
+:root{
+  --kalk:#EEF0EA; --kalk-2:#E3E7DE; --granit:#232823; --granit-2:#3B423B;
+  --mohn:#56616F; --line:#C6CDC1; --fichte:#2E4A39; --fichte-2:#3E6450;
+  --wachs:#E4BF5A; --wachs-soft:#F3E3B4; --papier:#FCFBF6; --rot:#9B3B2A;
+  --slab:'Zilla Slab','Rockwell','Roboto Slab',Georgia,serif;
+  --sans:'Manrope',system-ui,-apple-system,'Segoe UI',sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:88px}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+body{margin:0;background:var(--kalk);color:var(--granit);font-family:var(--sans);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--fichte);outline-offset:3px}
+.wrap{width:min(1180px,100% - 48px);margin-inline:auto}
+@media (max-width:600px){.wrap{width:calc(100% - 32px)}}
+h1,h2,h3{font-family:var(--slab);font-weight:700;margin:0;line-height:1.02;letter-spacing:-.01em;text-wrap:balance}
+h2{font-size:clamp(34px,4.2vw,52px)}
+.lead{font-size:18px;color:var(--mohn);max-width:52ch;margin:14px 0 0}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 26px;border-radius:10px;background:var(--fichte);color:#fff;font-weight:700;font-size:15px;border:1px solid var(--fichte);cursor:pointer;text-decoration:none;transition:background .2s}
+.btn:hover{background:var(--fichte-2)}
+.btn.ghost{background:transparent;color:var(--granit);border-color:var(--granit)}
+.btn.ghost:hover{background:var(--granit);color:var(--kalk)}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+
+/* Demo-Hinweis */
+.demo-badge{position:fixed;left:16px;bottom:16px;z-index:60;display:flex;align-items:center;gap:10px;background:#0B0D10;color:#ECEEF2;padding:10px 16px 10px 12px;border-radius:999px;font-size:12px;box-shadow:0 18px 40px -18px rgba(0,0,0,.55)}
+.demo-badge i{width:8px;height:8px;border-radius:50%;background:#3B7BFF}
+.demo-badge a{color:#8FB1FF;font-weight:600;text-decoration:none}
+
+/* Navigation */
+.nav{position:sticky;top:0;z-index:50;background:rgba(238,240,234,.95);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:24px;min-height:72px}
+.logo{display:flex;align-items:baseline;gap:10px;text-decoration:none}
+.logo b{font-family:var(--slab);font-size:26px;font-weight:700;letter-spacing:-.01em}
+.logo span{font-size:13px;color:var(--mohn)}
+.nav nav{display:flex;gap:30px;font-size:14px;font-weight:600;color:var(--mohn)}
+.nav nav a{text-decoration:none}
+.nav nav a:hover{color:var(--granit)}
+.nav .btn{min-height:42px;padding:0 18px;font-size:14px}
+@media (max-width:900px){.nav nav{display:none}.logo span{display:none}}
+
+/* Grundraster: Inhalt links, Bestellzettel rechts mitlaufend */
+.shop{display:grid;grid-template-columns:minmax(0,1fr) 370px;column-gap:56px;padding:56px 0 120px}
+.hero{grid-column:1;grid-row:1}
+.rail{grid-column:2;grid-row:1 / span 4;align-self:start;position:sticky;top:96px}
+.sortiment{grid-column:1;grid-row:2}
+.abholung{grid-column:1;grid-row:3}
+.daten{grid-column:1;grid-row:4}
+.block{padding-top:88px}
+@media (max-width:960px){
+  .shop{grid-template-columns:minmax(0,1fr);padding:32px 0 120px}
+  .hero,.rail,.sortiment,.abholung,.daten{grid-column:1;grid-row:auto}
+  .rail{position:static;margin-top:40px}
+}
+
+/* Hero */
+.hero h1{font-size:clamp(46px,6.4vw,84px);line-height:.98;letter-spacing:-.02em;max-width:13ch}
+.hero .lead{font-size:19px;margin-top:22px}
+.facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;margin-top:40px;border-top:2px solid var(--granit)}
+.facts div{padding:16px 18px 0 0}
+.facts div+div{padding-left:18px;border-left:1px solid var(--line)}
+.facts b{display:block;font-family:var(--slab);font-size:22px;line-height:1.15}
+.facts span{font-size:14px;color:var(--mohn)}
+.countdown{display:inline-flex;align-items:center;gap:10px;margin-top:28px;font-size:14px;font-weight:600;background:var(--wachs-soft);padding:8px 14px;border-radius:8px}
+.countdown i{width:8px;height:8px;border-radius:50%;background:var(--fichte)}
+@media (max-width:600px){.facts{grid-template-columns:1fr}.facts div+div{padding-left:0;border-left:0;border-top:1px solid var(--line);margin-top:14px}}
+
+/* Bestellzettel */
+.slip{position:relative;background:var(--papier);color:var(--granit);padding:30px 26px 26px;border-radius:2px;box-shadow:0 1px 0 var(--line),0 24px 48px -28px rgba(35,40,35,.45)}
+.slip::before{content:"";position:absolute;left:0;right:0;top:-7px;height:14px;background:radial-gradient(circle at 7px 7px,var(--kalk) 5px,transparent 5.5px) 0 0/14px 14px repeat-x}
+.slip-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding-bottom:14px;border-bottom:2px solid var(--granit)}
+.slip-head h3{font-size:26px}
+.slip-head span{font-size:12px;color:var(--mohn)}
+.slip-lines{list-style:none;margin:0;padding:0;min-height:128px}
+.slip-lines li{display:grid;grid-template-columns:34px minmax(0,1fr) auto;gap:8px;align-items:baseline;padding:8px 0 7px;border-bottom:1px solid #E8EBE3;font-size:14.5px;line-height:1.4}
+.slip-lines li.slip-empty{display:block;border-bottom:0}
+.slip-lines .q{font-family:var(--slab);font-weight:700;font-size:17px}
+.slip-lines .p{font-variant-numeric:tabular-nums}
+.slip-empty{font-family:var(--slab);font-style:italic;font-weight:500;font-size:18px;color:var(--mohn);padding-top:12px;line-height:1.45}
+.slip-pick{display:flex;justify-content:space-between;gap:12px;margin-top:10px;padding-top:12px;border-top:1px dashed var(--line);font-size:14px}
+.slip-pick b{font-weight:700}
+.slip-pick .none{color:var(--mohn)}
+.slip-total{display:flex;justify-content:space-between;align-items:baseline;margin-top:12px;padding-top:12px;border-top:2px solid var(--granit)}
+.slip-total span{font-size:14px;color:var(--mohn)}
+.slip-total b{font-family:var(--slab);font-size:30px;font-variant-numeric:tabular-nums}
+.slip .btn{width:100%;margin-top:18px}
+.slip-note{font-size:12.5px;color:var(--mohn);margin:12px 0 0}
+.stamp{position:absolute;right:18px;top:64px;transform:rotate(-9deg);border:3px solid var(--rot);color:var(--rot);border-radius:6px;padding:6px 12px;font-family:var(--slab);font-weight:700;font-size:20px;line-height:1.1;text-align:center;background:rgba(252,251,246,.85);display:none}
+.stamp small{display:block;font-family:var(--sans);font-size:11px;font-weight:700}
+.slip.done .stamp{display:block;animation:stamp .35s cubic-bezier(.3,1.6,.6,1)}
+@keyframes stamp{from{transform:rotate(-9deg) scale(1.6);opacity:0}to{transform:rotate(-9deg) scale(1);opacity:1}}
+
+/* Sortiment */
+.filter{display:flex;flex-wrap:wrap;gap:8px;margin-top:28px}
+.filter button{min-height:40px;padding:0 16px;border-radius:8px;border:1px solid var(--line);background:transparent;font-size:14px;font-weight:600;cursor:pointer}
+.filter button[aria-pressed="true"]{background:var(--granit);border-color:var(--granit);color:var(--kalk)}
+.group{margin-top:40px}
+.group h3{font-size:24px;padding-bottom:10px;border-bottom:2px solid var(--granit)}
+.item{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:6px 24px;align-items:center;padding:18px 0;border-bottom:1px solid var(--line)}
+.item .name{font-weight:700;font-size:17px}
+.item .desc{font-size:14px;color:var(--mohn);grid-column:1}
+.item .price{grid-column:2;grid-row:1 / span 2;text-align:right;font-variant-numeric:tabular-nums}
+.item .price b{display:block;font-family:var(--slab);font-size:21px}
+.item .price span{font-size:12.5px;color:var(--mohn)}
+.step{grid-column:3;grid-row:1 / span 2;display:flex;align-items:center;border:1px solid var(--granit);border-radius:10px;overflow:hidden}
+.step button{width:44px;height:44px;border:0;background:transparent;font-size:20px;font-weight:700;cursor:pointer}
+.step button:hover{background:var(--kalk-2)}
+.step button:disabled{opacity:.3;cursor:default;background:transparent}
+.step output{min-width:30px;text-align:center;font-family:var(--slab);font-weight:700;font-size:19px}
+.item.on{background:linear-gradient(90deg,var(--wachs-soft),transparent 70%)}
+@media (max-width:600px){
+  .item{grid-template-columns:minmax(0,1fr) auto;gap:4px 14px}
+  .item .price{grid-column:2;grid-row:1;text-align:right}
+  .item .price b{font-size:18px}
+  .step{grid-column:1 / span 2;grid-row:3;justify-self:start;margin-top:8px}
+}
+
+/* Abholung */
+.days{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:30px}
+.day{border:1px solid var(--granit);border-radius:12px;padding:18px 18px 16px;background:transparent}
+.day h3{font-size:28px}
+.day p{margin:2px 0 14px;font-size:14px;color:var(--mohn)}
+.slots{display:flex;flex-wrap:wrap;gap:8px}
+.slots button{min-height:40px;padding:0 12px;border-radius:8px;border:1px solid var(--line);background:var(--papier);font-size:14px;font-weight:600;cursor:pointer;font-variant-numeric:tabular-nums}
+.slots button:hover{border-color:var(--granit)}
+.slots button[aria-pressed="true"]{background:var(--wachs);border-color:var(--granit)}
+.slots button.full{text-decoration:line-through;color:var(--mohn);cursor:not-allowed;background:transparent}
+@media (max-width:760px){.days{grid-template-columns:1fr}}
+
+/* Daten */
+.form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 20px;margin-top:30px}
+.field{display:flex;flex-direction:column;gap:6px}
+.field.wide{grid-column:1 / -1}
+.field label{font-size:14px;font-weight:700}
+.field label span{font-weight:500;color:var(--mohn)}
+.field input,.field textarea{font:inherit;font-size:16px;padding:13px 14px;border-radius:10px;border:1px solid var(--line);background:var(--papier);color:var(--granit)}
+.field input:focus,.field textarea:focus{outline:2px solid var(--fichte);outline-offset:0;border-color:var(--fichte)}
+.field textarea{min-height:96px;resize:vertical}
+.check{grid-column:1 / -1;display:flex;gap:10px;align-items:flex-start;font-size:14px;color:var(--mohn)}
+.check input{width:20px;height:20px;margin-top:2px;accent-color:var(--fichte)}
+.form-foot{grid-column:1 / -1;display:flex;flex-wrap:wrap;gap:16px;align-items:center}
+.error{grid-column:1 / -1;margin:0;padding:12px 14px;border-radius:10px;background:#F6E2DC;color:var(--rot);font-weight:600;font-size:14px;display:none}
+.error.show{display:block}
+.done-box{display:none;margin-top:30px;padding:28px;border-radius:12px;background:var(--fichte);color:#fff}
+.done-box.show{display:block}
+.done-box h3{font-size:32px}
+.done-box p{margin:10px 0 0;max-width:56ch;color:#DCE7DF}
+.done-box .btn{margin-top:20px;background:#fff;color:var(--fichte);border-color:#fff}
+@media (max-width:600px){.form{grid-template-columns:1fr}}
+
+/* Für den Hof */
+.hof{background:var(--granit);color:var(--kalk);padding:96px 0 104px}
+.hof .lead{color:#AEB7AD}
+.hof-top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:24px}
+.hof-tabs{display:flex;flex-wrap:wrap;gap:8px;margin-top:34px}
+.hof-tabs button{min-height:40px;padding:0 16px;border-radius:8px;border:1px solid #556055;background:transparent;color:var(--kalk);font-weight:600;font-size:14px;cursor:pointer}
+.hof-tabs button[aria-pressed="true"]{background:var(--wachs);border-color:var(--wachs);color:var(--granit)}
+.hof-grid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:40px;margin-top:30px}
+.hof h3{font-size:22px;padding-bottom:10px;border-bottom:2px solid var(--kalk)}
+.pack{width:100%;border-collapse:collapse;font-size:15px}
+.pack td{padding:11px 0;border-bottom:1px solid #4A524A}
+.pack td:last-child{text-align:right;font-family:var(--slab);font-weight:700;font-size:19px;font-variant-numeric:tabular-nums}
+.orders{list-style:none;margin:0;padding:0}
+.orders li{padding:14px 8px 14px 0;border-bottom:1px solid #4A524A;display:grid;grid-template-columns:64px minmax(0,1fr) auto;gap:4px 16px}
+.orders .t{font-family:var(--slab);font-weight:700;font-size:18px;font-variant-numeric:tabular-nums}
+.orders .w{font-weight:700}
+.orders .i{grid-column:2;font-size:14px;color:#AEB7AD}
+.orders .s{font-variant-numeric:tabular-nums}
+.orders li.new{background:linear-gradient(90deg,rgba(228,191,90,.18),transparent 70%)}
+.hof-empty{color:#AEB7AD;font-style:italic;padding:14px 0}
+.hof .btn.ghost{color:var(--kalk);border-color:var(--kalk)}
+.hof .btn.ghost:hover{background:var(--kalk);color:var(--granit)}
+@media (max-width:860px){.hof-grid{grid-template-columns:1fr}}
+
+/* Laden */
+.laden{padding:96px 0 120px}
+.laden .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:56px}
+.hours{width:100%;border-collapse:collapse;margin-top:26px;font-size:16px}
+.hours td{padding:12px 0;border-bottom:1px solid var(--line)}
+.hours td:last-child{text-align:right;font-variant-numeric:tabular-nums}
+.hours tr.today td{font-weight:700}
+.status{display:inline-flex;align-items:center;gap:8px;margin-top:22px;font-weight:700;font-size:15px}
+.status i{width:9px;height:9px;border-radius:50%;background:#3E8E5A}
+.status.closed i{background:var(--rot)}
+.addr{font-family:var(--slab);font-size:28px;line-height:1.2;margin-top:26px}
+.laden p{color:var(--mohn);max-width:46ch}
+@media (max-width:860px){.laden .wrap{grid-template-columns:1fr;gap:40px}}
+
+footer{border-top:1px solid var(--line);padding:28px 0 96px;font-size:13px;color:var(--mohn)}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
+
+/* Mobile Leiste */
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:55;display:none;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px calc(12px + env(safe-area-inset-bottom));background:var(--granit);color:var(--kalk)}
+.bar b{font-family:var(--slab);font-size:20px}
+.bar span{font-size:13px;color:#AEB7AD;display:block}
+.bar .btn{min-height:44px;padding:0 18px;font-size:14px}
+@media (max-width:960px){
+  .bar.show{display:flex}
+  .demo-badge{left:50%;transform:translateX(-50%);bottom:12px;white-space:nowrap}
+  .demo-badge .t{display:none}
+  body.bar-on .demo-badge{display:none}
+}
+
+@media print{
+  body{background:#fff}
+  .nav,.shop,.laden,footer,.demo-badge,.bar,.hof-tabs,.hof .btn,.hof .lead{display:none!important}
+  .hof{background:#fff;color:#000;padding:0}
+  .hof h2,.hof h3{color:#000}
+  .hof-grid{grid-template-columns:1fr}
+  .pack td,.orders li{border-color:#999}
+  .orders .i{color:#333}
+}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="logo" href="#top"><b>Moosbauer</b><span>Hofladen bei Waidhofen an der Thaya</span></a>
+    <nav aria-label="Hauptnavigation">
+      <a href="#sortiment">Sortiment</a>
+      <a href="#abholung">Abholung</a>
+      <a href="#hof">Für den Hof</a>
+      <a href="#laden">Laden</a>
+    </nav>
+    <a class="btn" href="#sortiment">Vorbestellen</a>
+  </div>
+</header>
+
+<main id="top">
+  <div class="wrap shop">
+
+    <section class="hero" aria-labelledby="h-hero">
+      <h1 id="h-hero">Weihnachten vom Hof, vorbestellt und abholbereit.</h1>
+      <p class="lead">Karpfen aus unseren Teichen, Geselchtes aus der eigenen Selch, Mohnzelten und Kekse aus der Backstube. Bis 18. Dezember bestellen, zwischen 22. und 24. Dezember abholen.</p>
+      <div class="facts">
+        <div><b>18. Dezember</b><span>Bestellschluss</span></div>
+        <div><b>22. bis 24. Dezember</b><span>Abholung am Hof</span></div>
+        <div><b>Bei der Abholung</b><span>bar oder mit Karte zahlen</span></div>
+      </div>
+      <div class="countdown" id="countdown"><i></i><span>Vorbestellung offen</span></div>
+    </section>
+
+    <aside class="rail" aria-label="Bestellzettel">
+      <div class="slip" id="slip">
+        <div class="stamp" id="stamp">Vorbestellt<small id="stamp-nr"></small></div>
+        <div class="slip-head"><h3>Bestellzettel</h3><span>Weihnachten 2026</span></div>
+        <ul class="slip-lines" id="slip-lines" aria-live="polite"></ul>
+        <div class="slip-pick"><span>Abholung</span><b id="slip-pick" class="none">noch nicht gewählt</b></div>
+        <div class="slip-total"><span>Summe</span><b id="slip-total">0,00 €</b></div>
+        <a class="btn" id="slip-next" href="#abholung">Abholung wählen</a>
+        <p class="slip-note">Bezahlt wird bei der Abholung. Bis 18. Dezember kannst du jederzeit anrufen und ändern.</p>
+      </div>
+    </aside>
+
+    <section class="sortiment block" id="sortiment" aria-labelledby="h-sort">
+      <h2 id="h-sort">Sortiment</h2>
+      <p class="lead">Alles aus eigener Erzeugung oder von Nachbarhöfen, die wir kennen. Mengen sind begrenzt, der Karpfen geht meist zuerst.</p>
+      <div class="filter" role="group" aria-label="Sortiment filtern" id="filter"></div>
+      <div id="groups"></div>
+    </section>
+
+    <section class="abholung block" id="abholung" aria-labelledby="h-ab">
+      <h2 id="h-ab">Abholung</h2>
+      <p class="lead">Such dir ein Zeitfenster aus. So wartet niemand im Hof, und deine Bestellung liegt fertig gepackt bereit.</p>
+      <div class="days" id="days"></div>
+    </section>
+
+    <section class="daten block" id="daten" aria-labelledby="h-da">
+      <h2 id="h-da">Deine Daten</h2>
+      <p class="lead">Wir rufen nur an, wenn etwas ausverkauft ist.</p>
+      <form class="form" id="form" novalidate>
+        <p class="error" id="error" role="alert"></p>
+        <div class="field"><label for="f-name">Name</label><input id="f-name" name="name" autocomplete="name" required></div>
+        <div class="field"><label for="f-tel">Telefon</label><input id="f-tel" name="tel" type="tel" autocomplete="tel" inputmode="tel" required></div>
+        <div class="field wide"><label for="f-mail">E-Mail <span>(optional, für die Bestätigung)</span></label><input id="f-mail" name="mail" type="email" autocomplete="email"></div>
+        <div class="field wide"><label for="f-note">Anmerkung <span>(optional)</span></label><textarea id="f-note" name="note" placeholder="Zum Beispiel: Karpfen bitte filetiert"></textarea></div>
+        <label class="check"><input type="checkbox" id="f-ok" required><span>Meine Angaben werden nur für diese Bestellung verwendet und nach Weihnachten gelöscht.</span></label>
+        <div class="form-foot"><button class="btn" type="submit">Vorbestellung abschicken</button><span style="font-size:14px;color:var(--mohn)">In dieser Demo wird nichts verschickt.</span></div>
+      </form>
+      <div class="done-box" id="done" role="status">
+        <h3 id="done-title">Vorbestellt.</h3>
+        <p id="done-text"></p>
+        <a class="btn" href="#hof">So sieht der Hof deine Bestellung</a>
+      </div>
+    </section>
+
+  </div>
+
+  <section class="hof" id="hof" aria-labelledby="h-hof">
+    <div class="wrap">
+      <div class="hof-top">
+        <div>
+          <h2 id="h-hof">Für den Hof</h2>
+          <p class="lead">Jede Vorbestellung landet hier. Pro Abholtag gibt es eine fertige Packliste statt Zettel neben dem Telefon.</p>
+        </div>
+        <button class="btn ghost" type="button" id="print">Packliste drucken</button>
+      </div>
+      <div class="hof-tabs" role="group" aria-label="Abholtag wählen" id="hof-tabs"></div>
+      <div class="hof-grid">
+        <div><h3>Packliste</h3><table class="pack"><tbody id="pack"></tbody></table></div>
+        <div><h3>Bestellungen</h3><ul class="orders" id="orders"></ul></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="laden" id="laden" aria-labelledby="h-la">
+    <div class="wrap">
+      <div>
+        <h2 id="h-la">Der Laden</h2>
+        <div class="status" id="status"><i></i><span></span></div>
+        <table class="hours"><tbody id="hours"></tbody></table>
+      </div>
+      <div>
+        <div class="addr">Moosbauer<br>Brunnweg 4<br>3830 Waidhofen an der Thaya</div>
+        <p>Von der Bundesstraße bei der Kapelle rechts, dann 400 Meter bis zum Hof. Parkplätze direkt vor dem Laden.</p>
+        <p><a href="tel:+430000000000">0000 000 00 00</a> · fiktive Nummer</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer><div class="wrap"><span>Hofladen Moosbauer ist ein fiktiver Betrieb.</span><span>Demo-Website von Jannik Hofstetter</span></div></footer>
+
+<div class="bar" id="bar"><div><b id="bar-total">0,00 €</b><span id="bar-count">0 Artikel</span></div><a class="btn" href="#abholung" id="bar-btn">Abholung wählen</a></div>
+
+<div class="demo-badge"><i></i>Demo<span class="t"> · fiktiver Hofladen</span> · <a href="../../#arbeiten">← zurück zu Jannik</a></div>
+
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const eur = v => v.toLocaleString('de-AT', { style: 'currency', currency: 'EUR' });
+
+  const PRODUCTS = [
+    { id: 'karpfen', cat: 'Fisch', name: 'Waldviertler Karpfen, küchenfertig', desc: 'Ganz, ca. 1,5 kg, aus unseren Teichen', price: 19.9, unit: 'pro Stück' },
+    { id: 'filet', cat: 'Fisch', name: 'Karpfenfilet, grätenfrei geschnitten', desc: 'Zum Herausbacken, ca. 500 g', price: 16.9, unit: 'pro Packung' },
+    { id: 'braten', cat: 'Fleisch & Selch', name: 'Schweinsbraten vom Schopf', desc: 'Vom eigenen Schwein, ca. 1,2 kg', price: 17.4, unit: 'pro Stück' },
+    { id: 'geselchtes', cat: 'Fleisch & Selch', name: 'Bauerngeselchtes', desc: 'Über Buchenholz geräuchert, ca. 500 g', price: 11.4, unit: 'pro Stück' },
+    { id: 'wuerstel', cat: 'Fleisch & Selch', name: 'Bratwürstel', desc: '6 Stück, grob', price: 8.9, unit: 'pro Packung' },
+    { id: 'mohnzelten', cat: 'Backstube', name: 'Waldviertler Mohnzelten', desc: 'Erdäpfelteig mit Graumohn, 4 Stück', price: 7.6, unit: 'pro Packung' },
+    { id: 'striezel', cat: 'Backstube', name: 'Weihnachtsstriezel', desc: 'Germteig mit Rosinen, 500 g', price: 8.5, unit: 'pro Stück' },
+    { id: 'kipferl', cat: 'Backstube', name: 'Vanillekipferl', desc: 'Mit Butter und echter Vanille, 250 g', price: 7.9, unit: 'pro Dose' },
+    { id: 'brot', cat: 'Backstube', name: 'Bauernbrot', desc: 'Roggensauerteig, 1 kg', price: 5.2, unit: 'pro Laib' },
+    { id: 'mohn', cat: 'Vorrat', name: 'Graumohn, frisch gemahlen', desc: '250 g, für Strudel und Nudeln', price: 4.9, unit: 'pro Packung' },
+    { id: 'honig', cat: 'Vorrat', name: 'Waldhonig', desc: '500 g, vom Nachbarhof', price: 9.8, unit: 'pro Glas' },
+    { id: 'eier', cat: 'Vorrat', name: 'Eier aus Freilandhaltung', desc: '10 Stück', price: 4.6, unit: 'pro Packung' },
+    { id: 'korb', cat: 'Vorrat', name: 'Geschenkkorb Waldviertel', desc: 'Geselchtes, Mohn, Honig, Kipferl und Brot', price: 39, unit: 'pro Korb' }
+  ];
+  const CATS = ['Fisch', 'Fleisch & Selch', 'Backstube', 'Vorrat'];
+  const DAYS = [
+    { id: '2026-12-22', label: 'Di, 22. Dezember', note: 'Nachmittag', slots: ['14–15', '15–16', '16–17', '17–18'], full: ['17–18'] },
+    { id: '2026-12-23', label: 'Mi, 23. Dezember', note: 'ganztägig', slots: ['8–10', '10–12', '13–15', '15–17', '17–18'], full: ['15–17'] },
+    { id: '2026-12-24', label: 'Do, 24. Dezember', note: 'Heiliger Abend, nur vormittags', slots: ['7–8', '8–9', '9–10', '10–11'], full: ['8–9', '9–10'] }
+  ];
+  const HOURS = [
+    { d: 'Montag', h: null }, { d: 'Dienstag', h: [14, 18] }, { d: 'Mittwoch', h: null },
+    { d: 'Donnerstag', h: [14, 18] }, { d: 'Freitag', h: [9, 18] }, { d: 'Samstag', h: [8, 12] }, { d: 'Sonntag', h: null }
+  ];
+  const SEED = [
+    { nr: 141, name: 'Huber Maria', tel: '', day: '2026-12-23', slot: '8–10', items: { karpfen: 2, mohnzelten: 1, brot: 1 } },
+    { nr: 143, name: 'Fam. Steininger', tel: '', day: '2026-12-23', slot: '10–12', items: { braten: 1, geselchtes: 2, striezel: 1, eier: 2 } },
+    { nr: 144, name: 'Pichler Josef', tel: '', day: '2026-12-24', slot: '7–8', items: { karpfen: 1, filet: 1, kipferl: 2 } },
+    { nr: 146, name: 'Weber Anna', tel: '', day: '2026-12-22', slot: '15–16', items: { korb: 2, honig: 1 } }
+  ];
+
+  const cart = {};
+  let pick = null, filterCat = 'Alles', hofDay = '2026-12-23', lastNr = null;
+  const byId = Object.fromEntries(PRODUCTS.map(p => [p.id, p]));
+  const store = {
+    get() { try { return JSON.parse(localStorage.getItem('moosbauer-orders') || '[]'); } catch (e) { return []; } },
+    set(v) { try { localStorage.setItem('moosbauer-orders', JSON.stringify(v)); } catch (e) {} }
+  };
+  let saved = store.get();
+  const allOrders = () => SEED.concat(saved);
+
+  /* Sortiment */
+  const filterEl = $('filter');
+  ['Alles'].concat(CATS).forEach(c => {
+    const b = document.createElement('button');
+    b.type = 'button'; b.textContent = c; b.setAttribute('aria-pressed', c === filterCat);
+    b.onclick = () => { filterCat = c; filterEl.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x === b)); renderGroups(); };
+    filterEl.appendChild(b);
+  });
+  function renderGroups() {
+    const g = $('groups'); g.innerHTML = '';
+    CATS.filter(c => filterCat === 'Alles' || c === filterCat).forEach(c => {
+      const sec = document.createElement('div'); sec.className = 'group';
+      sec.innerHTML = `<h3>${c}</h3>`;
+      PRODUCTS.filter(p => p.cat === c).forEach(p => {
+        const q = cart[p.id] || 0;
+        const row = document.createElement('div');
+        row.className = 'item' + (q ? ' on' : ''); row.id = 'item-' + p.id;
+        row.innerHTML = `<div class="name">${p.name}</div><div class="desc">${p.desc}</div>
+          <div class="price"><b>${eur(p.price)}</b><span>${p.unit}</span></div>
+          <div class="step"><button type="button" aria-label="${p.name}: eins weniger" ${q ? '' : 'disabled'}>−</button><output aria-live="polite" aria-label="Menge ${p.name}">${q}</output><button type="button" aria-label="${p.name}: eins mehr">+</button></div>`;
+        const [minus, plus] = row.querySelectorAll('button');
+        minus.onclick = () => change(p.id, -1);
+        plus.onclick = () => change(p.id, 1);
+        sec.appendChild(row);
+      });
+      g.appendChild(sec);
+    });
+  }
+  function change(id, d) {
+    const q = Math.max(0, Math.min(20, (cart[id] || 0) + d));
+    if (q) cart[id] = q; else delete cart[id];
+    resetDone();
+    const row = $('item-' + id);
+    if (row) {
+      row.classList.toggle('on', q > 0);
+      row.querySelector('output').textContent = q;
+      row.querySelector('button').disabled = q === 0;
+    }
+    renderSlip();
+  }
+
+  /* Bestellzettel */
+  const total = () => Object.entries(cart).reduce((s, [id, q]) => s + byId[id].price * q, 0);
+  const count = () => Object.values(cart).reduce((s, q) => s + q, 0);
+  function pickLabel() {
+    if (!pick) return null;
+    const d = DAYS.find(x => x.id === pick.day);
+    return `${d.label.split(',')[1].trim()}, ${pick.slot} Uhr`;
+  }
+  function renderSlip() {
+    const ul = $('slip-lines'); ul.innerHTML = '';
+    const ids = Object.keys(cart);
+    if (!ids.length) {
+      ul.innerHTML = '<li class="slip-empty">Noch leer. Wähl unten im Sortiment aus, was du zu Weihnachten vom Hof willst.</li>';
+    } else {
+      PRODUCTS.filter(p => cart[p.id]).forEach(p => {
+        const li = document.createElement('li');
+        li.innerHTML = `<span class="q">${cart[p.id]}×</span><span>${p.name}</span><span class="p">${eur(p.price * cart[p.id])}</span>`;
+        ul.appendChild(li);
+      });
+    }
+    const pl = pickLabel();
+    $('slip-pick').textContent = pl || 'noch nicht gewählt';
+    $('slip-pick').className = pl ? '' : 'none';
+    $('slip-total').textContent = eur(total());
+    const next = $('slip-next');
+    if (lastNr) { next.textContent = 'So sieht der Hof die Bestellung'; next.href = '#hof'; }
+    else if (!ids.length) { next.textContent = 'Zum Sortiment'; next.href = '#sortiment'; }
+    else if (!pick) { next.textContent = 'Abholung wählen'; next.href = '#abholung'; }
+    else { next.textContent = 'Daten eingeben'; next.href = '#daten'; }
+    $('bar-total').textContent = eur(total());
+    $('bar-count').textContent = `${count()} Artikel` + (pl ? ` · ${pl}` : '');
+    $('bar-btn').textContent = pick ? 'Daten eingeben' : 'Abholung wählen';
+    $('bar-btn').href = pick ? '#daten' : '#abholung';
+    updateBar();
+  }
+
+  /* Abholung */
+  function renderDays() {
+    const wrap = $('days'); wrap.innerHTML = '';
+    DAYS.forEach(d => {
+      const el = document.createElement('div'); el.className = 'day';
+      const [wd, date] = d.label.split(', ');
+      el.innerHTML = `<h3>${date}</h3><p>${wd}, ${d.note}</p><div class="slots" role="group" aria-label="Zeitfenster ${d.label}"></div>`;
+      const slots = el.querySelector('.slots');
+      d.slots.forEach(s => {
+        const b = document.createElement('button'); b.type = 'button';
+        const full = d.full.includes(s);
+        b.textContent = s + ' Uhr';
+        if (full) { b.className = 'full'; b.disabled = true; b.setAttribute('aria-label', `${s} Uhr, ausgebucht`); }
+        b.setAttribute('aria-pressed', !!(pick && pick.day === d.id && pick.slot === s));
+        b.onclick = () => { pick = { day: d.id, slot: s }; resetDone(); renderDays(); renderSlip(); };
+        slots.appendChild(b);
+      });
+      wrap.appendChild(el);
+    });
+  }
+
+  /* Absenden (Demo) */
+  function resetDone() { if (lastNr) { $('slip').classList.remove('done'); lastNr = null; } }
+  $('form').addEventListener('submit', e => {
+    e.preventDefault();
+    const err = $('error'); const name = $('f-name').value.trim(), tel = $('f-tel').value.trim();
+    let msg = '';
+    if (!count()) msg = 'Dein Bestellzettel ist leer. Wähl im Sortiment mindestens ein Produkt aus.';
+    else if (!pick) msg = 'Wähl bei Abholung ein Zeitfenster aus.';
+    else if (!name) msg = 'Trag deinen Namen ein, damit wir die Bestellung zuordnen können.';
+    else if (tel.replace(/\D/g, '').length < 6) msg = 'Trag eine Telefonnummer ein, falls etwas ausverkauft ist.';
+    else if (!$('f-ok').checked) msg = 'Bestätige kurz, dass wir deine Angaben für diese Bestellung verwenden dürfen.';
+    err.textContent = msg; err.classList.toggle('show', !!msg);
+    if (msg) { err.scrollIntoView({ block: 'center' }); return; }
+    const nr = Math.max(...allOrders().map(o => o.nr)) + 1;
+    const order = { nr, name, tel, day: pick.day, slot: pick.slot, items: { ...cart }, mine: true };
+    saved = saved.concat(order); store.set(saved);
+    lastNr = nr; hofDay = pick.day;
+    $('stamp-nr').textContent = 'Nr. ' + String(nr).padStart(4, '0');
+    $('slip').classList.add('done');
+    $('done-title').textContent = `Vorbestellt, Nummer ${String(nr).padStart(4, '0')}.`;
+    $('done-text').textContent = `Abholung am ${pickLabel()}. Summe ${eur(total())}, bezahlt wird bei der Abholung. Bei einer echten Seite bekäme der Hof jetzt eine Nachricht und du eine Bestätigung per E-Mail.`;
+    $('form').style.display = 'none'; $('done').classList.add('show');
+    renderSlip(); renderHof();
+  });
+
+  /* Für den Hof */
+  function renderHof() {
+    const tabs = $('hof-tabs'); tabs.innerHTML = '';
+    const orders = allOrders();
+    DAYS.forEach(d => {
+      const n = orders.filter(o => o.day === d.id).length;
+      const b = document.createElement('button'); b.type = 'button';
+      b.textContent = `${d.label} (${n})`; b.setAttribute('aria-pressed', d.id === hofDay);
+      b.onclick = () => { hofDay = d.id; renderHof(); };
+      tabs.appendChild(b);
+    });
+    const day = orders.filter(o => o.day === hofDay);
+    const sums = {};
+    day.forEach(o => Object.entries(o.items).forEach(([id, q]) => { sums[id] = (sums[id] || 0) + q; }));
+    const pack = $('pack'); pack.innerHTML = '';
+    const ids = PRODUCTS.filter(p => sums[p.id]);
+    if (!ids.length) pack.innerHTML = '<tr><td class="hof-empty">Für diesen Tag gibt es noch keine Vorbestellung.</td><td></td></tr>';
+    ids.forEach(p => { const tr = document.createElement('tr'); tr.innerHTML = `<td>${p.name}</td><td>${sums[p.id]}×</td>`; pack.appendChild(tr); });
+    const ul = $('orders'); ul.innerHTML = '';
+    if (!day.length) ul.innerHTML = '<li class="hof-empty">Noch keine Bestellungen.</li>';
+    day.slice().sort((a, b) => a.slot.localeCompare(b.slot, 'de', { numeric: true })).forEach(o => {
+      const li = document.createElement('li'); if (o.mine) li.className = 'new';
+      const items = Object.entries(o.items).map(([id, q]) => `${q}× ${byId[id].name}`).join(', ');
+      const sum = Object.entries(o.items).reduce((s, [id, q]) => s + byId[id].price * q, 0);
+      li.innerHTML = `<span class="t">${o.slot}</span><span class="w">${o.mine ? 'Deine Bestellung' : o.name}</span><span class="s">${eur(sum)}</span><span class="i">Nr. ${String(o.nr).padStart(4, '0')} · ${items}</span>`;
+      ul.appendChild(li);
+    });
+  }
+  $('print').onclick = () => window.print();
+
+  /* Laden: Öffnungszeiten mit Live-Status */
+  function renderHours() {
+    const now = new Date(); const wd = (now.getDay() + 6) % 7; const h = now.getHours() + now.getMinutes() / 60;
+    const tb = $('hours'); tb.innerHTML = '';
+    HOURS.forEach((x, i) => {
+      const tr = document.createElement('tr'); if (i === wd) tr.className = 'today';
+      tr.innerHTML = `<td>${x.d}</td><td>${x.h ? `${x.h[0]} bis ${x.h[1]} Uhr` : 'geschlossen'}</td>`;
+      tb.appendChild(tr);
+    });
+    const t = HOURS[wd].h, open = t && h >= t[0] && h < t[1];
+    let next = '';
+    if (!open) {
+      for (let k = 0; k < 8; k++) {
+        const j = (wd + k) % 7, x = HOURS[j].h;
+        if (x && (k > 0 || h < x[0])) { next = k === 0 ? `heute ab ${x[0]} Uhr` : k === 1 ? `morgen ab ${x[0]} Uhr` : `${HOURS[j].d} ab ${x[0]} Uhr`; break; }
+      }
+    }
+    $('status').className = 'status' + (open ? '' : ' closed');
+    $('status').querySelector('span').textContent = open ? `Jetzt offen bis ${t[1]} Uhr` : `Jetzt geschlossen, wieder offen ${next}`;
+  }
+
+  /* Bestellschluss */
+  function renderCountdown() {
+    const end = new Date('2026-12-18T23:59:59'); const days = Math.ceil((end - new Date()) / 864e5);
+    $('countdown').querySelector('span').textContent = days > 1 ? `Vorbestellung offen, noch ${days} Tage` : days === 1 ? 'Letzter Tag für Vorbestellungen' : 'Vorbestellung für heuer geschlossen';
+  }
+
+  /* Mobile Leiste: nur wenn der Zettel nicht sichtbar ist */
+  let slipVisible = true;
+  function updateBar() { const on = count() > 0 && !slipVisible && !lastNr; $('bar').classList.toggle('show', on); document.body.classList.toggle('bar-on', on); }
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(es => { slipVisible = es[0].isIntersecting; updateBar(); }, { threshold: .15 }).observe($('slip'));
+  }
+
+  renderGroups(); renderDays(); renderSlip(); renderHof(); renderHours(); renderCountdown();
+})();
+</script>
+</body>
+</html>
