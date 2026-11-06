@@ -1,0 +1,720 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gästehaus Föhrenteich · Gutscheine und Zimmer anfragen – Demo-Website</title>
+<meta name="description" content="Demo-Website eines fiktiven Gästehauses im Waldviertel: Übernachtungsgutschein selbst gestalten, freie Zimmer sehen und anfragen – gestaltet von Jannik Hofstetter.">
+<meta name="robots" content="noindex">
+<link rel="preload" href="../assets/fonts/fraunces.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../assets/fonts/manrope.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+@font-face{font-family:'Fraunces';src:url(../assets/fonts/fraunces.woff2) format('woff2');font-weight:300 800;font-display:swap}
+@font-face{font-family:'Fraunces';src:url(../assets/fonts/fraunces-italic.woff2) format('woff2');font-weight:300 800;font-style:italic;font-display:swap}
+@font-face{font-family:'Manrope';src:url(../assets/fonts/manrope.woff2) format('woff2');font-weight:200 800;font-display:swap}
+/* Föhrenteich – Abendblau, Nebel, Birkenpapier und das warme Licht im Fenster. */
+:root{
+  --nacht:#13262E; --nacht-2:#1C3540; --see:#2E5361; --nebel:#E6ECEA; --nebel-2:#D5DEDB; --papier:#F8F6F1; --birke:#EFEBE2;
+  --glut:#D88A35; --glut-2:#E9A453; --glut-soft:#F6DDB6; --schilf:#7E8F72; --line:#CFD6D2; --ink:#14232A; --muted:#55666B;
+  --serif:'Fraunces',Georgia,serif; --sans:'Manrope',system-ui,-apple-system,'Segoe UI',sans-serif;
+}
+*{box-sizing:border-box;font-variant-numeric:lining-nums}[hidden]{display:none!important}
+html{scroll-behavior:smooth;scroll-padding-top:84px}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+body{margin:0;background:var(--birke);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit}button{font:inherit;color:inherit}input,textarea,select{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--glut);outline-offset:3px}
+.wrap{width:min(1200px,100% - 48px);margin-inline:auto}
+@media (max-width:600px){.wrap{width:calc(100% - 32px)}}
+h1,h2,h3{font-family:var(--serif);font-weight:500;margin:0;line-height:1;letter-spacing:-.015em;text-wrap:balance;font-variation-settings:"SOFT" 60,"opsz" 96}
+h2{font-size:clamp(40px,5vw,64px)}
+h1 em,h2 em{font-style:italic;font-weight:400;color:var(--see)}
+.kicker{font-size:12px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:var(--schilf)}
+.lead{font-size:18px;color:var(--muted);max-width:54ch;margin:14px 0 0}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 26px;border-radius:999px;background:var(--nacht);color:#fff;font-weight:700;font-size:15px;border:1px solid var(--nacht);cursor:pointer;text-decoration:none;transition:background .2s,transform .2s}
+.btn:hover{background:var(--see);border-color:var(--see)}
+.btn.glow{background:var(--glut);border-color:var(--glut);color:#1d1408}.btn.glow:hover{background:var(--glut-2);border-color:var(--glut-2)}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--ink)}
+.btn.ghost:hover{background:var(--ink);color:var(--papier)}
+.chip{min-height:42px;padding:0 16px;border-radius:999px;border:1px solid var(--line);background:var(--papier);font-size:14px;font-weight:700;cursor:pointer;white-space:nowrap;font-variant-numeric:tabular-nums;transition:border-color .15s,background .15s}
+.chip:hover{border-color:var(--ink)}
+.chip[aria-pressed="true"]{background:var(--nacht);border-color:var(--nacht);color:#fff}
+
+.demo-badge{position:fixed;left:16px;bottom:16px;z-index:70;display:flex;align-items:center;gap:12px;background:#0B0D10;color:#ECEEF2;padding:8px 10px 8px 14px;border-radius:999px;font-size:12px;box-shadow:0 18px 40px -18px rgba(0,0,0,.55)}
+.demo-badge i{width:8px;height:8px;border-radius:50%;background:#3B7BFF;flex:none}
+.demo-badge a{color:#8FB1FF;font-weight:600;text-decoration:none}
+.vswitch{display:flex;background:#1E2329;border-radius:999px;padding:3px}
+.vswitch button{border:0;background:transparent;color:#AEB6C2;font-size:12px;font-weight:700;padding:6px 12px;border-radius:999px;cursor:pointer}
+.vswitch button[aria-pressed="true"]{background:#ECEEF2;color:#0B0D10}
+body:not(.plus) .plus-only{display:none!important}
+body.plus .basis-only{display:none!important}
+@media (max-width:700px){.demo-badge{left:50%;transform:translateX(-50%);bottom:12px;white-space:nowrap}.demo-badge .t{display:none}}
+
+/* Navigation */
+.nav{position:absolute;top:0;left:0;right:0;z-index:50;color:#fff}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:24px;min-height:84px}
+.logo{display:flex;align-items:center;gap:12px;text-decoration:none}
+.logo svg{width:38px;height:38px;flex:none}
+.logo b{display:block;font-family:var(--serif);font-weight:500;font-size:24px;line-height:1;letter-spacing:-.01em}
+.logo span{display:block;font-size:12px;opacity:.75;margin-top:3px}
+.nav nav{display:flex;gap:28px;font-size:14px;font-weight:600}
+.nav nav a{text-decoration:none;opacity:.85}.nav nav a:hover{opacity:1}
+.nav .btn{white-space:nowrap;min-height:44px;padding:0 20px;font-size:14px;background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.35);backdrop-filter:blur(6px)}
+.nav .btn:hover{background:#fff;color:var(--nacht)}
+@media (max-width:900px){.nav nav{display:none}}
+@media (max-width:520px){.hide-s{display:none}.hero::after{background:linear-gradient(180deg,rgba(19,38,46,.55) 0%,rgba(19,38,46,.35) 40%,rgba(19,38,46,.9) 100%)}}
+@media (max-width:420px){.nav .wrap{gap:10px}.logo b{font-size:21px}.logo svg{width:32px;height:32px}.logo span{display:none}.nav .btn{padding:0 14px;font-size:13px}}
+
+/* Hero */
+.hero{position:relative;min-height:min(100svh,860px);color:#fff;display:flex;align-items:flex-end;overflow:hidden;background:var(--nacht)}
+.hero-art{position:absolute;inset:0}
+.hero-art svg{width:100%;height:100%;display:block}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(19,38,46,.45) 0%,rgba(19,38,46,0) 30%,rgba(19,38,46,0) 50%,rgba(19,38,46,.82) 100%);pointer-events:none}
+.hero .wrap{position:relative;z-index:2;padding:160px 0 56px}
+.hero h1{font-size:clamp(52px,8.4vw,120px);line-height:.92;max-width:11ch}
+.hero h1 em{color:var(--glut-soft)}
+.hero .lead{color:#D6E0DE;font-size:19px;margin-top:22px}
+.hero-cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+.hero .btn.ghost{color:#fff;border-color:rgba(255,255,255,.6)}.hero .btn.ghost:hover{background:#fff;color:var(--nacht)}
+.facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));margin-top:56px;border-top:1px solid rgba(255,255,255,.35)}
+.facts div{padding:16px 18px 0 0}.facts div+div{padding-left:18px;border-left:1px solid rgba(255,255,255,.18)}
+.facts b{display:block;font-family:var(--serif);font-weight:500;font-size:24px;line-height:1.1}
+.facts span{font-size:14px;color:#B9C7C6}
+@media (max-width:640px){.facts{grid-template-columns:1fr}.facts div+div{padding-left:0;border-left:0;border-top:1px solid rgba(255,255,255,.18);margin-top:14px}}
+@keyframes ripple{0%,100%{transform:translateX(0)}50%{transform:translateX(-14px)}}
+@keyframes flicker{0%,100%{opacity:1}45%{opacity:.86}50%{opacity:.95}70%{opacity:.9}}
+@keyframes twinkle{0%,100%{opacity:.9}50%{opacity:.25}}
+@keyframes snow{from{transform:translateY(-20px)}to{transform:translateY(900px)}}
+.rp{animation:ripple 7s ease-in-out infinite}.rp2{animation:ripple 9s ease-in-out infinite reverse}
+.fl{animation:flicker 5s ease-in-out infinite}
+.tw{animation:twinkle 3.5s ease-in-out infinite}
+
+section.block{padding:110px 0}
+.sec-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:20px 40px;margin-bottom:44px}
+
+/* Gutschein-Studio */
+.studio{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:48px;align-items:start}
+@media (max-width:980px){.studio{grid-template-columns:1fr}}
+.stage{position:sticky;top:24px;perspective:1400px}
+@media (max-width:980px){.stage{position:relative;top:0}}
+.card{position:relative;aspect-ratio:1.62;border-radius:18px;overflow:hidden;background:var(--papier);box-shadow:0 50px 80px -40px rgba(19,38,46,.55),0 2px 0 rgba(255,255,255,.6) inset;transform-style:preserve-3d;transition:transform .5s cubic-bezier(.2,.8,.2,1);display:grid;grid-template-columns:44% 56%}
+.card .pic{position:relative;overflow:hidden}
+.card .pic svg{position:absolute;inset:0;width:100%;height:100%}
+.card .txt{position:relative;padding:24px 28px 22px;display:flex;flex-direction:column;min-width:0;background:linear-gradient(160deg,#FBF9F4,#F1ECE1)}
+.card .txt::before{content:"";position:absolute;inset:10px;border:1px solid rgba(184,137,72,.45);border-radius:10px;pointer-events:none}
+.card .brand{display:flex;justify-content:space-between;align-items:center;font-size:clamp(8px,1.1vw,11px);font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:#9A7440}
+.card .gs{font-family:var(--serif);font-style:italic;font-size:clamp(13px,1.8vw,18px);color:#9A7440;margin-top:clamp(6px,1.6%,14px)}
+.card .what{font-family:var(--serif);font-weight:500;font-size:clamp(19px,3vw,34px);line-height:1;margin-top:4px;letter-spacing:-.015em;overflow-wrap:anywhere}
+.card .det{font-size:clamp(9.5px,1.2vw,12.5px);color:var(--muted);margin-top:6px;line-height:1.4}
+.card .ded{margin-top:auto;font-family:var(--serif);font-style:italic;font-size:clamp(11px,1.45vw,15px);line-height:1.3;color:#3B4A4F;overflow-wrap:anywhere}
+.card .ft{display:flex;justify-content:space-between;align-items:end;gap:10px;margin-top:clamp(6px,1.6%,12px);font-size:clamp(8.5px,1.1vw,11.5px);color:var(--muted)}
+.card .ft b{font-family:var(--serif);font-weight:500;font-size:clamp(17px,2.6vw,28px);color:var(--ink);line-height:1}
+.card .code{font-family:ui-monospace,Menlo,monospace;letter-spacing:.08em}
+.card .shine{position:absolute;inset:0;background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.35) 45%,transparent 60%);transform:translateX(var(--sx,-60%));pointer-events:none;mix-blend-mode:soft-light}
+.stage-note{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px 16px;margin-top:18px;font-size:13.5px;color:var(--muted)}
+.stage-note b{color:var(--ink)}
+@media (max-width:700px){.card .txt{padding:18px 20px 16px}}
+@media (max-width:520px){.card{grid-template-columns:1fr;aspect-ratio:auto}.card .pic{aspect-ratio:2.2}.card .txt{min-height:200px}}
+
+.opts{display:flex;flex-direction:column;gap:28px}
+.lbl{display:flex;justify-content:space-between;align-items:baseline;gap:12px;font-size:12px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;margin-bottom:12px}
+.lbl span{font-weight:600;letter-spacing:0;text-transform:none;font-size:13px;color:var(--muted)}
+.row{display:flex;flex-wrap:wrap;gap:8px}
+.arr{display:grid;gap:10px}
+.opt{display:flex;justify-content:space-between;align-items:center;gap:16px;width:100%;text-align:left;padding:16px 18px;border-radius:14px;border:1px solid var(--line);background:var(--papier);cursor:pointer;transition:border-color .15s,box-shadow .15s}
+.opt:hover{border-color:var(--ink)}
+.opt[aria-pressed="true"]{border-color:var(--nacht);box-shadow:0 0 0 1px var(--nacht) inset;background:#fff}
+.opt b{display:block;font-family:var(--serif);font-weight:500;font-size:20px;line-height:1.15}
+.opt small{display:block;font-size:13.5px;color:var(--muted);margin-top:2px}
+.opt .p{font-family:var(--serif);font-size:20px;white-space:nowrap}
+.motifs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.motif{position:relative;aspect-ratio:1.5;border-radius:12px;overflow:hidden;border:2px solid transparent;cursor:pointer;padding:0;background:none}
+.motif svg{position:absolute;inset:0;width:100%;height:100%}
+.motif span{position:absolute;left:8px;bottom:6px;font-size:12px;font-weight:700;color:#fff;text-shadow:0 1px 6px rgba(0,0,0,.5)}
+.motif[aria-pressed="true"]{border-color:var(--glut);box-shadow:0 0 0 3px rgba(216,138,53,.25)}
+.field{display:flex;flex-direction:column;gap:6px}
+.field label{font-size:13px;font-weight:700}
+.field label span{font-weight:500;color:var(--muted)}
+.field input,.field textarea,.field select{width:100%;padding:13px 14px;border-radius:12px;border:1px solid var(--line);background:#fff;font-size:15px}
+.field input:focus,.field textarea:focus,.field select:focus{outline:none;border-color:var(--nacht);box-shadow:0 0 0 3px rgba(46,83,97,.15)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:480px){.two{grid-template-columns:1fr}}
+.sum{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;padding:20px 22px;border-radius:16px;background:var(--nacht);color:#fff}
+.sum small{display:block;color:#A9BBBD;font-size:13px}
+.sum b{font-family:var(--serif);font-weight:500;font-size:34px;line-height:1}
+.error{color:#A1321F;font-size:14px;font-weight:600;margin:0;min-height:0}
+.done{display:none;padding:26px;border-radius:16px;background:#fff;border:1px solid var(--line)}
+.done.show{display:block}
+.done h3{font-size:30px}
+.done p{color:var(--muted)}
+
+/* Basis-Gutscheine */
+.gcards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+@media (max-width:860px){.gcards{grid-template-columns:1fr}}
+.gcard{display:flex;flex-direction:column;border-radius:18px;overflow:hidden;background:var(--papier);border:1px solid var(--line)}
+.gcard .pic{position:relative;aspect-ratio:1.9}.gcard .pic svg{position:absolute;inset:0;width:100%;height:100%}
+.gcard .in{padding:20px 22px 22px;display:flex;flex-direction:column;gap:8px;flex:1}
+.gcard h3{font-size:26px}
+.gcard p{margin:0;color:var(--muted);font-size:14.5px}
+.gcard .pr{display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:12px}
+.gcard .pr b{font-family:var(--serif);font-weight:500;font-size:26px}
+.gcard .btn{min-height:44px;padding:0 18px;font-size:14px}
+.gcard.sel{border-color:var(--nacht);box-shadow:0 0 0 1px var(--nacht) inset}
+
+/* Zimmer und Kalender */
+.zimmer-sec{background:var(--nebel)}
+.rooms{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+@media (max-width:860px){.rooms{grid-template-columns:1fr}}
+.room{border-radius:18px;overflow:hidden;background:var(--papier);border:1px solid var(--line);cursor:pointer;text-align:left;padding:0;display:flex;flex-direction:column;transition:transform .25s,box-shadow .25s}
+.room:hover{transform:translateY(-3px);box-shadow:0 24px 40px -28px rgba(19,38,46,.5)}
+.room[aria-pressed="true"]{border-color:var(--nacht);box-shadow:0 0 0 1px var(--nacht) inset}
+.room .pic{position:relative;aspect-ratio:1.7}.room .pic svg{position:absolute;inset:0;width:100%;height:100%}
+.room .in{padding:18px 20px 20px}
+.room h3{font-size:25px}
+.room p{margin:6px 0 10px;color:var(--muted);font-size:14.5px}
+.room .meta{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px;font-weight:700}
+.room .meta span{color:var(--muted);font-weight:600}
+.cal-wrap{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,.7fr);gap:36px;margin-top:56px;align-items:start}
+@media (max-width:980px){.cal-wrap{grid-template-columns:1fr}}
+.cal-nav{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.cal-nav h3{font-size:28px}
+.cal-nav button{width:44px;height:44px;border-radius:50%;border:1px solid var(--ink);background:transparent;cursor:pointer;font-size:18px}
+.cal-nav button:disabled{opacity:.25;cursor:default}
+.cal{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;background:var(--papier);padding:14px;border-radius:18px;border:1px solid var(--line)}
+.cal .dow{font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);text-align:center;padding:6px 0}
+.cal button{height:58px;border:0;border-radius:10px;background:transparent;cursor:pointer;font-weight:700;font-size:15px;position:relative;font-variant-numeric:tabular-nums}
+.cal button:hover:not(:disabled){background:var(--nebel)}
+.cal button:disabled{color:#B5BEBC;cursor:not-allowed;text-decoration:line-through}
+.cal button.in{background:var(--nebel-2);border-radius:0}
+.cal button.a,.cal button.b{background:var(--nacht);color:#fff}
+.cal button.a{border-radius:10px 0 0 10px}.cal button.b{border-radius:0 10px 10px 0}.cal button.a.b{border-radius:10px}
+.cal button .pr{display:block;font-size:10px;font-weight:600;opacity:.6;line-height:1}
+.legend{display:flex;flex-wrap:wrap;gap:16px;margin-top:12px;font-size:13px;color:var(--muted)}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:-1px;margin-right:6px}
+.req{background:#fff;border:1px solid var(--line);border-radius:18px;padding:24px;display:flex;flex-direction:column;gap:14px;position:sticky;top:24px}
+.req h3{font-size:28px}
+.req .line{display:flex;justify-content:space-between;gap:12px;font-size:14.5px;border-bottom:1px solid var(--line);padding-bottom:10px}
+.req .line span{color:var(--muted)}
+.req .line b{text-align:right}
+.step{display:inline-flex;align-items:center;border:1px solid var(--ink);border-radius:999px;overflow:hidden}
+.step button{width:40px;height:40px;border:0;background:transparent;font-size:18px;font-weight:700;cursor:pointer}
+.step button:disabled{opacity:.3}
+.step output{min-width:26px;text-align:center;font-weight:800}
+
+/* Für den Gastgeber */
+.host{background:var(--nacht);color:#E7EEEC;padding:110px 0}
+.host h2{color:#fff}.host h2 em{color:var(--glut-soft)}
+.host .lead{color:#A9BBBD}
+.host .kicker{color:var(--glut-soft)}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin:40px 0 28px}
+@media (max-width:860px){.stats{grid-template-columns:1fr 1fr}}
+.stat{background:var(--nacht-2);border:1px solid #2B4652;border-radius:16px;padding:18px 20px}
+.stat span{font-size:13px;color:#A9BBBD}
+.stat b{display:block;font-family:var(--serif);font-weight:500;font-size:34px;color:#fff;line-height:1.1;margin-top:4px;font-variant-numeric:tabular-nums}
+.tabs{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap}
+.tabs .chip{background:transparent;color:#E7EEEC;border-color:#3A5763}
+.tabs .chip[aria-pressed="true"]{background:#E7EEEC;color:var(--nacht);border-color:#E7EEEC}
+.hgrid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,.8fr);gap:24px;align-items:start}
+@media (max-width:980px){.hgrid{grid-template-columns:1fr}}
+.tbl{background:var(--nacht-2);border:1px solid #2B4652;border-radius:16px;overflow:hidden}
+.tbl table{width:100%;border-collapse:collapse;font-size:14px}
+.tbl th{text-align:left;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#8EA3A6;font-weight:800;padding:14px 16px;border-bottom:1px solid #2B4652}
+.tbl td{padding:14px 16px;border-bottom:1px solid #243E49;vertical-align:top}
+.tbl tr:last-child td{border-bottom:0}
+.tbl td small{display:block;color:#8EA3A6;font-size:12.5px}
+.tbl .new td{background:rgba(216,138,53,.12)}
+.tag{display:inline-block;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:800;white-space:nowrap}
+.tag.o{background:rgba(216,138,53,.18);color:var(--glut-soft)}
+.tag.e{background:rgba(126,143,114,.25);color:#C9D6BE}
+.tag.z{background:rgba(120,170,190,.2);color:#BFDCE6}
+.tbl .act{border:1px solid #3A5763;background:transparent;color:#E7EEEC;border-radius:999px;padding:5px 12px;font-size:12.5px;font-weight:700;cursor:pointer}
+.tbl .act:hover{background:#E7EEEC;color:var(--nacht)}
+@media (max-width:720px){.tbl table,.tbl tbody,.tbl tr,.tbl td{display:block;width:100%}.tbl thead{display:none}.tbl tr{padding:12px 0;border-bottom:1px solid #243E49}.tbl td{border:0;padding:4px 16px}}
+.check-box{background:var(--nacht-2);border:1px solid #2B4652;border-radius:16px;padding:22px;display:flex;flex-direction:column;gap:12px}
+.check-box h3{font-size:24px;color:#fff}
+.check-box p{margin:0;font-size:14px;color:#A9BBBD}
+.check-box input{width:100%;padding:13px 14px;border-radius:12px;border:1px solid #3A5763;background:#0E1E24;color:#fff;font-family:ui-monospace,Menlo,monospace;letter-spacing:.08em;text-transform:uppercase}
+.check-box .res{font-size:14px;padding:12px 14px;border-radius:12px;background:#0E1E24;min-height:48px}
+.check-box .btn{background:var(--glut);border-color:var(--glut);color:#1d1408;min-height:44px}
+.host .btn.ghost{color:#E7EEEC;border-color:#E7EEEC}.host .btn.ghost:hover{background:#E7EEEC;color:var(--nacht)}
+
+/* Info */
+.info{padding:110px 0 130px}
+.info .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:56px}
+@media (max-width:860px){.info .wrap{grid-template-columns:1fr}}
+.info .addr{font-family:var(--serif);font-size:28px;line-height:1.25}
+.info p{color:var(--muted)}
+.info ul{margin:18px 0 0;padding:0;list-style:none;display:grid;gap:10px}
+.info li{display:flex;gap:12px;align-items:baseline}
+.info li b{min-width:110px;font-size:13px;text-transform:uppercase;letter-spacing:.12em}
+footer{border-top:1px solid var(--line);padding:26px 0 90px;font-size:13px;color:var(--muted)}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px}
+@media (max-width:600px){#b-form,#bq{grid-template-columns:1fr!important}}
+@media print{body{background:#fff}.nav,.hero,#gutschein,#zimmer,.info,footer,.demo-badge,.tabs,.check-box,.host .btn{display:none!important}.host{background:#fff;color:#000;padding:0}.host *{color:#000!important}.stat,.tbl{background:#fff;border-color:#999}}
+</style>
+</head>
+<body class="plus">
+
+<header class="nav">
+  <div class="wrap">
+    <a class="logo" href="#top"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="19" fill="none" stroke="#F6DDB6" stroke-width="1.2"/><path d="M20 7 12 21h4l-6 9h20l-6-9h4z" fill="#F6DDB6"/><path d="M8 32c4-2 8 2 12 0s8 2 12 0" stroke="#F6DDB6" stroke-width="1.4" fill="none" stroke-linecap="round"/></svg>
+      <div><b>Föhrenteich</b><span>Gästehaus im Waldviertel</span></div></a>
+    <nav aria-label="Hauptnavigation"><a href="#gutschein">Gutscheine</a><a href="#zimmer">Zimmer</a><a href="#gastgeber">Für die Gastgeber</a><a href="#anreise">Anreise</a></nav>
+    <a class="btn" href="#gutschein">Gutschein<span class="hide-s"> schenken</span></a>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="hero-art" id="hero-art" aria-hidden="true"></div>
+    <div class="wrap">
+      <div class="kicker" style="color:var(--glut-soft)">Gästehaus · 6 Zimmer · direkt am Teich</div>
+      <h1 style="margin-top:16px">Schenk ein paar Tage <em>Stille.</em></h1>
+      <p class="lead plus-only">Gestalte einen Gutschein für eine Nacht oder ein ganzes Wochenende am Teich, mit Zimmer, Extras und deiner Widmung. Er kommt sofort als PDF oder in einer kleinen Geschenkbox mit der Post.</p>
+      <p class="lead basis-only">Unsere Gutscheine für eine Nacht, ein Wochenende oder einen frei wählbaren Betrag. Sofort als PDF oder in einer Geschenkbox mit der Post.</p>
+      <div class="hero-cta"><a class="btn glow" href="#gutschein">Gutschein gestalten</a><a class="btn ghost" href="#zimmer">Freie Zimmer ansehen</a></div>
+      <div class="facts">
+        <div><b>Sofort per E-Mail</b><span>auch noch am 24. Dezember</span></div>
+        <div><b>3 Jahre gültig</b><span>an allen Tagen einlösbar</span></div>
+        <div><b>Frühstück inklusive</b><span>mit Eiern und Brot aus dem Ort</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="gutschein" aria-labelledby="h-gs">
+    <div class="wrap">
+      <div class="sec-head"><div><div class="kicker">Gutschein</div><h2 id="h-gs" class="plus-only">Gestalte <em>dein Geschenk.</em></h2><h2 class="basis-only">Unsere <em>Gutscheine.</em></h2></div>
+        <p class="lead plus-only" style="margin:0">Alles, was du links auswählst, siehst du sofort auf dem Gutschein. So sieht ihn auch die beschenkte Person.</p></div>
+
+      <div class="plus-only">
+        <div class="studio">
+          <div class="stage" id="stage">
+            <div class="card" id="card">
+              <div class="pic" id="card-pic"></div>
+              <div class="txt">
+                <div class="brand"><span>Gästehaus Föhrenteich</span><span id="card-n">1 Nacht</span></div>
+                <div class="gs">Gutschein für</div>
+                <div class="what" id="card-what"></div>
+                <div class="det" id="card-det"></div>
+                <div class="ded" id="card-ded"></div>
+                <div class="ft"><div><span id="card-fv"></span><br><span class="code" id="card-code">FT-2026-····</span></div><b id="card-val"></b></div>
+              </div>
+              <div class="shine" id="shine"></div>
+            </div>
+            <div class="stage-note"><span>Gültig 3 Jahre · an allen Tagen nach Verfügbarkeit</span><span>Summe <b id="st-sum">0 €</b></span></div>
+          </div>
+
+          <div class="opts">
+            <div><div class="lbl">Was verschenkst du?</div><div class="arr" id="o-arr"></div></div>
+            <div id="o-room-w"><div class="lbl">Zimmer <span id="o-room-l"></span></div><div class="row" id="o-room"></div></div>
+            <div id="o-val-w" hidden><div class="lbl">Betrag</div><div class="row" id="o-val"></div></div>
+            <div id="o-ex-w"><div class="lbl">Dazu <span>mehrere möglich</span></div><div class="row" id="o-ex"></div></div>
+            <div><div class="lbl">Motiv</div><div class="motifs" id="o-motif"></div></div>
+            <div><div class="lbl">Widmung</div>
+              <div class="two"><div class="field"><label for="w-fuer">Für</label><input id="w-fuer" maxlength="28" placeholder="Oma und Opa"></div><div class="field"><label for="w-von">Von</label><input id="w-von" maxlength="28" placeholder="Lena"></div></div>
+              <div class="field" style="margin-top:12px"><label for="w-txt">Ein Satz dazu <span>(optional)</span></label><input id="w-txt" maxlength="90" placeholder="Damit ihr endlich einmal ausschlafen könnt."></div>
+            </div>
+            <div><div class="lbl">Wie soll er ankommen?</div><div class="arr" id="o-ship"></div></div>
+            <div class="field" id="ship-adr" hidden><label for="s-adr">Adresse für die Geschenkbox</label><input id="s-adr" autocomplete="street-address" placeholder="Straße, Hausnummer, PLZ und Ort"></div>
+            <form id="form" novalidate style="display:flex;flex-direction:column;gap:12px">
+              <div class="two"><div class="field"><label for="f-name">Dein Name</label><input id="f-name" autocomplete="name"></div><div class="field"><label for="f-mail">Deine E-Mail</label><input id="f-mail" type="email" autocomplete="email"></div></div>
+              <p class="error" id="error" role="alert"></p>
+              <div class="sum"><div><small>Gutschein</small><b id="sum">0 €</b></div><button class="btn glow" type="submit">Gutschein kaufen</button></div>
+              <p style="margin:0;font-size:13px;color:var(--muted)">Bezahlt wird online mit Karte oder per Überweisung. Demo: nichts wird verrechnet oder verschickt.</p>
+            </form>
+            <div class="done" id="done" role="status"><h3 id="done-t">Danke, dein Gutschein ist fertig.</h3><p id="done-p"></p><div style="display:flex;flex-wrap:wrap;gap:10px"><a class="btn" href="#gastgeber">So sieht ihn das Gästehaus</a><button class="btn ghost" type="button" id="again">Noch einen gestalten</button></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="basis-only">
+        <div class="gcards" id="gcards"></div>
+        <form class="b-form" id="b-form" novalidate style="margin-top:28px;display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:760px">
+          <div class="field"><label for="b-fuer">Für wen? <span>(steht am Gutschein)</span></label><input id="b-fuer" maxlength="28"></div>
+          <div class="field"><label for="b-mail">Deine E-Mail <span>(dorthin kommt das PDF)</span></label><input id="b-mail" type="email"></div>
+          <p class="error" id="b-error" role="alert" style="grid-column:1/-1"></p>
+          <div style="grid-column:1/-1;display:flex;flex-wrap:wrap;gap:14px;align-items:center"><button class="btn glow" type="submit" id="b-btn">Gutschein kaufen</button><span style="font-size:13.5px;color:var(--muted)" id="b-sel">Bitte zuerst einen Gutschein wählen.</span></div>
+        </form>
+        <div class="done" id="b-done" role="status" style="margin-top:20px;max-width:760px"><h3>Danke, dein Gutschein ist unterwegs.</h3><p id="b-done-p"></p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block zimmer-sec" id="zimmer" aria-labelledby="h-zi">
+    <div class="wrap">
+      <div class="sec-head"><div><div class="kicker">Zimmer</div><h2 id="h-zi">Wo du <em>aufwachst.</em></h2></div>
+        <p class="lead" style="margin:0">Sechs Zimmer, alle mit eigenem Bad. Frühstück gibt es im Wintergarten mit Blick aufs Wasser.</p></div>
+      <div class="rooms" id="rooms"></div>
+
+      <div class="cal-wrap plus-only">
+        <div>
+          <div class="cal-nav"><button type="button" id="cal-prev" aria-label="Voriger Monat">←</button><h3 id="cal-m"></h3><button type="button" id="cal-next" aria-label="Nächster Monat">→</button></div>
+          <div class="cal" id="cal" role="grid" aria-label="Freie Tage"></div>
+          <div class="legend"><span><i style="background:var(--nacht)"></i>An- und Abreise</span><span><i style="background:var(--nebel-2)"></i>Dein Aufenthalt</span><span><i style="background:#fff;border:1px solid #B5BEBC"></i>Durchgestrichen: schon belegt</span></div>
+        </div>
+        <div class="req" id="req">
+          <div class="kicker">Anfrage</div><h3 id="r-room">Teichzimmer</h3>
+          <div class="line"><span>Anreise</span><b id="r-a">Tag im Kalender wählen</b></div>
+          <div class="line"><span>Abreise</span><b id="r-b">–</b></div>
+          <div class="line" style="align-items:center"><span>Personen</span><div class="step"><button type="button" id="p-minus" aria-label="Weniger">−</button><output id="p-n">2</output><button type="button" id="p-plus" aria-label="Mehr">+</button></div></div>
+          <div class="line"><span id="r-nl">Preis</span><b id="r-p">–</b></div>
+          <div class="field"><label for="r-name">Name</label><input id="r-name" autocomplete="name"></div>
+          <div class="field"><label for="r-tel">Telefon oder E-Mail</label><input id="r-tel" autocomplete="email"></div>
+          <div class="field"><label for="r-code">Gutscheincode <span>(falls vorhanden)</span></label><input id="r-code" placeholder="FT-2026-…"></div>
+          <p class="error" id="r-error" role="alert"></p>
+          <button class="btn" type="button" id="r-send">Unverbindlich anfragen</button>
+          <p style="margin:0;font-size:13px;color:var(--muted)" id="r-note">Wir melden uns innerhalb eines Tages. Demo: nichts wird verschickt.</p>
+        </div>
+      </div>
+
+      <form class="basis-only" id="bq" novalidate style="margin-top:44px;background:var(--papier);border:1px solid var(--line);border-radius:18px;padding:26px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;max-width:820px">
+        <h3 style="grid-column:1/-1;font-size:28px">Zimmer anfragen</h3>
+        <div class="field"><label for="bq-a">Anreise</label><input id="bq-a" type="date" value="2026-12-27"></div>
+        <div class="field"><label for="bq-b">Abreise</label><input id="bq-b" type="date" value="2026-12-29"></div>
+        <div class="field"><label for="bq-n">Name</label><input id="bq-n"></div>
+        <div class="field"><label for="bq-t">Telefon oder E-Mail</label><input id="bq-t"></div>
+        <p class="error" id="bq-e" role="alert" style="grid-column:1/-1"></p>
+        <div style="grid-column:1/-1;display:flex;flex-wrap:wrap;gap:14px;align-items:center"><button class="btn" type="submit">Anfrage senden</button><span style="font-size:13.5px;color:var(--muted)" id="bq-ok">Demo: nichts wird verschickt.</span></div>
+      </form>
+    </div>
+  </section>
+
+  <section class="host" id="gastgeber" aria-labelledby="h-host">
+    <div class="wrap">
+      <div class="sec-head" style="margin-bottom:0"><div><div class="kicker">Für die Gastgeber</div><h2 id="h-host">Alle Gutscheine, <em>an einem Ort.</em></h2>
+        <p class="lead">Jeder verkaufte Gutschein landet hier mit Code, Widmung und Versandart. Kommt ein Gast mit Gutschein, prüft ihr den Code und tragt ihn als eingelöst ein.</p></div>
+        <button class="btn ghost" type="button" id="print">Versandliste drucken</button></div>
+      <div class="stats">
+        <div class="stat"><span>Gutscheine heuer</span><b id="s-n">0</b></div>
+        <div class="stat"><span>Umsatz Gutscheine</span><b id="s-sum">0 €</b></div>
+        <div class="stat"><span>Geschenkboxen zu verschicken</span><b id="s-box">0</b></div>
+        <div class="stat"><span>Offene Anfragen</span><b id="s-req">0</b></div>
+      </div>
+      <div class="tabs" role="group" aria-label="Ansicht"><button class="chip" type="button" data-t="g" aria-pressed="true">Gutscheine</button><button class="chip plus-only" type="button" data-t="a" aria-pressed="false">Anfragen</button></div>
+      <div class="hgrid">
+        <div class="tbl"><table><thead id="h-head"></thead><tbody id="h-body"></tbody></table></div>
+        <div class="check-box">
+          <h3>Code prüfen</h3>
+          <p>Gast an der Rezeption? Code eingeben, dann seht ihr sofort, was am Gutschein steht.</p>
+          <input id="c-in" placeholder="FT-2026-…" aria-label="Gutscheincode">
+          <div class="res" id="c-res">Zum Ausprobieren: FT-2026-K7MQ</div>
+          <button class="btn" type="button" id="c-redeem" hidden>Als eingelöst eintragen</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="info" id="anreise" aria-labelledby="h-info">
+    <div class="wrap">
+      <div><div class="kicker">Anreise</div><h2 id="h-info">Am Ende <em>der Straße.</em></h2>
+        <p>Von Wien sind es knapp zwei Stunden, vom Bahnhof holen wir euch gern ab. Parkplätze gibt es direkt beim Haus, ein Ladepunkt für E-Autos ist da.</p>
+        <ul><li><b>Check-in</b><span>ab 15 Uhr</span></li><li><b>Check-out</b><span>bis 11 Uhr, mit Extra bis 14 Uhr</span></li><li><b>Frühstück</b><span>8 bis 10:30 Uhr im Wintergarten</span></li></ul></div>
+      <div><div class="addr">Gästehaus Föhrenteich<br>Teichweg 7<br>Föhrenschlag im Waldviertel</div>
+        <p>Familie Steininger freut sich auf euch. Hunde sind in der Ferienwohnung willkommen.</p>
+        <p><a href="tel:+430000000000">0000 000 00 00</a> · fiktive Nummer</p></div>
+    </div>
+  </section>
+</main>
+
+<footer><div class="wrap"><span>Gästehaus Föhrenteich ist ein fiktiver Betrieb.</span><span>Demo-Website von Jannik Hofstetter · <a href="../../impressum.html">Impressum</a> · <a href="../../datenschutz.html">Datenschutz</a></span></div></footer>
+<div class="demo-badge"><i></i><span>Demo<span class="t"> · fiktives Gästehaus</span></span><div class="vswitch" role="group" aria-label="Version wählen"><button type="button" data-v="basis">Basis</button><button type="button" data-v="plus">Plus</button></div><a href="../../#arbeiten">← Jannik</a></div>
+
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const eur = v => v.toLocaleString('de-AT', { minimumFractionDigits: v % 1 ? 2 : 0, maximumFractionDigits: 2 }) + ' €';
+  const store = { get(k, d) { try { return JSON.parse(localStorage.getItem('foehrenteich-' + k)) ?? d; } catch (e) { return d; } }, set(k, v) { try { localStorage.setItem('foehrenteich-' + k, JSON.stringify(v)); } catch (e) {} } };
+
+  /* Daten */
+  const ROOMS = [
+    { id: 'teich', n: 'Teichzimmer', d: 'Balkon über dem Wasser, Morgensonne, Doppelbett', m2: 24, p: 129, scene: 'teich' },
+    { id: 'wald', n: 'Waldzimmer', d: 'Ruhig zum Föhrenwald hin, mit Lesesessel am Fenster', m2: 21, p: 115, scene: 'wald' },
+    { id: 'steg', n: 'Ferienwohnung Steg', d: 'Eigene Küche, Kachelofen und Terrasse direkt am Steg', m2: 48, p: 159, scene: 'steg' }
+  ];
+  const ARR = [
+    { id: 'nacht', n: 'Eine Nacht am Teich', d: '1 Nacht für zwei, mit Frühstück', nights: 1 },
+    { id: 'wochenende', n: 'Wochenende am Teich', d: '2 Nächte für zwei, mit Frühstück und einem Abend in der Sauna am Steg', nights: 2, plus: 30 },
+    { id: 'auszeit', n: 'Waldviertler Auszeit', d: '3 Nächte für zwei, Frühstück, Sauna und ein Jausenkorb für die Wanderung', nights: 3, plus: 50 },
+    { id: 'wert', n: 'Wertgutschein', d: 'Frei einlösbar für Nächte, Frühstück und alle Extras', value: true }
+  ];
+  const VALUES = [50, 100, 150, 200, 300];
+  const EXTRAS = [
+    { id: 'sekt', n: 'Sekt und Mohnzelten am Zimmer', p: 24 },
+    { id: 'bett', n: 'Frühstück im Bett', p: 18 },
+    { id: 'sauna', n: 'Sauna am Steg', p: 35 },
+    { id: 'jause', n: 'Jausenkorb', p: 24 },
+    { id: 'spaet', n: 'Auschecken um 14 Uhr', p: 15 }
+  ];
+  const MOTIFS = [{ id: 'winter', n: 'Winterteich' }, { id: 'nacht', n: 'Sternennacht' }, { id: 'sommer', n: 'Sommerabend' }];
+  const SHIP = [
+    { id: 'mail', n: 'Sofort als PDF', d: 'per E-Mail, zum Ausdrucken oder Weiterleiten', p: 0 },
+    { id: 'box', n: 'In der Geschenkbox', d: 'gedruckt auf Karton, mit Föhrenzweig, per Post in 2 bis 3 Tagen', p: 4.9 },
+    { id: 'abhol', n: 'Bei uns abholen', d: 'liegt ab dem nächsten Tag an der Rezeption', p: 0 }
+  ];
+
+  /* Szenen (SVG) */
+  let SID = 0;
+  const rnd = seed => () => { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; };
+  const PAL = {
+    winter: { sky: ['#5F7F8E', '#A9BDC2', '#E9D7C0'], hill: '#3D5560', tree: '#22363E', water: ['#86A0A8', '#4D6A75'], snow: '#F3F5F2', win: '#F2B866', star: false, moon: '#FBF3E3' },
+    nacht: { sky: ['#0B1820', '#16303A', '#2A4B57'], hill: '#16282F', tree: '#0D1B21', water: ['#1F3B46', '#0E1E25'], snow: '#C9D6D8', win: '#F5B556', star: true, moon: '#F6EED8' },
+    sommer: { sky: ['#E9A86A', '#F2C995', '#F8E6C6'], hill: '#5E6E48', tree: '#3A4A30', water: ['#C99A66', '#7B6A4A'], snow: null, win: '#FFD58A', star: false, moon: '#FFF2D6' },
+    teich: null
+  };
+  function pine(x, y, h, c) { const w = h * .42; let s = `<path d="M${x} ${y - h}`; const n = 5; for (let i = 1; i <= n; i++) { const yy = y - h + h * i / n, ww = w * i / n; s += ` L${(x + ww).toFixed(1)} ${yy.toFixed(1)} L${(x + ww * .45).toFixed(1)} ${yy.toFixed(1)}`; } s += ` L${x + 2} ${y} L${x - 2} ${y}`; for (let i = n; i >= 1; i--) { const yy = y - h + h * i / n, ww = w * i / n; s += ` L${(x - ww * .45).toFixed(1)} ${yy.toFixed(1)} L${(x - ww).toFixed(1)} ${yy.toFixed(1)}`; } return s + `Z" fill="${c}"/>`; }
+  function scene(motif, opt = {}) {
+    const P = PAL[motif] || PAL.winter, u = 's' + (++SID), W = opt.w || 800, H = opt.h || 500, r = rnd(opt.seed || 11), hero = opt.hero;
+    const horizon = H * (opt.horizon || .58);
+    const anim = (c) => hero ? ` class="${c}"` : '';
+    let s = `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg"><defs>
+      <linearGradient id="${u}k" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${P.sky[0]}"/><stop offset=".65" stop-color="${P.sky[1]}"/><stop offset="1" stop-color="${P.sky[2]}"/></linearGradient>
+      <linearGradient id="${u}w" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${P.water[0]}"/><stop offset="1" stop-color="${P.water[1]}"/></linearGradient>
+      <radialGradient id="${u}g" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="${P.win}" stop-opacity=".75"/><stop offset="1" stop-color="${P.win}" stop-opacity="0"/></radialGradient>
+      <radialGradient id="${u}m" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="${P.moon}" stop-opacity=".55"/><stop offset="1" stop-color="${P.moon}" stop-opacity="0"/></radialGradient>
+      <clipPath id="${u}c"><rect x="0" y="${horizon}" width="${W}" height="${H - horizon}"/></clipPath></defs>
+      <rect width="${W}" height="${H}" fill="url(#${u}k)"/>`;
+    if (P.star) for (let i = 0; i < (hero ? 140 : 50); i++) { const x = r() * W, y = r() * horizon * .8, rr = r() * 1.3 + .3; s += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${rr.toFixed(2)}" fill="#fff" opacity="${(.4 + r() * .6).toFixed(2)}"${hero && i % 5 === 0 ? ` class="tw" style="animation-delay:${(r() * 3).toFixed(1)}s"` : ''}/>`; }
+    const mx = W * (opt.moonX || .78), my = horizon * .32, mr = H * .045;
+    s += `<circle cx="${mx}" cy="${my}" r="${mr * 4}" fill="url(#${u}m)"/><circle cx="${mx}" cy="${my}" r="${mr}" fill="${P.moon}"/>`;
+    // ferne Hügel
+    s += `<path d="M0 ${horizon - H * .1} C ${W * .2} ${horizon - H * .17}, ${W * .4} ${horizon - H * .06}, ${W * .6} ${horizon - H * .12} S ${W * .9} ${horizon - H * .08}, ${W} ${horizon - H * .14} V ${horizon} H0Z" fill="${P.hill}" opacity=".55"/>`;
+    // Wald hinten
+    let forest = '';
+    for (let x = -10; x < W + 20; x += W / (hero ? 70 : 42)) { const h = H * (.09 + r() * .09); forest += pine(x + r() * 6, horizon + 2, h, P.tree); }
+    // Haus
+    const hx = W * (opt.houseX || .3), hy = horizon + 1, hw = W * .17, hh = H * .1, roof = H * .085;
+    let house = `<g><rect x="${hx}" y="${hy - hh}" width="${hw}" height="${hh}" fill="${P.tree}"/><path d="M${hx - hw * .06} ${hy - hh} L${hx + hw / 2} ${hy - hh - roof} L${hx + hw * 1.06} ${hy - hh}Z" fill="${P.tree}"/>`;
+    if (P.snow) house += `<path d="M${hx - hw * .06} ${hy - hh} L${hx + hw / 2} ${hy - hh - roof} L${hx + hw * 1.06} ${hy - hh} L${hx + hw * .98} ${hy - hh + 3} L${hx + hw / 2} ${hy - hh - roof + 7} L${hx + hw * .02} ${hy - hh + 3}Z" fill="${P.snow}"/>`;
+    house += `<rect x="${hx + hw * .72}" y="${hy - hh - roof * .9}" width="${hw * .07}" height="${roof * .5}" fill="${P.tree}"/>`;
+    const wins = [[.12, .3], [.42, .3], [.72, .3], [.42, -.2]];
+    wins.forEach(([fx, fy], i) => { const wx = hx + hw * fx, wy = hy - hh + hh * fy + (fy < 0 ? -roof * .1 : 0), ww = hw * .16, wh = hh * .34; house += `<circle cx="${wx + ww / 2}" cy="${wy + wh / 2}" r="${ww * 1.9}" fill="url(#${u}g)"${anim('fl')}/><rect x="${wx}" y="${wy}" width="${ww}" height="${wh}" fill="${P.win}"${hero ? ` class="fl" style="animation-delay:${i * .7}s"` : ''}/><line x1="${wx + ww / 2}" y1="${wy}" x2="${wx + ww / 2}" y2="${wy + wh}" stroke="${P.tree}" stroke-width="1.2"/>`; });
+    house += `</g>`;
+    // Steg
+    const sx = hx + hw * 1.2, steg = `<g fill="${P.tree}"><rect x="${sx}" y="${hy + 2}" width="${W * .14}" height="${H * .012}"/>${[0, .33, .66, 1].map(f => `<rect x="${sx + W * .14 * f - 1.5}" y="${hy + 2}" width="3" height="${H * .035}"/>`).join('')}</g>`;
+    s += forest + house + steg;
+    // Vordergrund-Föhren links und rechts
+    let front = '';
+    [[.03, .5], [.09, .38], [.93, .46], [.985, .56]].forEach(([fx, fh]) => front += pine(W * fx, horizon + H * .04, H * fh, P.tree));
+    // Wasser + Spiegelung
+    s += `<rect x="0" y="${horizon}" width="${W}" height="${H - horizon}" fill="url(#${u}w)"/>`;
+    s += `<g clip-path="url(#${u}c)" opacity=".42"><g transform="translate(0 ${horizon * 2}) scale(1 -1)">${forest}${house}</g></g>`;
+    s += `<g clip-path="url(#${u}c)"><ellipse cx="${mx}" cy="${horizon + (horizon - my) * .7}" rx="${mr * .5}" ry="${mr * 3}" fill="${P.moon}" opacity=".1"/></g>`;
+    for (let i = 0; i < (hero ? 26 : 12); i++) { const y = horizon + 6 + r() * (H - horizon - 10), x = r() * W, w = 20 + r() * 90; s += `<rect x="${x.toFixed(0)}" y="${y.toFixed(0)}" width="${w.toFixed(0)}" height="1.4" rx=".7" fill="#fff" opacity="${(.12 + r() * .18).toFixed(2)}"${hero ? ` class="${i % 2 ? 'rp' : 'rp2'}"` : ''}/>`; }
+    // Schilf
+    for (let i = 0; i < (hero ? 40 : 18); i++) { const x = W * (.55 + r() * .4), y = H - r() * H * .06, h = H * (.05 + r() * .07); s += `<path d="M${x.toFixed(1)} ${y.toFixed(1)} q${(r() * 8 - 4).toFixed(1)} ${(-h / 2).toFixed(1)} ${(r() * 10 - 3).toFixed(1)} ${(-h).toFixed(1)}" stroke="${P.tree}" stroke-width="1.6" fill="none"/>`; }
+    s += front;
+    if (P.snow && hero) { let flakes = ''; for (let i = 0; i < 70; i++) { const x = r() * W, d = 8 + r() * 14, sz = .8 + r() * 1.6; flakes += `<circle cx="${x.toFixed(0)}" cy="${(-r() * H).toFixed(0)}" r="${sz.toFixed(1)}" fill="#fff" opacity="${(.4 + r() * .5).toFixed(2)}" style="animation:snow ${d.toFixed(1)}s linear ${(-r() * d).toFixed(1)}s infinite"/>`; } s += flakes; }
+    return s + '</svg>';
+  }
+  function roomScene(id) {
+    const m = { teich: ['winter', .5, .25], wald: ['nacht', .22, .7], steg: ['sommer', .62, .2] }[id];
+    return scene(m[0], { w: 680, h: 400, seed: id.length * 31, houseX: m[1], moonX: m[2] });
+  }
+
+  /* Hero */
+  const mob = matchMedia('(max-width:700px)').matches;
+  $('hero-art').innerHTML = mob ? scene('nacht', { w: 900, h: 1700, hero: true, seed: 5, houseX: .58, moonX: .78, horizon: .7 }) : scene('nacht', { w: 1600, h: 1000, hero: true, seed: 5, houseX: .66, moonX: .24, horizon: .62 });
+
+  /* Version */
+  const params = new URLSearchParams(location.search);
+  let version = params.get('v') === 'basis' ? 'basis' : 'plus';
+  function setVersion(v) { version = v; document.body.classList.toggle('plus', v === 'plus'); document.querySelectorAll('.vswitch button').forEach(b => b.setAttribute('aria-pressed', b.dataset.v === v)); const u = new URL(location.href); if (v === 'basis') u.searchParams.set('v', 'basis'); else u.searchParams.delete('v'); history.replaceState(null, '', u); if (v === 'basis') setTab('g'); }
+  document.querySelectorAll('.vswitch button').forEach(b => b.onclick = () => setVersion(b.dataset.v));
+
+  /* Gutschein-Studio */
+  const g = { arr: 'wochenende', room: 'teich', val: 100, ex: ['sekt'], motif: 'winter', ship: 'mail' };
+  let pendingCode = newCode();
+  function newCode() { const a = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; let c = ''; for (let i = 0; i < 4; i++) c += a[Math.floor(Math.random() * a.length)]; return 'FT-2026-' + c; }
+  const arrOf = () => ARR.find(a => a.id === g.arr), roomOf = id => ROOMS.find(r => r.id === (id || g.room));
+  function basePrice(a = arrOf(), room = g.room) { if (a.value) return g.val; const r = roomOf(room); return r.p * a.nights + (a.plus || 0); }
+  const exSum = () => arrOf().value ? 0 : g.ex.reduce((s, id) => s + EXTRAS.find(e => e.id === id).p, 0);
+  const shipP = () => SHIP.find(s => s.id === g.ship).p;
+  const total = () => basePrice() + exSum() + shipP();
+  function chips(el, items, isOn, onClick, label = x => x.n) { el.innerHTML = items.map(x => `<button class="chip" type="button" data-id="${x.id}" aria-pressed="${isOn(x)}">${label(x)}</button>`).join(''); el.querySelectorAll('button').forEach(b => b.onclick = () => onClick(b.dataset.id)); }
+  function renderStudio() {
+    const a = arrOf();
+    $('o-arr').innerHTML = ARR.map(x => `<button class="opt" type="button" data-id="${x.id}" aria-pressed="${x.id === g.arr}"><div><b>${x.n}</b><small>${x.d}</small></div><span class="p">${x.value ? 'ab 50 €' : 'ab ' + eur(basePrice(x, 'wald'))}</span></button>`).join('');
+    $('o-arr').querySelectorAll('.opt').forEach(b => b.onclick = () => { g.arr = b.dataset.id; renderStudio(); });
+    $('o-room-w').hidden = !!a.value; $('o-ex-w').hidden = !!a.value; $('o-val-w').hidden = !a.value;
+    chips($('o-room'), ROOMS, x => x.id === g.room, id => { g.room = id; renderStudio(); }, x => `${x.n} · ${eur(x.p)}`);
+    $('o-room-l').textContent = 'pro Nacht für zwei';
+    chips($('o-val'), VALUES.map(v => ({ id: String(v), n: eur(v) })), x => +x.id === g.val, id => { g.val = +id; renderStudio(); });
+    chips($('o-ex'), EXTRAS, x => g.ex.includes(x.id), id => { g.ex = g.ex.includes(id) ? g.ex.filter(e => e !== id) : [...g.ex, id]; renderStudio(); }, x => `${x.n} · ${eur(x.p)}`);
+    $('o-motif').innerHTML = MOTIFS.map(m => `<button class="motif" type="button" data-id="${m.id}" aria-pressed="${m.id === g.motif}" aria-label="Motiv ${m.n}">${scene(m.id, { w: 300, h: 200, seed: 3, houseX: .38 })}<span>${m.n}</span></button>`).join('');
+    $('o-motif').querySelectorAll('.motif').forEach(b => b.onclick = () => { g.motif = b.dataset.id; renderStudio(); });
+    $('o-ship').innerHTML = SHIP.map(x => `<button class="opt" type="button" data-id="${x.id}" aria-pressed="${x.id === g.ship}"><div><b style="font-size:18px">${x.n}</b><small>${x.d}</small></div><span class="p" style="font-size:17px">${x.p ? '+ ' + eur(x.p) : 'kostenlos'}</span></button>`).join('');
+    $('o-ship').querySelectorAll('.opt').forEach(b => b.onclick = () => { g.ship = b.dataset.id; renderStudio(); });
+    $('ship-adr').hidden = g.ship !== 'box';
+    renderCard();
+  }
+  function renderCard() {
+    const a = arrOf(), r = roomOf();
+    $('card-pic').innerHTML = scene(g.motif, { w: 440, h: 540, seed: 9, houseX: .2, moonX: .7, horizon: .62 });
+    $('card-n').textContent = a.value ? 'Wertgutschein' : a.nights === 1 ? '1 Nacht' : a.nights + ' Nächte';
+    $('card-what').textContent = a.value ? eur(g.val) : a.n;
+    const ex = a.value ? [] : g.ex.map(id => EXTRAS.find(e => e.id === id).n);
+    $('card-det').textContent = a.value ? 'Frei einlösbar für Nächte, Frühstück und Extras' : `${r.n} · ${a.d.replace(/^\d+ Nächte? für zwei, /, 'für zwei, ')}${ex.length ? ' · dazu ' + ex.join(', ') : ''}`;
+    const fuer = $('w-fuer').value.trim(), von = $('w-von').value.trim(), txt = $('w-txt').value.trim();
+    $('card-ded').textContent = txt ? `„${txt}“` : '';
+    $('card-fv').textContent = `${fuer ? 'Für ' + fuer : 'Für dich'}${von ? ' · von ' + von : ''}`;
+    $('card-code').textContent = pendingCode.slice(0, 8) + '····';
+    $('card-val').textContent = a.value ? '' : eur(basePrice() + exSum());
+    $('sum').textContent = eur(total()); $('st-sum').textContent = eur(total());
+  }
+  ['w-fuer', 'w-von', 'w-txt'].forEach(id => $(id).addEventListener('input', renderCard));
+  // leichte 3D-Neigung
+  const stage = $('stage'), card = $('card');
+  if (matchMedia('(hover:hover)').matches && !matchMedia('(prefers-reduced-motion:reduce)').matches) {
+    stage.addEventListener('pointermove', e => { const b = card.getBoundingClientRect(), x = (e.clientX - b.left) / b.width - .5, y = (e.clientY - b.top) / b.height - .5; card.style.transform = `rotateY(${x * 10}deg) rotateX(${-y * 8}deg)`; card.style.setProperty('--sx', `${(x * 160).toFixed(0)}%`); });
+    stage.addEventListener('pointerleave', () => { card.style.transform = ''; card.style.setProperty('--sx', '-60%'); });
+  }
+
+  /* Bestellungen (für die Gastgeber) */
+  const SEED = [
+    { code: 'FT-2026-K7MQ', what: 'Wochenende am Teich', room: 'Teichzimmer', ex: 'Sekt und Mohnzelten', fuer: 'Oma und Opa', von: 'Lena', ship: 'box', adr: 'Hauptstraße 4, 3830 Waidhofen', sum: 317.9, date: '2026-11-21', st: 'offen' },
+    { code: 'FT-2026-3HWD', what: 'Eine Nacht am Teich', room: 'Waldzimmer', ex: '', fuer: 'Markus', von: 'Sabine', ship: 'mail', sum: 115, date: '2026-11-24', st: 'offen' },
+    { code: 'FT-2026-PL2X', what: 'Wertgutschein 150 €', room: '', ex: '', fuer: 'Familie Huber', von: 'Team Bauhof', ship: 'abhol', sum: 150, date: '2026-11-27', st: 'offen' },
+    { code: 'FT-2025-91BA', what: 'Waldviertler Auszeit', room: 'Ferienwohnung Steg', ex: 'Frühstück im Bett', fuer: 'Anna', von: 'Thomas', ship: 'mail', sum: 545, date: '2025-12-19', st: 'eingelöst' }
+  ];
+  let orders = store.get('orders', null) || SEED.slice();
+  const RSEED = [
+    { id: 'r1', name: 'Weber Anna', room: 'Teichzimmer', a: '2026-12-27', b: '2026-12-29', p: 2, code: '', st: 'neu' },
+    { id: 'r2', name: 'Pichler Josef', room: 'Ferienwohnung Steg', a: '2026-12-30', b: '2027-01-02', p: 3, code: '', st: 'zugesagt' },
+    { id: 'r3', name: 'Lena Steiner', room: 'Waldzimmer', a: '2027-01-15', b: '2027-01-17', p: 2, code: 'FT-2026-3HWD', st: 'neu' }
+  ];
+  let reqs = store.get('reqs', null) || RSEED.slice();
+  let lastNew = null;
+  const shipName = id => ({ mail: 'PDF per E-Mail', box: 'Geschenkbox', abhol: 'Abholung' }[id]);
+  const dfmt = s => { const d = new Date(s + 'T12:00'); return d.getDate() + '.' + (d.getMonth() + 1) + '.'; };
+  const dlong = d => d.toLocaleDateString('de-AT', { weekday: 'short', day: 'numeric', month: 'long' });
+
+  $('form').addEventListener('submit', e => {
+    e.preventDefault();
+    const name = $('f-name').value.trim(), mail = $('f-mail').value.trim(), err = $('error');
+    if (!name) { err.textContent = 'Bitte gib deinen Namen an.'; $('f-name').focus(); return; }
+    if (!/^\S+@\S+\.\S+$/.test(mail)) { err.textContent = 'Bitte gib eine gültige E-Mail-Adresse an, dorthin schicken wir den Gutschein.'; $('f-mail').focus(); return; }
+    if (g.ship === 'box' && !$('s-adr').value.trim()) { err.textContent = 'Bitte gib die Adresse für die Geschenkbox an.'; $('s-adr').focus(); return; }
+    err.textContent = '';
+    const a = arrOf();
+    const o = { code: pendingCode, what: a.value ? 'Wertgutschein ' + eur(g.val) : a.n, room: a.value ? '' : roomOf().n, ex: a.value ? '' : g.ex.map(id => EXTRAS.find(x => x.id === id).n).join(', '), fuer: $('w-fuer').value.trim() || 'ohne Namen', von: $('w-von').value.trim() || name, ship: g.ship, adr: $('s-adr').value.trim(), sum: total(), date: new Date().toISOString().slice(0, 10), st: 'offen' };
+    orders.unshift(o); lastNew = o.code; store.set('orders', orders);
+    $('card-code').textContent = o.code;
+    $('form').style.display = 'none'; $('done').classList.add('show');
+    $('done-p').innerHTML = `Code <b class="code">${esc(o.code)}</b> · ${esc(o.what)} · ${eur(o.sum)}. ${g.ship === 'mail' ? `Das PDF geht an ${esc(mail)}.` : g.ship === 'box' ? 'Die Geschenkbox geht morgen in die Post.' : 'Er liegt ab morgen an der Rezeption.'}`;
+    setTab('g'); renderHost();
+  });
+  $('again').onclick = () => { pendingCode = newCode(); $('done').classList.remove('show'); $('form').style.display = ''; ['w-fuer', 'w-von', 'w-txt'].forEach(id => $(id).value = ''); renderCard(); $('gutschein').scrollIntoView(); };
+
+  /* Basis */
+  const BASIS = [
+    { id: 'b1', n: 'Eine Nacht am Teich', d: '1 Nacht für zwei im Waldzimmer, mit Frühstück', p: 115, motif: 'winter' },
+    { id: 'b2', n: 'Wochenende am Teich', d: '2 Nächte für zwei im Teichzimmer, Frühstück und Sauna am Steg', p: 288, motif: 'nacht' },
+    { id: 'b3', n: 'Wertgutschein 100 €', d: 'Frei einlösbar für Nächte, Frühstück und Extras', p: 100, motif: 'sommer' }
+  ];
+  let bSel = null;
+  function renderBasis() {
+    $('gcards').innerHTML = BASIS.map(x => `<div class="gcard${bSel === x.id ? ' sel' : ''}"><div class="pic">${scene(x.motif, { w: 600, h: 320, seed: 4, houseX: .4 })}</div><div class="in"><h3>${x.n}</h3><p>${x.d}</p><div class="pr"><b>${eur(x.p)}</b><button class="btn${bSel === x.id ? '' : ' ghost'}" type="button" data-id="${x.id}">${bSel === x.id ? 'Ausgewählt' : 'Auswählen'}</button></div></div></div>`).join('');
+    $('gcards').querySelectorAll('button').forEach(b => b.onclick = () => { bSel = b.dataset.id; renderBasis(); });
+    const s = BASIS.find(x => x.id === bSel); $('b-sel').textContent = s ? `${s.n} · ${eur(s.p)} · Demo: nichts wird verrechnet.` : 'Bitte zuerst einen Gutschein wählen.';
+  }
+  $('b-form').addEventListener('submit', e => {
+    e.preventDefault(); const s = BASIS.find(x => x.id === bSel), mail = $('b-mail').value.trim();
+    if (!s) { $('b-error').textContent = 'Bitte wähle oben einen Gutschein aus.'; return; }
+    if (!/^\S+@\S+\.\S+$/.test(mail)) { $('b-error').textContent = 'Bitte gib eine gültige E-Mail-Adresse an.'; return; }
+    $('b-error').textContent = ''; const code = newCode();
+    orders.unshift({ code, what: s.n, room: '', ex: '', fuer: $('b-fuer').value.trim() || 'ohne Namen', von: '', ship: 'mail', sum: s.p, date: new Date().toISOString().slice(0, 10), st: 'offen' }); lastNew = code; store.set('orders', orders);
+    $('b-form').style.display = 'none'; $('b-done').classList.add('show'); $('b-done-p').innerHTML = `Code <b>${code}</b> · ${esc(s.n)}. Das PDF geht an ${esc(mail)}.`; renderHost();
+  });
+  $('bq').addEventListener('submit', e => { e.preventDefault(); if (!$('bq-n').value.trim() || !$('bq-t').value.trim()) { $('bq-e').textContent = 'Bitte Name und Telefon oder E-Mail angeben.'; return; } $('bq-e').textContent = ''; $('bq-ok').textContent = 'Danke, wir melden uns innerhalb eines Tages. (Demo)'; });
+
+  /* Zimmer */
+  let room = 'teich';
+  function renderRooms() {
+    $('rooms').innerHTML = ROOMS.map(r => `<button class="room" type="button" data-id="${r.id}" aria-pressed="${version === 'plus' && r.id === room}"><div class="pic">${roomScene(r.id)}</div><div class="in"><h3>${r.n}</h3><p>${r.d}</p><div class="meta">${r.m2} m² <span>·</span> ab ${eur(r.p)} <span>pro Nacht für zwei, mit Frühstück</span></div></div></button>`).join('');
+    $('rooms').querySelectorAll('.room').forEach(b => b.onclick = () => { room = b.dataset.id; ra = rb = null; renderRooms(); renderCal(); if (version === 'plus') $('cal').scrollIntoView({ block: 'center' }); });
+  }
+
+  /* Kalender */
+  const MONTHS = [[2026, 11], [2027, 0], [2027, 1]];
+  let mi = 0, ra = null, rb = null, persons = 2;
+  const key = d => d.toISOString().slice(0, 10);
+  const mkd = (y, m, d) => new Date(Date.UTC(y, m, d));
+  function booked(d) { let h = (+key(d).replace(/-/g, '') + room.length * 101) >>> 0; h = Math.imul(h ^ (h >>> 15), 2246822507) >>> 0; h = Math.imul(h ^ (h >>> 13), 3266489909) >>> 0; const r = ((h ^ (h >>> 16)) >>> 0) / 4294967296; const dow = d.getUTCDay(); const k = key(d); if (k >= '2026-12-24' && k <= '2026-12-26') return room !== 'wald'; if (k >= '2026-12-30' && k <= '2027-01-01') return true; return r < (dow === 5 || dow === 6 ? .5 : .2); }
+  function nightPrice(d) { const r = roomOf(room); const dow = d.getUTCDay(); const k = key(d); let p = r.p; if (dow === 5 || dow === 6) p += 15; if (k >= '2026-12-20' && k <= '2027-01-06') p += 20; return p; }
+  function renderCal() {
+    const [y, m] = MONTHS[mi]; $('cal-m').textContent = new Date(Date.UTC(y, m, 1)).toLocaleDateString('de-AT', { month: 'long', year: 'numeric', timeZone: 'UTC' });
+    $('cal-prev').disabled = mi === 0; $('cal-next').disabled = mi === MONTHS.length - 1;
+    const first = mkd(y, m, 1), off = (first.getUTCDay() + 6) % 7, days = new Date(Date.UTC(y, m + 1, 0)).getUTCDate();
+    let h = ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'].map(d => `<div class="dow">${d}</div>`).join('') + '<div></div>'.repeat(off);
+    const today = '2026-11-06';
+    for (let d = 1; d <= days; d++) {
+      const dt = mkd(y, m, d), k = key(dt), b = booked(dt) || k < today;
+      let cls = ''; if (ra && k === ra) cls += ' a'; if (rb && k === rb) cls += ' b'; if (ra && rb && k > ra && k < rb) cls += ' in'; if (ra && !rb && k === ra) cls += ' b';
+      h += `<button type="button" data-k="${k}" class="${cls.trim()}" ${b && !(ra && !rb && k > ra && freeUntil(ra, k)) ? 'disabled' : ''} aria-label="${dlong(dt)}${b ? ', belegt' : ''}">${d}<span class="pr">${b ? '' : nightPrice(dt)}</span></button>`;
+    }
+    $('cal').innerHTML = h;
+    $('cal').querySelectorAll('button[data-k]').forEach(btn => btn.onclick = () => pickDay(btn.dataset.k));
+    renderReq();
+  }
+  function freeUntil(a, b) { const d = new Date(a + 'T00:00Z'); while (key(d) < b) { if (booked(d)) return false; d.setUTCDate(d.getUTCDate() + 1); } return true; }
+  function pickDay(k) { if (!ra || rb || k <= ra) { ra = k; rb = null; } else if (freeUntil(ra, k)) rb = k; else { ra = k; rb = null; } renderCal(); }
+  function nightsBetween() { if (!ra || !rb) return []; const out = [], d = new Date(ra + 'T00:00Z'); while (key(d) < rb) { out.push(new Date(d)); d.setUTCDate(d.getUTCDate() + 1); } return out; }
+  function renderReq() {
+    const r = roomOf(room); $('r-room').textContent = r.n;
+    const fd = k => dlong(new Date(k + 'T12:00Z'));
+    $('r-a').textContent = ra ? fd(ra) : 'Tag im Kalender wählen'; $('r-b').textContent = rb ? fd(rb) : ra ? 'Abreisetag wählen' : '–';
+    const n = nightsBetween(), sum = n.reduce((s, d) => s + nightPrice(d), 0) + Math.max(0, persons - 2) * 35 * n.length;
+    $('r-nl').textContent = n.length ? `${n.length} ${n.length === 1 ? 'Nacht' : 'Nächte'}` : 'Preis'; $('r-p').textContent = n.length ? eur(sum) : '–';
+    $('p-n').textContent = persons; $('p-minus').disabled = persons <= 1; $('p-plus').disabled = persons >= (room === 'steg' ? 4 : 3);
+  }
+  $('cal-prev').onclick = () => { mi = Math.max(0, mi - 1); renderCal(); };
+  $('cal-next').onclick = () => { mi = Math.min(MONTHS.length - 1, mi + 1); renderCal(); };
+  $('p-minus').onclick = () => { persons--; renderReq(); };
+  $('p-plus').onclick = () => { persons++; renderReq(); };
+  $('r-send').onclick = () => {
+    const name = $('r-name').value.trim(), tel = $('r-tel').value.trim(), err = $('r-error');
+    if (!ra || !rb) { err.textContent = 'Bitte wähle im Kalender An- und Abreise.'; return; }
+    if (!name || !tel) { err.textContent = 'Bitte gib deinen Namen und eine Telefonnummer oder E-Mail an.'; return; }
+    err.textContent = '';
+    reqs.unshift({ id: 'r' + Date.now(), name, room: roomOf(room).n, a: ra, b: rb, p: persons, code: $('r-code').value.trim().toUpperCase(), st: 'neu', fresh: true }); store.set('reqs', reqs);
+    $('r-note').innerHTML = '<b style="color:var(--ink)">Danke, eure Anfrage ist da.</b> Wir melden uns innerhalb eines Tages. <a href="#gastgeber">So sieht sie das Gästehaus</a>';
+    ra = rb = null; renderCal(); setTab('a'); renderHost();
+  };
+
+  /* Gastgeber-Ansicht */
+  let tab = 'g';
+  function setTab(t) { tab = t; document.querySelectorAll('.tabs .chip').forEach(b => b.setAttribute('aria-pressed', b.dataset.t === t)); renderHost(); }
+  document.querySelectorAll('.tabs .chip').forEach(b => b.onclick = () => setTab(b.dataset.t));
+  function renderHost() {
+    const year = orders.filter(o => o.date >= '2026-01-01');
+    $('s-n').textContent = year.length; $('s-sum').textContent = eur(Math.round(year.reduce((s, o) => s + o.sum, 0)));
+    $('s-box').textContent = orders.filter(o => o.ship === 'box' && o.st === 'offen').length; $('s-req').textContent = reqs.filter(r => r.st === 'neu').length;
+    if (tab === 'g') {
+      $('h-head').innerHTML = '<tr><th>Code</th><th>Gutschein</th><th>Für · Von</th><th>Versand</th><th>Betrag</th><th>Status</th></tr>';
+      $('h-body').innerHTML = orders.map(o => `<tr class="${o.code === lastNew ? 'new' : ''}"><td class="code" style="font-family:ui-monospace,Menlo,monospace;font-size:13px;white-space:nowrap">${esc(o.code)}<small>${dfmt(o.date)}</small></td><td>${esc(o.what)}${o.room ? `<small>${esc(o.room)}${o.ex ? ' · ' + esc(o.ex) : ''}</small>` : ''}</td><td>${esc(o.fuer)}${o.von ? `<small>von ${esc(o.von)}</small>` : ''}</td><td>${shipName(o.ship)}${o.adr ? `<small>${esc(o.adr)}</small>` : ''}</td><td style="white-space:nowrap">${eur(o.sum)}</td><td><span class="tag ${o.st === 'offen' ? 'o' : 'e'}">${o.st}</span></td></tr>`).join('');
+    } else {
+      $('h-head').innerHTML = '<tr><th>Gast</th><th>Zimmer</th><th>Aufenthalt</th><th>Gutschein</th><th>Status</th></tr>';
+      $('h-body').innerHTML = reqs.map(r => `<tr class="${r.fresh ? 'new' : ''}"><td>${esc(r.name)}<small>${r.p} ${r.p === 1 ? 'Person' : 'Personen'}</small></td><td>${esc(r.room)}</td><td style="white-space:nowrap">${dfmt(r.a)} – ${dfmt(r.b)}</td><td style="font-family:ui-monospace,Menlo,monospace;font-size:13px">${esc(r.code) || '–'}</td><td>${r.st === 'neu' ? `<button class="act" type="button" data-id="${r.id}">Zusagen</button>` : '<span class="tag z">zugesagt</span>'}</td></tr>`).join('');
+      $('h-body').querySelectorAll('.act').forEach(b => b.onclick = () => { const r = reqs.find(x => x.id === b.dataset.id); r.st = 'zugesagt'; store.set('reqs', reqs); renderHost(); });
+    }
+  }
+  let found = null;
+  $('c-in').addEventListener('input', () => {
+    const v = $('c-in').value.trim().toUpperCase(); found = orders.find(o => o.code === v); const res = $('c-res');
+    $('c-redeem').hidden = !(found && found.st === 'offen');
+    if (!v) { res.textContent = 'Zum Ausprobieren: FT-2026-K7MQ'; return; }
+    if (!found) { res.textContent = v.length >= 12 ? 'Diesen Code gibt es nicht. Bitte noch einmal genau vergleichen.' : '…'; return; }
+    res.innerHTML = `<b style="color:#fff">${esc(found.what)}</b>${found.room ? ' · ' + esc(found.room) : ''}<br>Für ${esc(found.fuer)}${found.ex ? ' · dazu ' + esc(found.ex) : ''}<br>${found.st === 'offen' ? '<span style="color:var(--glut-soft)">Gültig, noch nicht eingelöst.</span>' : '<span style="color:#C9D6BE">Schon eingelöst.</span>'}`;
+  });
+  $('c-redeem').onclick = () => { if (!found) return; found.st = 'eingelöst'; store.set('orders', orders); $('c-in').dispatchEvent(new Event('input')); renderHost(); };
+  $('print').onclick = () => { setTab('g'); print(); };
+
+  /* Start */
+  setVersion(version);
+  renderStudio(); renderBasis(); renderRooms(); renderCal(); renderHost();
+  if (location.hash) { const t = document.querySelector(location.hash); if (t) setTimeout(() => t.scrollIntoView(), 60); }
+})();
+</script>
+</body>
+</html>
