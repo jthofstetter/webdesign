@@ -1,0 +1,556 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Backstube Kornfeld · Weihnachtsbäckerei vorbestellen – Demo-Website</title>
+<meta name="description" content="Demo-Website einer fiktiven Bäckerei und Konditorei im Waldviertel: Keksdose selbst befüllen, Stollen und Torten vorbestellen, Abholtermin wählen – gestaltet von Jannik Hofstetter.">
+<meta name="robots" content="noindex">
+<link rel="preload" href="../assets/fonts/young-serif.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../assets/fonts/manrope.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+@font-face{font-family:'Young Serif';src:url(../assets/fonts/young-serif.woff2) format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'Manrope';src:url(../assets/fonts/manrope.woff2) format('woff2');font-weight:200 800;font-display:swap}
+/* Kornfeld – Mehlweiß, Kruste, Butter, Zimt. Die Keksdose ist das Bild. */
+:root{
+  --mehl:#F6F0E4; --mehl-2:#ECE3D2; --papier:#FFFCF6; --kruste:#3E2416; --kruste-2:#5A3624; --zimt:#A4502A; --zimt-2:#BE6436;
+  --butter:#E8B84A; --butter-soft:#F6E5B8; --line:#DDD1BC; --grau:#76685A; --blech:#9AA3A8;
+  --serif:'Young Serif',Georgia,serif; --sans:'Manrope',system-ui,-apple-system,'Segoe UI',sans-serif;
+}
+*{box-sizing:border-box}[hidden]{display:none!important}
+html{scroll-behavior:smooth;scroll-padding-top:84px}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+body{margin:0;background:var(--mehl);color:var(--kruste);font-family:var(--sans);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:inherit}button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--zimt);outline-offset:3px}
+.wrap{width:min(1200px,100% - 48px);margin-inline:auto}
+@media (max-width:600px){.wrap{width:calc(100% - 32px)}}
+h1,h2,h3{font-family:var(--serif);font-weight:400;margin:0;line-height:1.02;letter-spacing:-.015em;text-wrap:balance}
+h2{font-size:clamp(36px,4.6vw,58px)}
+h1 span,h2 span{color:var(--zimt)}
+.kicker{font-size:12px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--zimt)}
+.lead{font-size:18px;color:var(--grau);max-width:54ch;margin:14px 0 0}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 26px;border-radius:14px;background:var(--kruste);color:var(--mehl);font-weight:700;font-size:15px;border:1px solid var(--kruste);cursor:pointer;text-decoration:none;transition:background .2s,transform .15s}
+.btn:hover{background:var(--kruste-2)}.btn:active{transform:translateY(1px)}
+.btn.ghost{background:transparent;color:var(--kruste)}.btn.ghost:hover{background:var(--kruste);color:var(--mehl)}
+.btn.butter{background:var(--butter);border-color:var(--butter);color:var(--kruste)}.btn.butter:hover{background:#F0C55E}
+.btn[disabled]{opacity:.4;cursor:not-allowed}
+.chip{min-height:42px;padding:0 16px;border-radius:12px;border:1px solid var(--line);background:var(--papier);font-size:14px;font-weight:700;cursor:pointer;white-space:nowrap}
+.chip:hover{border-color:var(--kruste)}
+.chip[aria-pressed="true"]{background:var(--kruste);border-color:var(--kruste);color:var(--mehl)}
+.chip:disabled{opacity:.35;text-decoration:line-through;cursor:not-allowed}
+.step{display:inline-flex;align-items:center;border:1px solid var(--kruste);border-radius:12px;overflow:hidden;background:var(--papier)}
+.step button{width:42px;height:42px;border:0;background:transparent;font-size:19px;font-weight:700;cursor:pointer}
+.step button:hover{background:var(--mehl-2)}.step button:disabled{opacity:.3;cursor:default}
+.step output{min-width:30px;text-align:center;font-family:var(--serif);font-size:19px}
+
+.demo-badge{position:fixed;left:16px;bottom:16px;z-index:70;display:flex;align-items:center;gap:12px;background:#0B0D10;color:#ECEEF2;padding:8px 10px 8px 14px;border-radius:999px;font-size:12px;box-shadow:0 18px 40px -18px rgba(0,0,0,.55)}
+.demo-badge i{width:8px;height:8px;border-radius:50%;background:#3B7BFF;flex:none}
+.demo-badge a{color:#8FB1FF;font-weight:600;text-decoration:none}
+.vswitch{display:flex;background:#1E2329;border-radius:999px;padding:3px}
+.vswitch button{border:0;background:transparent;color:#AEB6C2;font-size:12px;font-weight:700;padding:6px 12px;border-radius:999px;cursor:pointer}
+.vswitch button[aria-pressed="true"]{background:#ECEEF2;color:#0B0D10}
+body:not(.plus) .plus-only{display:none!important}
+body.plus .basis-only{display:none!important}
+@media (max-width:700px){.demo-badge{left:50%;transform:translateX(-50%);bottom:12px;white-space:nowrap}.demo-badge .t{display:none}body.bar-on .demo-badge{display:none}}
+
+.nav{position:sticky;top:0;z-index:50;background:rgba(246,240,228,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:24px;min-height:72px}
+.logo{display:flex;align-items:center;gap:12px;text-decoration:none}
+.logo svg{width:36px;height:36px}
+.logo b{font-family:var(--serif);font-size:24px;font-weight:400;line-height:1;display:block}
+.logo span{font-size:12px;color:var(--grau);display:block;margin-top:3px}
+.nav nav{display:flex;gap:28px;font-size:14px;font-weight:700;color:var(--grau)}
+.nav nav a{text-decoration:none}.nav nav a:hover{color:var(--kruste)}
+.nav .btn{min-height:42px;padding:0 18px;font-size:14px}
+@media (max-width:920px){.nav nav{display:none}}
+@media (max-width:480px){.logo span{display:none}}
+
+.hero{padding:56px 0 10px}
+.hero .wrap{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:48px;align-items:center}
+.hero h1{font-size:clamp(50px,7vw,96px);line-height:.95;margin-top:14px}
+.hero .lead{font-size:19px;margin-top:22px}
+.hero-cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+.hero-art{position:relative;justify-self:center;width:100%;max-width:520px}
+.hero-art svg{width:100%;height:auto;display:block;filter:drop-shadow(0 40px 40px rgba(62,36,22,.25))}
+.stamp{display:inline-flex;align-items:center;gap:10px;margin-top:24px;font-size:14px;font-weight:700;background:var(--butter-soft);padding:8px 14px;border-radius:10px}
+.stamp i{width:8px;height:8px;border-radius:50%;background:var(--zimt)}
+@media (max-width:900px){.hero .wrap{grid-template-columns:1fr}.hero-art{max-width:400px}}
+.facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));margin-top:44px;border-top:2px solid var(--kruste)}
+.facts div{padding:16px 18px 0 0}.facts div+div{padding-left:18px;border-left:1px solid var(--line)}
+.facts b{display:block;font-family:var(--serif);font-size:21px;line-height:1.15}
+.facts span{font-size:14px;color:var(--grau)}
+@media (max-width:640px){.facts{grid-template-columns:1fr}.facts div+div{padding-left:0;border-left:0;border-top:1px solid var(--line);margin-top:14px}}
+
+.shop{display:grid;grid-template-columns:minmax(0,1fr) 360px;column-gap:48px;padding:36px 0 120px}
+.main{min-width:0}
+.rail{align-self:start;position:sticky;top:96px}
+.block{padding-top:96px}
+@media (max-width:1000px){.shop{grid-template-columns:minmax(0,1fr)}.rail{position:static;margin-top:48px}}
+
+/* Keksdose */
+.tinbox{margin-top:30px;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);background:var(--papier);border:1px solid var(--line);border-radius:24px;overflow:hidden}
+.tin-stage{position:relative;padding:28px;background:radial-gradient(circle at 50% 40%,#FFFDF8,#EFE6D6 75%);display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:470px}
+.tin{position:relative;width:min(100%,420px);aspect-ratio:1}
+.tin svg.rim{position:absolute;inset:0;width:100%;height:100%}
+.slots{position:absolute;inset:11.5%;display:grid;gap:3%;align-content:center}
+.slot{position:relative;aspect-ratio:1;border:0;padding:0;border-radius:22%;background:rgba(255,255,255,.5);box-shadow:inset 0 2px 6px rgba(62,36,22,.18);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .15s}
+.slot:hover{transform:scale(1.04)}
+.slot svg{width:96%;height:96%;filter:drop-shadow(0 3px 3px rgba(62,36,22,.3))}
+.slot.pop svg{animation:pop .35s cubic-bezier(.3,1.6,.6,1)}
+@keyframes pop{from{transform:scale(.3) rotate(-30deg);opacity:0}to{transform:none;opacity:1}}
+.slot .x{position:absolute;right:-2px;top:-2px;width:20px;height:20px;border-radius:50%;background:var(--kruste);color:#fff;font-size:12px;line-height:20px;text-align:center;opacity:0;transition:opacity .15s}
+.slot:hover .x,.slot:focus-visible .x{opacity:1}
+.tin-info{display:flex;gap:18px;align-items:baseline;margin-top:16px;font-size:14px;color:var(--grau)}
+.tin-info b{font-family:var(--serif);font-size:30px;color:var(--kruste);font-weight:400}
+.tin-ctl{padding:26px;border-left:1px solid var(--line);display:flex;flex-direction:column;gap:20px}
+.tin-ctl .lbl{font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--grau);margin-bottom:10px;display:flex;justify-content:space-between}
+.tin-ctl .lbl span{letter-spacing:0;text-transform:none;font-weight:600}
+.row{display:flex;flex-wrap:wrap;gap:8px}
+.sorts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.sort{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 6px 9px;border-radius:14px;border:1px solid var(--line);background:#fff;cursor:pointer;font-size:12.5px;font-weight:700;line-height:1.2;text-align:center;position:relative}
+.sort svg{width:44px;height:44px}
+.sort:hover{border-color:var(--kruste)}
+.sort small{font-weight:600;color:var(--grau);font-size:11px}
+.sort{min-width:0;overflow-wrap:anywhere;hyphens:auto}
+.sort .n{position:absolute;right:6px;top:6px;min-width:20px;height:20px;border-radius:10px;background:var(--butter);font-size:11px;line-height:20px;padding:0 5px}
+.sort:disabled{opacity:.45;cursor:not-allowed}
+.tin-ctl .btns{display:flex;flex-wrap:wrap;gap:8px;margin-top:auto}
+@media (max-width:920px){.tinbox{grid-template-columns:1fr}.tin-ctl{border-left:0;border-top:1px solid var(--line)}.tin-stage{min-height:0}.sorts{grid-template-columns:repeat(3,minmax(0,1fr))}}
+
+.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:28px}
+.pc{background:var(--papier);border:1px solid var(--line);border-radius:20px;padding:20px;display:grid;grid-template-columns:96px minmax(0,1fr);gap:16px;align-items:center}
+.pc svg{width:96px;height:96px}
+.pc b{font-family:var(--serif);font-size:22px;font-weight:400;display:block;line-height:1.1;overflow-wrap:anywhere;hyphens:auto}
+.pc > div{min-width:0}
+.pc p{margin:4px 0 10px;font-size:13.5px;color:var(--grau)}
+.pc .ctl{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.pc .pr{font-family:var(--serif);font-size:21px;margin-right:auto}
+.pc select{font:inherit;font-size:14px;font-weight:700;padding:9px 10px;border-radius:10px;border:1px solid var(--line);background:#fff}
+.pc.on{border-color:var(--kruste);box-shadow:inset 0 0 0 1px var(--kruste)}
+@media (max-width:720px){.cards{grid-template-columns:minmax(0,1fr)}.pc{grid-template-columns:76px minmax(0,1fr)}.pc svg{width:76px;height:76px}}
+
+.days{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:28px}
+.day{border:1px solid var(--kruste);border-radius:16px;padding:16px}
+.day h3{font-size:26px}.day p{margin:0 0 12px;font-size:13px;color:var(--grau)}
+.day .sl{display:flex;flex-wrap:wrap;gap:6px}
+.day .chip{min-height:36px;padding:0 10px;font-size:13px}
+@media (max-width:900px){.days{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:520px){.days{grid-template-columns:1fr}}
+
+.form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 16px;margin-top:26px}
+.field{display:flex;flex-direction:column;gap:6px}.field.wide{grid-column:1 / -1}
+.field label{font-size:13.5px;font-weight:700}.field label span{font-weight:500;color:var(--grau)}
+.field input,.field textarea{font:inherit;font-size:16px;padding:12px 14px;border-radius:12px;border:1px solid var(--line);background:#fff;color:var(--kruste)}
+.field input:focus,.field textarea:focus{outline:2px solid var(--zimt);outline-offset:0}
+.check{grid-column:1 / -1;display:flex;gap:10px;font-size:14px;color:var(--grau)}
+.check input{width:20px;height:20px;accent-color:var(--zimt)}
+.error{grid-column:1 / -1;margin:0;padding:11px 14px;border-radius:12px;background:#F6E1D6;color:var(--zimt);font-weight:700;font-size:14px;display:none}
+.error.show{display:block}
+.done{display:none;margin-top:26px;padding:26px;border-radius:20px;background:var(--kruste);color:var(--mehl)}
+.done.show{display:block}.done h3{font-size:32px}.done p{margin:8px 0 0;color:#D8C7B5;max-width:58ch}
+.done .btn{margin-top:18px}
+@media (max-width:600px){.form{grid-template-columns:1fr}}
+
+.bag{background:var(--papier);border:1px solid var(--line);border-radius:22px;padding:24px;position:relative;overflow:hidden}
+.bag::after{content:"";position:absolute;right:-40px;top:-40px;width:120px;height:120px;border-radius:50%;background:var(--butter-soft);z-index:0}
+.bag>*{position:relative;z-index:1}
+.bag h3{font-size:27px}.bag .sub{font-size:13px;color:var(--grau)}
+.lines{list-style:none;margin:14px 0 0;padding:0;min-height:90px}
+.lines li{display:grid;grid-template-columns:30px minmax(0,1fr) auto auto;gap:6px;align-items:baseline;padding:9px 0;border-bottom:1px solid #EFE6D7;font-size:14px;line-height:1.4}
+.lines li:has(.empty){display:block}
+.lines .q{font-family:var(--serif);font-size:17px}
+.lines .x{border:0;background:none;color:#A89A8A;cursor:pointer;font-size:16px;padding:0 0 0 6px}
+.lines .s{display:block;font-size:12.5px;color:var(--grau)}
+.lines .empty{display:block;font-family:var(--serif);font-size:18px;color:var(--grau);padding-top:8px}
+.bag .pick{display:flex;justify-content:space-between;gap:12px;margin-top:10px;padding-top:12px;border-top:1px dashed var(--line);font-size:14px}
+.bag .pick b.none{color:#A89A8A;font-weight:600}
+.bag .tot{display:flex;justify-content:space-between;align-items:baseline;margin-top:12px;padding-top:12px;border-top:2px solid var(--kruste)}
+.bag .tot b{font-family:var(--serif);font-size:32px;font-weight:400}
+.bag .btn{width:100%;margin-top:16px}
+.bag .note{font-size:12.5px;color:var(--grau);margin:10px 0 0}
+
+.back{background:var(--kruste);color:var(--mehl);padding:96px 0 104px}
+.back .lead{color:#CDB9A6}.back h2 span{color:var(--butter)}
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin-top:30px}
+.tabs .chip{background:transparent;color:var(--mehl);border-color:#6A4632}
+.tabs .chip[aria-pressed="true"]{background:var(--butter);border-color:var(--butter);color:var(--kruste)}
+.bgrid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:40px;margin-top:26px}
+.back h3{font-size:24px;padding-bottom:10px;border-bottom:2px solid var(--mehl);color:#fff}
+.bl{width:100%;border-collapse:collapse;font-size:15px}
+.bl td{padding:10px 0;border-bottom:1px solid #5A3A28;vertical-align:middle}
+.bl td:first-child{width:46px}.bl svg{width:36px;height:36px;display:block}
+.bl td:last-child{text-align:right;font-family:var(--serif);font-size:20px}
+.ord{list-style:none;margin:0;padding:0}
+.ord li{display:grid;grid-template-columns:60px minmax(0,1fr) auto;gap:2px 16px;padding:12px 0;border-bottom:1px solid #5A3A28}
+.ord .t{font-family:var(--serif);font-size:18px}.ord .w{font-weight:700}.ord .s{font-weight:700}
+.ord .i{grid-column:2 / -1;font-size:13px;color:#CDB9A6}
+.ord li.new{background:linear-gradient(90deg,rgba(232,184,74,.18),transparent 70%)}
+.back .btn.ghost{color:var(--mehl);border-color:var(--mehl)}.back .btn.ghost:hover{background:var(--mehl);color:var(--kruste)}
+@media (max-width:900px){.bgrid{grid-template-columns:1fr}}
+
+.info{padding:100px 0 120px}
+.info .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:56px}
+.hours{width:100%;border-collapse:collapse;margin-top:24px}
+.hours td{padding:12px 0;border-bottom:1px solid var(--line)}
+.hours td:last-child{text-align:right;font-variant-numeric:tabular-nums}
+.hours tr.today td{font-weight:800}
+.status{display:inline-flex;align-items:center;gap:8px;margin-top:20px;font-weight:800;font-size:15px}
+.status i{width:9px;height:9px;border-radius:50%;background:#3E8E5A}.status.closed i{background:var(--zimt)}
+.addr{font-family:var(--serif);font-size:28px;line-height:1.2;margin-top:24px}
+.info p{color:var(--grau);max-width:46ch}
+@media (max-width:860px){.info .wrap{grid-template-columns:1fr;gap:40px}}
+footer{border-top:1px solid var(--line);padding:28px 0 100px;font-size:13px;color:var(--grau)}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:55;display:none;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px calc(12px + env(safe-area-inset-bottom));background:var(--kruste);color:var(--mehl)}
+.bar b{font-family:var(--serif);font-size:22px;font-weight:400}.bar span{display:block;font-size:12.5px;color:#CDB9A6}
+.bar .btn{min-height:44px;background:var(--butter);border-color:var(--butter);color:var(--kruste)}
+@media (max-width:1000px){.bar.show{display:flex}}
+@media print{body{background:#fff}.nav,.hero,.shop,.info,footer,.demo-badge,.bar,.tabs,.back .btn,.back .lead{display:none!important}.back{background:#fff;color:#000;padding:0}.back h2,.back h3{color:#000}.ord .i{color:#333}}
+@media (max-width:400px){.nav .wrap{gap:12px}.nav .btn{padding:0 12px;font-size:12.5px;min-height:40px}.logo b{font-size:21px}.logo svg,.logo .m{width:30px;height:30px}.mode{flex-wrap:wrap}}
+</style>
+</head>
+<body class="plus">
+
+<header class="nav">
+  <div class="wrap">
+    <a class="logo" href="#top"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="19" fill="#3E2416"/><path d="M20 8v24M20 14c-4-1-6-4-6-4s3 0 6 2M20 14c4-1 6-4 6-4s-3 0-6 2M20 20c-4-1-6-4-6-4s3 0 6 2M20 20c4-1 6-4 6-4s-3 0-6 2M20 26c-4-1-6-4-6-4s3 0 6 2M20 26c4-1 6-4 6-4s-3 0-6 2" stroke="#E8B84A" stroke-width="1.6" fill="none" stroke-linecap="round"/></svg>
+      <div><b>Kornfeld</b><span>Bäckerei und Konditorei in Waidhofen</span></div></a>
+    <nav aria-label="Hauptnavigation"><a href="#kekse">Kekse</a><a href="#stollen">Stollen und Torten</a><a href="#abholung">Abholung</a><a href="#backstube">Für die Backstube</a></nav>
+    <a class="btn" href="#kekse">Vorbestellen</a>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap">
+      <div>
+        <div class="kicker">Weihnachtsbäckerei 2026</div>
+        <h1>Unsere Kekse, <span>deine Mischung.</span></h1>
+        <p class="lead plus-only">Wähl die Dose und füll sie mit deinen Lieblingssorten, Fach für Fach. Dazu Stollen, Lebkuchen und Torten, alles zum Abholen an deinem Wunschtag.</p>
+        <p class="lead basis-only">Kekse nach Gewicht, die Dose des Hauses, Stollen und Torten. Auswählen, Abholtag wählen, fertig. Wir packen alles für dich zusammen.</p>
+        <div class="stamp" id="countdown"><i></i><span></span></div>
+        <div class="hero-cta"><a class="btn" href="#kekse">Keksdose befüllen</a><a class="btn ghost" href="#stollen">Stollen und Torten</a></div>
+      </div>
+      <div class="hero-art" id="hero-art" aria-hidden="true"></div>
+    </div>
+    <div class="wrap">
+      <div class="facts">
+        <div><b>bis 17. Dezember</b><span>Bestellschluss für Kekse und Stollen</span></div>
+        <div><b>19. bis 24. Dezember</b><span>Abholung in der Backstube</span></div>
+        <div><b>Torten ab 3 Tagen</b><span>Vorlauf, auch für Silvester</span></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap shop">
+    <div class="main">
+      <section id="kekse" aria-labelledby="h-kekse">
+        <div class="plus-only">
+          <div class="kicker">Keksdose befüllen</div>
+          <h2 id="h-kekse">Fach für Fach <span>deine Lieblinge.</span></h2>
+          <div class="tinbox">
+            <div class="tin-stage">
+              <div class="tin" id="tin"></div>
+              <div class="tin-info"><b id="tin-price">0 €</b><span id="tin-fill">0 von 9 Fächern</span></div>
+            </div>
+            <div class="tin-ctl">
+              <div><div class="lbl">Dose <span id="tin-size-l"></span></div><div class="row" id="tin-sizes"></div></div>
+              <div><div class="lbl">Sorten <span>antippen zum Einlegen</span></div><div class="sorts" id="sorts"></div></div>
+              <div class="btns"><button class="btn ghost" type="button" id="tin-mix" style="min-height:44px;padding:0 16px">Mischung des Hauses</button><button class="btn ghost" type="button" id="tin-clear" style="min-height:44px;padding:0 16px">Leeren</button></div>
+              <button class="btn" type="button" id="tin-add" disabled>Dose in die Bestellung</button>
+            </div>
+          </div>
+        </div>
+        <div class="basis-only">
+          <div class="kicker">Kekse</div>
+          <h2>Weihnachtskekse <span>nach Gewicht.</span></h2>
+          <p class="lead">Jede Sorte in der 250-Gramm-Packung oder die gemischte Dose des Hauses.</p>
+          <div class="cards" id="basis-kekse"></div>
+        </div>
+      </section>
+
+      <section class="block" id="stollen" aria-labelledby="h-st">
+        <div class="kicker">Stollen, Lebkuchen, Torten</div>
+        <h2 id="h-st">Für den <span>Festtagstisch.</span></h2>
+        <div class="cards" id="cards"></div>
+      </section>
+
+      <section class="block" id="abholung" aria-labelledby="h-ab">
+        <div class="kicker">Abholung</div>
+        <h2 id="h-ab">Wann holst du <span>ab?</span></h2>
+        <p class="lead">Wähl ein Zeitfenster. Deine Bestellung liegt dann verpackt und beschriftet bereit, du musst dich nicht anstellen.</p>
+        <div class="days" id="days"></div>
+      </section>
+
+      <section class="block" id="daten" aria-labelledby="h-da">
+        <div class="kicker">Fast fertig</div>
+        <h2 id="h-da">Deine <span>Daten.</span></h2>
+        <form class="form" id="form" novalidate>
+          <p class="error" id="error" role="alert"></p>
+          <div class="field"><label for="f-name">Name</label><input id="f-name" autocomplete="name"></div>
+          <div class="field"><label for="f-tel">Telefon</label><input id="f-tel" type="tel" inputmode="tel" autocomplete="tel"></div>
+          <div class="field wide"><label for="f-note">Anmerkung <span>(optional)</span></label><textarea id="f-note" rows="3" placeholder="z. B. Torte bitte mit „Frohe Weihnachten“"></textarea></div>
+          <label class="check"><input type="checkbox" id="f-ok"><span>Meine Angaben werden nur für diese Bestellung verwendet.</span></label>
+          <div class="field wide" style="flex-direction:row;flex-wrap:wrap;gap:14px;align-items:center"><button class="btn" type="submit">Vorbestellung abschicken</button><span style="font-size:13.5px;color:var(--grau)">Bezahlt wird bei der Abholung. Demo: nichts wird verschickt.</span></div>
+        </form>
+        <div class="done" id="done" role="status"><h3 id="done-t"></h3><p id="done-p"></p><a class="btn butter" href="#backstube">So sieht die Backstube deine Bestellung</a></div>
+      </section>
+    </div>
+
+    <aside class="rail" aria-label="Deine Bestellung">
+      <div class="bag" id="bag">
+        <h3>Deine Bestellung</h3><div class="sub">Weihnachten 2026</div>
+        <ul class="lines" id="lines" aria-live="polite"></ul>
+        <div class="pick"><span>Abholung</span><b id="pick" class="none">noch nicht gewählt</b></div>
+        <div class="tot"><span>Summe</span><b id="tot">0 €</b></div>
+        <a class="btn" id="next" href="#kekse">Kekse auswählen</a>
+        <p class="note">Bis 17. Dezember kannst du jederzeit anrufen und ändern.</p>
+      </div>
+    </aside>
+  </div>
+
+  <section class="back" id="backstube" aria-labelledby="h-back">
+    <div class="wrap">
+      <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:24px">
+        <div><div class="kicker" style="color:var(--butter)">Für die Backstube</div><h2 id="h-back" style="color:#fff">Die Backliste <span>rechnet mit.</span></h2>
+        <p class="lead">Alle Vorbestellungen eines Tages, zusammengezählt nach Sorte. So weißt du am Vortag, wie viele Bleche Kipferl es braucht.</p></div>
+        <button class="btn ghost" type="button" id="print">Backliste drucken</button>
+      </div>
+      <div class="tabs" id="tabs" role="group" aria-label="Tag wählen"></div>
+      <div class="bgrid"><div><h3>Backliste</h3><table class="bl"><tbody id="bl"></tbody></table></div><div><h3>Bestellungen</h3><ul class="ord" id="ord"></ul></div></div>
+    </div>
+  </section>
+
+  <section class="info" aria-labelledby="h-info">
+    <div class="wrap">
+      <div><div class="kicker">Geschäft</div><h2 id="h-info">Frisch aus dem <span>Ofen.</span></h2><div class="status" id="status"><i></i><span></span></div><table class="hours"><tbody id="hours"></tbody></table></div>
+      <div><div class="addr">Backstube Kornfeld<br>Hauptplatz 8<br>3830 Waidhofen an der Thaya</div><p>Vorbestellungen holst du am eigenen Tisch rechts neben der Vitrine ab. Parkplätze am Hauptplatz.</p><p><a href="tel:+430000000000">0000 000 00 00</a> · fiktive Nummer</p></div>
+    </div>
+  </section>
+</main>
+
+<footer><div class="wrap"><span>Backstube Kornfeld ist ein fiktiver Betrieb.</span><span>Demo-Website von Jannik Hofstetter</span></div></footer>
+<div class="bar" id="bar"><div><b id="bar-tot">0 €</b><span id="bar-n">0 Stück</span></div><a class="btn" href="#abholung" id="bar-btn">Abholung wählen</a></div>
+<div class="demo-badge"><i></i><span>Demo<span class="t"> · fiktive Bäckerei</span></span><div class="vswitch" role="group" aria-label="Version wählen"><button type="button" data-v="basis">Basis</button><button type="button" data-v="plus">Plus</button></div><a href="../../#arbeiten">← Jannik</a></div>
+
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const eur = v => v.toLocaleString('de-AT', { minimumFractionDigits: v % 1 ? 2 : 0, maximumFractionDigits: 2 }) + ' €';
+  const store = { get(k, d) { try { return JSON.parse(localStorage.getItem('kornfeld-' + k)) ?? d; } catch (e) { return d; } }, set(k, v) { try { localStorage.setItem('kornfeld-' + k, JSON.stringify(v)); } catch (e) {} } };
+
+  /* Kekse als SVG (viewBox 0 0 60 60) */
+  const C = {
+    kipferl: { n: 'Vanillekipferl', svg: '<path d="M10 40c4-18 20-27 34-22 6 2 8 7 6 9-5-6-17-6-26 4-5 5-8 10-14 9z" fill="#F2DDB0"/><path d="M10 40c4-18 20-27 34-22" fill="none" stroke="#fff" stroke-width="3" stroke-dasharray="1 4" stroke-linecap="round" opacity=".9"/>' },
+    linzer: { n: 'Linzer Augen', svg: '<circle cx="30" cy="30" r="22" fill="#E7C48A"/><circle cx="30" cy="30" r="22" fill="none" stroke="#D2A766" stroke-width="2"/><circle cx="22" cy="26" r="4.2" fill="#A3192E"/><circle cx="38" cy="26" r="4.2" fill="#A3192E"/><circle cx="30" cy="38" r="4.2" fill="#A3192E"/><g fill="#fff" opacity=".85"><circle cx="16" cy="18" r="1.2"/><circle cx="44" cy="40" r="1.2"/><circle cx="40" cy="15" r="1"/><circle cx="18" cy="42" r="1"/></g>' },
+    zimtstern: { n: 'Zimtsterne', svg: '<path d="M30 6l6.6 14.6 15.9 1.5-12 10.6 3.5 15.6L30 40.1 16 48.3l3.5-15.6-12-10.6 15.9-1.5z" fill="#9B5A33"/><path d="M30 10l5.4 12 13 1.2-9.8 8.7 2.9 12.8L30 38l-11.5 6.7 2.9-12.8-9.8-8.7 13-1.2z" fill="#FBF7EE"/>' },
+    kokos: { n: 'Kokosbusserl', svg: '<path d="M10 42c0-14 9-26 20-26s20 12 20 26c-6 4-34 4-40 0z" fill="#F7F1E4"/><g stroke="#E2D6BE" stroke-width="1.6" stroke-linecap="round"><path d="M16 36l4-3M24 28l3-4M33 30l4-3M40 37l3-3M28 38l3-2M20 41l2-2"/></g><ellipse cx="30" cy="43" rx="21" ry="4" fill="#C08A4A" opacity=".5"/>' },
+    husaren: { n: 'Husarenkrapferl', svg: '<circle cx="30" cy="30" r="20" fill="#DDB275"/><circle cx="30" cy="30" r="20" fill="none" stroke="#C69254" stroke-width="2.5"/><g fill="#C99B5F"><circle cx="20" cy="22" r="2.2"/><circle cx="40" cy="22" r="2"/><circle cx="20" cy="38" r="2"/><circle cx="40" cy="38" r="2.2"/></g><circle cx="30" cy="30" r="8" fill="#B21E33"/><circle cx="27.5" cy="27.5" r="2" fill="#fff" opacity=".45"/>' },
+    spitzbub: { n: 'Spitzbuben', svg: '<path d="M30 8c5 0 7 5 7 5s5-3 9 0 2 9 2 9 6 2 6 8-6 8-6 8 3 6-2 9-9 0-9 0-2 5-7 5-7-5-7-5-5 3-9 0-2-9-2-9-6-2-6-8 6-8 6-8-3-6 2-9 9 0 9 0 2-5 7-5z" fill="#F3E2BE"/><circle cx="30" cy="30" r="8" fill="#C6233B"/><g fill="#fff" opacity=".9"><circle cx="18" cy="18" r="1"/><circle cx="42" cy="20" r="1.2"/><circle cx="40" cy="42" r="1"/><circle cx="19" cy="40" r="1.2"/><circle cx="30" cy="14" r="1"/></g>' },
+    rumkugel: { n: 'Rumkugeln', svg: '<circle cx="30" cy="31" r="18" fill="#3A2014"/><g stroke-linecap="round" stroke-width="2.4"><path d="M20 24l3 1M34 18l2 2M40 30l2-2M25 38l3 1M33 40l2-1M22 31l1 3M36 25l3 0M29 27l1 2" stroke="#6B3E22"/></g><circle cx="24" cy="24" r="3" fill="#fff" opacity=".18"/>' },
+    lebkuchen: { n: 'Lebkuchenherzen', svg: '<path d="M30 50S8 37 8 22c0-8 6-13 12-13 5 0 8 3 10 6 2-3 5-6 10-6 6 0 12 5 12 13 0 15-22 28-22 28z" fill="#8A4A24"/><path d="M30 45S13 34 13 22c0-5 3.5-8.5 7.5-8.5 4 0 6.5 3 9.5 6.5 3-3.5 5.5-6.5 9.5-6.5 4 0 7.5 3.5 7.5 8.5 0 12-17 23-17 23z" fill="none" stroke="#FBF3E2" stroke-width="2" stroke-dasharray="3 3"/><circle cx="30" cy="28" r="3" fill="#C6233B"/>' },
+    nuss: { n: 'Nussecken', svg: '<path d="M8 46 30 10l22 36z" fill="#C88B4E"/><path d="M8 46 30 10l22 36z" fill="none" stroke="#A86B33" stroke-width="2"/><path d="M8 46l6-10 6 10zM46 36l6 10H40zM24 20l6-10 6 10z" fill="#3A2014"/><g fill="#E7C08A"><circle cx="26" cy="34" r="2"/><circle cx="34" cy="36" r="2"/><circle cx="30" cy="28" r="1.8"/></g>' }
+  };
+  const SORT_IDS = Object.keys(C);
+  const icon = (id, cls = '') => `<svg viewBox="0 0 60 60" aria-hidden="true" class="${cls}">${C[id].svg}</svg>`;
+  const PREMIUM = { rumkugel: 1.2, nuss: 1 };
+  const SIZES = [{ id: 's', l: 'Klein · 500 g', slots: 9, cols: 3, p: 19 }, { id: 'm', l: 'Mittel · 750 g', slots: 12, cols: 4, p: 27 }, { id: 'l', l: 'Groß · 1 kg', slots: 16, cols: 4, p: 35 }];
+  const HOUSE = ['kipferl', 'linzer', 'zimtstern', 'kokos', 'husaren', 'spitzbub', 'rumkugel', 'lebkuchen', 'nuss'];
+
+  /* Produkte */
+  const PRODUCTS = [
+    { id: 'stollen', n: 'Butterstollen', d: 'Mit Rosinen, Orangeat und Marzipankern', opts: [['500 g', 14.9], ['1 kg', 27.5]], art: 'stollen' },
+    { id: 'mohnstollen', n: 'Mohnstollen', d: 'Mit Waldviertler Graumohn', opts: [['500 g', 15.9], ['1 kg', 29]], art: 'mstollen' },
+    { id: 'kletzen', n: 'Kletzenbrot', d: 'Mit Dörrbirnen, Feigen und Nüssen', opts: [['500 g', 9.8], ['1 kg', 18.5]], art: 'kletzen' },
+    { id: 'striezel', n: 'Weihnachtsstriezel', d: 'Germteig, geflochten, mit Hagelzucker', opts: [['500 g', 7.9]], art: 'striezel' },
+    { id: 'sacher', n: 'Sachertorte', d: 'Mit Marillenmarmelade, ganze Torte', opts: [['16 cm', 29], ['22 cm', 46]], art: 'sacher' },
+    { id: 'punsch', n: 'Punschtorte', d: 'Rosa glasiert, mit Rum', opts: [['16 cm', 31], ['22 cm', 49]], art: 'punsch' }
+  ];
+  const ART = {
+    stollen: '<ellipse cx="48" cy="66" rx="40" ry="10" fill="rgba(0,0,0,.12)"/><path d="M10 56c0-18 18-30 38-30s38 12 38 30c-10 8-66 8-76 0z" fill="#E9C688"/><path d="M14 54c4-14 18-24 34-24s30 10 34 24c-10 6-58 6-68 0z" fill="#FFFDF7"/><g fill="#EFE7D6"><circle cx="30" cy="44" r="2"/><circle cx="58" cy="40" r="2.4"/><circle cx="68" cy="50" r="2"/><circle cx="44" cy="50" r="1.6"/></g>',
+    mstollen: '<ellipse cx="48" cy="66" rx="40" ry="10" fill="rgba(0,0,0,.12)"/><path d="M10 56c0-18 18-30 38-30s38 12 38 30c-10 8-66 8-76 0z" fill="#E2BC7E"/><path d="M14 54c4-14 18-24 34-24s30 10 34 24c-10 6-58 6-68 0z" fill="#FBF8F1"/><path d="M26 56c6-6 14-8 22-8s16 2 22 8" stroke="#3B3A43" stroke-width="5" fill="none" stroke-linecap="round" opacity=".85"/>',
+    kletzen: '<ellipse cx="48" cy="68" rx="38" ry="9" fill="rgba(0,0,0,.12)"/><rect x="12" y="30" width="72" height="34" rx="16" fill="#5B2F1A"/><g fill="#8A4A2A"><circle cx="28" cy="42" r="4"/><circle cx="48" cy="38" r="5"/><circle cx="66" cy="46" r="4"/><circle cx="38" cy="54" r="3"/><circle cx="58" cy="56" r="3.4"/></g><g fill="#D8B27A"><ellipse cx="34" cy="38" rx="3" ry="2"/><ellipse cx="60" cy="40" rx="3" ry="2"/></g>',
+    striezel: '<ellipse cx="48" cy="68" rx="40" ry="9" fill="rgba(0,0,0,.12)"/><g fill="#C9873E"><ellipse cx="24" cy="50" rx="16" ry="12"/><ellipse cx="48" cy="46" rx="16" ry="13"/><ellipse cx="72" cy="50" rx="16" ry="12"/></g><g fill="#E0A557"><ellipse cx="24" cy="46" rx="11" ry="6"/><ellipse cx="48" cy="41" rx="11" ry="6"/><ellipse cx="72" cy="46" rx="11" ry="6"/></g><g fill="#fff"><rect x="20" y="42" width="3" height="3" rx="1"/><rect x="46" y="38" width="3" height="3" rx="1"/><rect x="70" y="42" width="3" height="3" rx="1"/><rect x="54" y="44" width="3" height="3" rx="1"/></g>',
+    sacher: '<ellipse cx="48" cy="72" rx="40" ry="10" fill="rgba(0,0,0,.14)"/><path d="M10 38v22c0 7 17 12 38 12s38-5 38-12V38z" fill="#2E1710"/><ellipse cx="48" cy="38" rx="38" ry="12" fill="#3E2218"/><ellipse cx="40" cy="35" rx="16" ry="4" fill="#fff" opacity=".12"/><path d="M28 38c4-3 10-4 14-1 3 2 6 1 7-1" stroke="#7A4A33" stroke-width="2" fill="none"/>',
+    punsch: '<ellipse cx="48" cy="72" rx="40" ry="10" fill="rgba(0,0,0,.14)"/><path d="M10 38v22c0 7 17 12 38 12s38-5 38-12V38z" fill="#E88BA2"/><path d="M10 50c0 7 17 12 38 12s38-5 38-12" stroke="#C9A27A" stroke-width="6" fill="none"/><ellipse cx="48" cy="38" rx="38" ry="12" fill="#F3A6B9"/><ellipse cx="40" cy="35" rx="16" ry="4" fill="#fff" opacity=".3"/>'
+  };
+  const pIcon = a => `<svg viewBox="0 0 96 80" aria-hidden="true">${ART[a]}</svg>`;
+  const BASIS_KEKSE = SORT_IDS.map(id => ({ id: 'kg-' + id, n: C[id].n, d: '250 g, eine Sorte', price: 8.9 + (PREMIUM[id] || 0) * 1.5, sort: id }));
+
+  /* Version */
+  const params = new URLSearchParams(location.search);
+  let version = params.get('v') === 'basis' ? 'basis' : 'plus';
+  function setVersion(v) { version = v; document.body.classList.toggle('plus', v === 'plus'); document.querySelectorAll('.vswitch button').forEach(b => b.setAttribute('aria-pressed', b.dataset.v === v)); const u = new URL(location.href); if (v === 'basis') u.searchParams.set('v', 'basis'); else u.searchParams.delete('v'); history.replaceState(null, '', u); renderBag(); }
+  document.querySelectorAll('.vswitch button').forEach(b => b.onclick = () => setVersion(b.dataset.v));
+
+  /* Dose */
+  let tin = { size: 'm', fill: [] }, popAt = -1;
+  const sz = () => SIZES.find(s => s.id === tin.size);
+  const tinPrice = t => SIZES.find(s => s.id === t.size).p + t.fill.reduce((s, id) => s + (PREMIUM[id] || 0), 0);
+  function tinSvg() {
+    return `<svg class="rim" viewBox="0 0 400 400" aria-hidden="true"><defs><radialGradient id="tg" cx="40%" cy="35%" r="70%"><stop offset="0" stop-color="#C7363F"/><stop offset=".7" stop-color="#8E1C26"/><stop offset="1" stop-color="#6B121A"/></radialGradient><linearGradient id="tr" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F4E3B0"/><stop offset=".5" stop-color="#C9A24A"/><stop offset="1" stop-color="#8F6B24"/></linearGradient></defs>
+      <rect x="8" y="20" width="384" height="380" rx="56" fill="rgba(62,36,22,.18)"/><rect x="6" y="6" width="388" height="388" rx="58" fill="url(#tr)"/><rect x="18" y="18" width="364" height="364" rx="48" fill="url(#tg)"/><rect x="34" y="34" width="332" height="332" rx="34" fill="#F8EFD9"/><rect x="34" y="34" width="332" height="332" rx="34" fill="none" stroke="#E3D2AE" stroke-width="3"/>
+      ${Array.from({ length: 40 }, (_, i) => { const t = i / 10, side = Math.floor(t), f = t - side; const pos = [[60 + f * 280, 12], [388, 60 + f * 280], [340 - f * 280, 388], [12, 340 - f * 280]][side]; return `<circle cx="${pos[0].toFixed(1)}" cy="${pos[1].toFixed(1)}" r="2.2" fill="#F4E3B0" opacity=".8"/>`; }).join('')}</svg>`;
+  }
+  function renderTin() {
+    const s = sz();
+    $('tin').innerHTML = tinSvg() + `<div class="slots" id="slotgrid" style="grid-template-columns:repeat(${s.cols},1fr)"></div>`;
+    const g = $('slotgrid');
+    for (let i = 0; i < s.slots; i++) {
+      const id = tin.fill[i]; const b = document.createElement('button'); b.type = 'button'; b.className = 'slot' + (i === popAt ? ' pop' : '');
+      if (id) { b.innerHTML = icon(id) + '<span class="x" aria-hidden="true">×</span>'; b.setAttribute('aria-label', `${C[id].n} herausnehmen`); b.onclick = () => { tin.fill.splice(i, 1); popAt = -1; renderTin(); }; }
+      else { b.setAttribute('aria-label', 'Leeres Fach'); b.style.cursor = 'default'; b.tabIndex = -1; }
+      g.appendChild(b);
+    }
+    popAt = -1;
+    $('tin-price').textContent = eur(tinPrice(tin));
+    $('tin-fill').textContent = `${tin.fill.length} von ${s.slots} Fächern${tin.fill.length === s.slots ? ' · voll' : ''}`;
+    $('tin-size-l').textContent = `${s.slots} Fächer`;
+    const ss = $('tin-sizes'); ss.innerHTML = '';
+    SIZES.forEach(x => { const b = document.createElement('button'); b.type = 'button'; b.className = 'chip'; b.textContent = `${x.l} · ${eur(x.p)}`; b.setAttribute('aria-pressed', x.id === tin.size); b.onclick = () => { tin.size = x.id; tin.fill = tin.fill.slice(0, x.slots); renderTin(); }; ss.appendChild(b); });
+    const so = $('sorts'); so.innerHTML = '';
+    SORT_IDS.forEach(id => { const n = tin.fill.filter(x => x === id).length; const b = document.createElement('button'); b.type = 'button'; b.className = 'sort'; b.disabled = tin.fill.length >= s.slots; b.innerHTML = `${icon(id)}${C[id].n}${PREMIUM[id] ? `<small>+${eur(PREMIUM[id])} je Fach</small>` : ''}${n ? `<span class="n">${n}</span>` : ''}`; b.onclick = () => { if (tin.fill.length < s.slots) { tin.fill.push(id); popAt = tin.fill.length - 1; renderTin(); } }; so.appendChild(b); });
+    $('tin-add').disabled = tin.fill.length < s.slots;
+    $('tin-add').textContent = tin.fill.length < s.slots ? `Noch ${s.slots - tin.fill.length} ${s.slots - tin.fill.length === 1 ? 'Fach' : 'Fächer'} frei` : 'Dose in die Bestellung';
+  }
+  $('tin-mix').onclick = () => { const s = sz(); tin.fill = Array.from({ length: s.slots }, (_, i) => HOUSE[i % HOUSE.length]); renderTin(); };
+  $('tin-clear').onclick = () => { tin.fill = []; renderTin(); };
+  $('tin-add').onclick = () => {
+    const t = { size: tin.size, fill: tin.fill.slice() };
+    const counts = {}; t.fill.forEach(id => counts[id] = (counts[id] || 0) + 1);
+    addLine({ key: 'tin-' + t.size + '-' + t.fill.slice().sort().join(','), kind: 'tin', name: `Keksdose ${sz().l.split(' · ')[0].toLowerCase()}`, sub: Object.entries(counts).map(([id, n]) => `${n}× ${C[id].n}`).join(', '), price: tinPrice(t), tin: t });
+    $('tin-add').textContent = 'In der Bestellung ✓'; tin.fill = []; setTimeout(renderTin, 1200);
+  };
+
+  /* Bestellung */
+  let bag = [], pick = null, lastNr = null;
+  const findLine = k => bag.find(l => l.key === k);
+  function addLine(line) { const ex = findLine(line.key); if (ex) ex.q++; else bag.push({ ...line, q: 1 }); resetDone(); renderBag(); renderCards(); }
+  function setQ(k, q) { const ex = findLine(k); if (!ex) return; ex.q = Math.max(0, q); if (!ex.q) bag = bag.filter(l => l.key !== k); resetDone(); renderBag(); renderCards(); }
+  function card(el, p, opts, art) {
+    const d = document.createElement('div'); d.className = 'pc';
+    const sel = opts.length > 1 ? `<select aria-label="Größe ${p.n}">${opts.map(([l, pr], i) => `<option value="${i}">${l}</option>`).join('')}</select>` : `<span style="font-size:13.5px;font-weight:700;color:var(--grau)">${opts[0][0]}</span>`;
+    d.innerHTML = `${art}<div><b>${p.n}</b><p>${p.d}</p><div class="ctl"><span class="pr"></span>${sel}<div class="step"><button type="button" aria-label="${p.n}: eins weniger">−</button><output>0</output><button type="button" aria-label="${p.n}: eins mehr">+</button></div></div></div>`;
+    const s = d.querySelector('select'), pr = d.querySelector('.pr'), [m, pl] = d.querySelectorAll('.step button'), out = d.querySelector('output');
+    const key = () => p.id + '-' + (s ? s.value : 0);
+    const up = () => { const i = s ? +s.value : 0; pr.textContent = eur(opts[i][1]); const l = findLine(key()); out.textContent = l ? l.q : 0; m.disabled = !l; d.classList.toggle('on', !!l); };
+    if (s) s.onchange = up;
+    m.onclick = () => { const l = findLine(key()); if (l) setQ(key(), l.q - 1); };
+    pl.onclick = () => { const i = s ? +s.value : 0; const l = findLine(key()); if (l) setQ(key(), l.q + 1); else addLine({ key: key(), kind: 'prod', name: p.n, sub: opts[i][0], price: opts[i][1], pid: p.id, size: opts[i][0], sort: p.sort }); };
+    up(); el.appendChild(d);
+  }
+  function renderCards() {
+    const c = $('cards'); c.innerHTML = '';
+    PRODUCTS.forEach(p => card(c, p, p.opts, pIcon(p.art)));
+    const b = $('basis-kekse'); b.innerHTML = '';
+    card(b, { id: 'hausdose', n: 'Keksdose des Hauses', d: 'Alle neun Sorten gemischt' }, [['500 g', 21], ['750 g', 30], ['1 kg', 38]], `<svg viewBox="0 0 60 60" aria-hidden="true"><circle cx="30" cy="30" r="28" fill="#C9A24A"/><circle cx="30" cy="30" r="25" fill="#8E1C26"/><circle cx="30" cy="30" r="21" fill="#F8EFD9"/><g transform="translate(14 14) scale(.32)">${C.kipferl.svg}</g><g transform="translate(30 14) scale(.32)">${C.linzer.svg}</g><g transform="translate(14 30) scale(.32)">${C.zimtstern.svg}</g><g transform="translate(30 30) scale(.32)">${C.husaren.svg}</g></svg>`);
+    BASIS_KEKSE.forEach(k => card(b, k, [['250 g', k.price]], icon(k.sort)));
+  }
+  const total = () => bag.reduce((s, l) => s + l.price * l.q, 0);
+  const n = () => bag.reduce((s, l) => s + l.q, 0);
+  function pickLabel() { if (!pick) return null; return `${DAYS.find(d => d.id === pick.day).short}, ${pick.slot} Uhr`; }
+  function renderBag() {
+    const ul = $('lines'); ul.innerHTML = '';
+    if (!bag.length) ul.innerHTML = `<li><span class="empty">${version === 'plus' ? 'Noch leer. Füll oben eine Keksdose oder nimm einen Stollen dazu.' : 'Noch leer. Wähl Kekse, Stollen oder eine Torte aus.'}</span></li>`;
+    bag.forEach(l => { const li = document.createElement('li'); li.innerHTML = `<span class="q">${l.q}×</span><span>${l.name}${l.sub ? `<span class="s">${l.sub}</span>` : ''}</span><span>${eur(l.price * l.q)}</span><button class="x" type="button" aria-label="${l.name} entfernen">×</button>`; li.querySelector('.x').onclick = () => setQ(l.key, 0); ul.appendChild(li); });
+    const pl = pickLabel(); $('pick').textContent = pl || 'noch nicht gewählt'; $('pick').className = pl ? '' : 'none';
+    $('tot').textContent = eur(total());
+    const nx = $('next');
+    if (lastNr) { nx.textContent = 'So sieht die Backstube die Bestellung'; nx.href = '#backstube'; }
+    else if (!bag.length) { nx.textContent = version === 'plus' ? 'Keksdose befüllen' : 'Kekse auswählen'; nx.href = '#kekse'; }
+    else if (!pl) { nx.textContent = 'Abholung wählen'; nx.href = '#abholung'; }
+    else { nx.textContent = 'Daten eingeben'; nx.href = '#daten'; }
+    $('bar-tot').textContent = eur(total()); $('bar-n').textContent = `${n()} Stück` + (pl ? ' · ' + pl : '');
+    $('bar-btn').textContent = pl ? 'Daten eingeben' : 'Abholung wählen'; $('bar-btn').href = pl ? '#daten' : '#abholung';
+    updateBar();
+  }
+
+  /* Abholung */
+  const DAYS = [
+    { id: '2026-12-19', short: 'Sa, 19.12.', label: '19. Dez.', wd: 'Samstag', slots: ['7–9', '9–11', '11–12'], full: ['9–11'] },
+    { id: '2026-12-22', short: 'Di, 22.12.', label: '22. Dez.', wd: 'Dienstag', slots: ['7–9', '9–12', '14–16', '16–18'], full: [] },
+    { id: '2026-12-23', short: 'Mi, 23.12.', label: '23. Dez.', wd: 'Mittwoch', slots: ['7–9', '9–12', '14–16', '16–18'], full: ['16–18'] },
+    { id: '2026-12-24', short: 'Do, 24.12.', label: '24. Dez.', wd: 'Heiliger Abend, bis 12 Uhr', slots: ['6–8', '8–10', '10–12'], full: ['8–10'] }
+  ];
+  function renderDays() {
+    const el = $('days'); el.innerHTML = '';
+    DAYS.forEach(d => { const box = document.createElement('div'); box.className = 'day'; box.innerHTML = `<h3>${d.label}</h3><p>${d.wd}</p><div class="sl"></div>`; d.slots.forEach(s => { const b = document.createElement('button'); b.type = 'button'; b.className = 'chip'; b.textContent = s; const full = d.full.includes(s); b.disabled = full; b.setAttribute('aria-label', `${d.short} ${s} Uhr${full ? ', ausgebucht' : ''}`); b.setAttribute('aria-pressed', !!(pick && pick.day === d.id && pick.slot === s)); b.onclick = () => { pick = { day: d.id, slot: s }; resetDone(); renderDays(); renderBag(); }; box.querySelector('.sl').appendChild(b); }); el.appendChild(box); });
+  }
+
+  /* Absenden */
+  let saved = store.get('orders', []);
+  function resetDone() { if (lastNr) { lastNr = null; $('done').classList.remove('show'); $('form').style.display = ''; } }
+  $('form').addEventListener('submit', e => {
+    e.preventDefault();
+    const name = $('f-name').value.trim(), tel = $('f-tel').value.trim(); let msg = '';
+    if (!bag.length) msg = 'Deine Bestellung ist noch leer.';
+    else if (!pick) msg = 'Wähl einen Abholtermin aus.';
+    else if (!name) msg = 'Trag deinen Namen ein.';
+    else if (tel.replace(/\D/g, '').length < 6) msg = 'Trag eine Telefonnummer ein, falls etwas ausverkauft ist.';
+    else if (!$('f-ok').checked) msg = 'Bestätige kurz, dass wir deine Angaben für die Bestellung verwenden dürfen.';
+    $('error').textContent = msg; $('error').classList.toggle('show', !!msg); if (msg) { $('error').scrollIntoView({ block: 'center' }); return; }
+    const nr = 512 + saved.length;
+    saved = saved.concat({ nr, name, day: pick.day, slot: pick.slot, lines: bag.map(l => ({ ...l })), mine: true }); store.set('orders', saved);
+    lastNr = nr; bDay = pick.day;
+    $('done-t').textContent = `Vorbestellt, Nummer ${nr}.`;
+    $('done-p').textContent = `Abholung am ${pickLabel()}. Summe ${eur(total())}, bezahlt wird bei der Abholung. Bei einer echten Seite bekäme die Bäckerei jetzt eine Nachricht und du eine Bestätigung per E-Mail.`;
+    $('form').style.display = 'none'; $('done').classList.add('show');
+    renderBag(); renderBack();
+  });
+
+  /* Backstube */
+  const mkTin = (size, ids) => ({ kind: 'tin', name: 'Keksdose', q: 1, tin: { size, fill: ids } });
+  const SEED = [
+    { nr: 501, name: 'Gruber', day: '2026-12-23', slot: '7–9', lines: [mkTin('l', Array.from({ length: 16 }, (_, i) => HOUSE[i % 9])), { kind: 'prod', pid: 'stollen', name: 'Butterstollen', size: '1 kg', q: 1 }] },
+    { nr: 503, name: 'Fam. Hofbauer', day: '2026-12-23', slot: '9–12', lines: [mkTin('m', ['kipferl', 'kipferl', 'kipferl', 'linzer', 'linzer', 'zimtstern', 'zimtstern', 'rumkugel', 'rumkugel', 'lebkuchen', 'nuss', 'nuss']), { kind: 'prod', pid: 'sacher', name: 'Sachertorte', size: '22 cm', q: 1 }] },
+    { nr: 504, name: 'Kindergarten Süd', day: '2026-12-22', slot: '9–12', lines: [mkTin('l', Array.from({ length: 16 }, (_, i) => ['kipferl', 'kokos', 'husaren', 'lebkuchen'][i % 4])), mkTin('l', Array.from({ length: 16 }, (_, i) => ['kipferl', 'linzer', 'spitzbub', 'lebkuchen'][i % 4]))] },
+    { nr: 506, name: 'Weinberger', day: '2026-12-24', slot: '6–8', lines: [{ kind: 'prod', pid: 'striezel', name: 'Weihnachtsstriezel', size: '500 g', q: 2 }, { kind: 'prod', pid: 'kletzen', name: 'Kletzenbrot', size: '500 g', q: 1 }] },
+    { nr: 508, name: 'Leitgeb', day: '2026-12-19', slot: '7–9', lines: [mkTin('s', ['kipferl', 'linzer', 'zimtstern', 'kokos', 'husaren', 'spitzbub', 'rumkugel', 'lebkuchen', 'nuss'])] }
+  ];
+  const PIECES = 4; // Stück pro Fach
+  let bDay = '2026-12-23';
+  function renderBack() {
+    const all = SEED.concat(saved);
+    const tabs = $('tabs'); tabs.innerHTML = '';
+    DAYS.forEach(d => { const c = all.filter(o => o.day === d.id).length; const b = document.createElement('button'); b.type = 'button'; b.className = 'chip'; b.textContent = `${d.short} (${c})`; b.setAttribute('aria-pressed', d.id === bDay); b.onclick = () => { bDay = d.id; renderBack(); }; tabs.appendChild(b); });
+    const day = all.filter(o => o.day === bDay).sort((a, b) => a.slot.localeCompare(b.slot, 'de', { numeric: true }));
+    const cookies = {}, prods = {};
+    day.forEach(o => o.lines.forEach(l => {
+      if (l.kind === 'tin') l.tin.fill.forEach(id => cookies[id] = (cookies[id] || 0) + PIECES * l.q);
+      else if (l.sort) cookies[l.sort] = (cookies[l.sort] || 0) + 14 * l.q;
+      else if (l.pid === 'hausdose') HOUSE.forEach(id => cookies[id] = (cookies[id] || 0) + Math.round({ '500 g': 4, '750 g': 6, '1 kg': 8 }[l.size] * l.q));
+      else { const k = `${l.name} ${l.size}`; prods[k] = (prods[k] || 0) + l.q; }
+    }));
+    const rows = SORT_IDS.filter(id => cookies[id]).map(id => `<tr><td>${icon(id)}</td><td>${C[id].n}</td><td>${cookies[id]} Stk.</td></tr>`).concat(Object.entries(prods).map(([k, q]) => `<tr><td></td><td>${k}</td><td>${q}×</td></tr>`));
+    $('bl').innerHTML = rows.length ? rows.join('') : '<tr><td></td><td>Für diesen Tag gibt es noch nichts zu backen.</td><td></td></tr>';
+    const ul = $('ord'); ul.innerHTML = '';
+    if (!day.length) ul.innerHTML = '<li><span class="i" style="grid-column:1/-1">Noch keine Bestellungen.</span></li>';
+    day.forEach(o => { const li = document.createElement('li'); if (o.mine) li.className = 'new'; const items = o.lines.map(l => l.kind === 'tin' ? `${l.q}× Keksdose ${SIZES.find(s => s.id === l.tin.size).l.split(' · ')[1]}` : `${l.q}× ${l.name} ${l.size || ''}`).join(', '); li.innerHTML = `<span class="t">${o.slot}</span><span class="w">${o.mine ? o.name + ' · neu' : o.name}</span><span class="s">Nr. ${o.nr}</span><span class="i">${items}</span>`; ul.appendChild(li); });
+  }
+  $('print').onclick = () => window.print();
+
+  /* Öffnungszeiten */
+  const HOURS = [[7, 11], [6, 18], [6, 18], [6, 18], [6, 18], [6, 18], [6, 12]];
+  const WDL = ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'];
+  function renderHours() {
+    const now = new Date(), wd = now.getDay(), h = now.getHours() + now.getMinutes() / 60;
+    $('hours').innerHTML = [1, 2, 3, 4, 5, 6, 0].map(d => `<tr class="${d === wd ? 'today' : ''}"><td>${WDL[d]}</td><td>${HOURS[d] ? `${HOURS[d][0]} bis ${HOURS[d][1]} Uhr` : 'geschlossen'}</td></tr>`).join('');
+    const o = HOURS[wd], open = o && h >= o[0] && h < o[1]; let next = '';
+    if (!open) for (let k = 0; k < 8; k++) { const j = (wd + k) % 7; if (HOURS[j] && (k > 0 || h < HOURS[j][0])) { next = k === 0 ? `heute ab ${HOURS[j][0]} Uhr` : k === 1 ? `morgen ab ${HOURS[j][0]} Uhr` : `${WDL[j]} ab ${HOURS[j][0]} Uhr`; break; } }
+    $('status').className = 'status' + (open ? '' : ' closed');
+    $('status').querySelector('span').textContent = open ? `Jetzt offen bis ${o[1]} Uhr` : `Jetzt geschlossen, wieder offen ${next}`;
+  }
+  function renderCountdown() { const d = Math.ceil((new Date('2026-12-17T23:59') - new Date()) / 864e5); $('countdown').querySelector('span').textContent = d > 1 ? `Vorbestellung offen, noch ${d} Tage` : d === 1 ? 'Letzter Tag für Vorbestellungen' : 'Vorbestellung für heuer geschlossen'; }
+
+  let bagVisible = true;
+  function updateBar() { const on = n() > 0 && !bagVisible && !lastNr; $('bar').classList.toggle('show', on); document.body.classList.toggle('bar-on', on); }
+  if ('IntersectionObserver' in window) new IntersectionObserver(es => { bagVisible = es[0].isIntersecting; updateBar(); }, { threshold: .1 }).observe($('bag'));
+
+  // Hero: volle Dose
+  $('hero-art').innerHTML = `<div class="tin" style="width:100%">${tinSvg()}<div class="slots" style="grid-template-columns:repeat(4,1fr);pointer-events:none">${Array.from({ length: 16 }, (_, i) => `<div class="slot" style="background:transparent;box-shadow:none">${icon(HOUSE[(i * 4) % 9])}</div>`).join('')}</div></div>`;
+  setVersion(version); renderTin(); renderCards(); renderDays(); renderBag(); renderBack(); renderHours(); renderCountdown();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,622 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Blumenstube Lindenblatt · Adventkränze vorbestellen – Demo-Website</title>
+<meta name="description" content="Demo-Website eines fiktiven Blumengeschäfts im Waldviertel: Adventkranz selbst gestalten, Gestecke vorbestellen, Abholung oder Zustellung – gestaltet von Jannik Hofstetter.">
+<meta name="robots" content="noindex">
+<link rel="preload" href="../assets/fonts/cormorant-600.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../assets/fonts/manrope.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+@font-face{font-family:'Cormorant';src:url(../assets/fonts/cormorant-500.woff2) format('woff2');font-weight:500;font-display:swap}
+@font-face{font-family:'Cormorant';src:url(../assets/fonts/cormorant-600.woff2) format('woff2');font-weight:600 700;font-display:swap}
+@font-face{font-family:'Cormorant';src:url(../assets/fonts/cormorant-500-italic.woff2) format('woff2');font-weight:500;font-style:italic;font-display:swap}
+@font-face{font-family:'Manrope';src:url(../assets/fonts/manrope.woff2) format('woff2');font-weight:200 800;font-display:swap}
+/* Lindenblatt – Tannengrün, Leinen, Preiselbeere, Kerzengold. Der Kranz ist das Bild. */
+:root{
+  --leinen:#F3EFE6; --leinen-2:#E8E2D4; --papier:#FBF9F4; --tanne:#1E3529; --tanne-2:#2C4A3A; --moos:#5E7363;
+  --beere:#8C1C2C; --beere-2:#A52638; --gold:#B58B36; --gold-soft:#EBDDB8; --line:#D6D0C1; --ink:#1A2520;
+  --serif:'Cormorant',Garamond,Georgia,serif; --sans:'Manrope',system-ui,-apple-system,'Segoe UI',sans-serif;
+}
+*{box-sizing:border-box;font-variant-numeric:lining-nums}[hidden]{display:none!important}
+html{scroll-behavior:smooth;scroll-padding-top:84px}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+body{margin:0;background:var(--leinen);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:inherit}button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--beere);outline-offset:3px}
+.wrap{width:min(1200px,100% - 48px);margin-inline:auto}
+@media (max-width:600px){.wrap{width:calc(100% - 32px)}}
+h1,h2,h3{font-family:var(--serif);font-weight:600;margin:0;line-height:.98;letter-spacing:-.01em;text-wrap:balance}
+h2{font-size:clamp(42px,5.2vw,68px)}
+h1 em,h2 em{font-style:italic;font-weight:500;color:var(--beere)}
+.kicker{font-size:12px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:var(--moos)}
+.lead{font-size:18px;color:#56625B;max-width:54ch;margin:14px 0 0}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 26px;border-radius:4px;background:var(--tanne);color:#fff;font-weight:700;font-size:15px;border:1px solid var(--tanne);cursor:pointer;text-decoration:none;transition:background .2s}
+.btn:hover{background:var(--tanne-2)}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--ink)}
+.btn.ghost:hover{background:var(--ink);color:var(--leinen)}
+.btn[disabled]{opacity:.4;cursor:not-allowed}
+.chip{min-height:42px;padding:0 16px;border-radius:4px;border:1px solid var(--line);background:var(--papier);font-size:14px;font-weight:700;cursor:pointer;white-space:nowrap;font-variant-numeric:tabular-nums}
+.chip:hover{border-color:var(--ink)}
+.chip[aria-pressed="true"]{background:var(--tanne);border-color:var(--tanne);color:#fff}
+.chip:disabled{opacity:.35;text-decoration:line-through;cursor:not-allowed}
+.step{display:inline-flex;align-items:center;border:1px solid var(--ink);border-radius:4px;overflow:hidden;background:var(--papier)}
+.step button{width:42px;height:42px;border:0;background:transparent;font-size:19px;font-weight:700;cursor:pointer}
+.step button:hover{background:var(--leinen-2)}.step button:disabled{opacity:.3;cursor:default}
+.step output{min-width:30px;text-align:center;font-family:var(--serif);font-weight:700;font-size:21px}
+
+.demo-badge{position:fixed;left:16px;bottom:16px;z-index:70;display:flex;align-items:center;gap:12px;background:#0B0D10;color:#ECEEF2;padding:8px 10px 8px 14px;border-radius:999px;font-size:12px;box-shadow:0 18px 40px -18px rgba(0,0,0,.55)}
+.demo-badge i{width:8px;height:8px;border-radius:50%;background:#3B7BFF;flex:none}
+.demo-badge a{color:#8FB1FF;font-weight:600;text-decoration:none}
+.vswitch{display:flex;background:#1E2329;border-radius:999px;padding:3px}
+.vswitch button{border:0;background:transparent;color:#AEB6C2;font-size:12px;font-weight:700;padding:6px 12px;border-radius:999px;cursor:pointer}
+.vswitch button[aria-pressed="true"]{background:#ECEEF2;color:#0B0D10}
+body:not(.plus) .plus-only{display:none!important}
+body.plus .basis-only{display:none!important}
+@media (max-width:700px){.demo-badge{left:50%;transform:translateX(-50%);bottom:12px;white-space:nowrap}.demo-badge .t{display:none}body.bar-on .demo-badge{display:none}}
+
+.nav{position:sticky;top:0;z-index:50;background:rgba(243,239,230,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:24px;min-height:72px}
+.logo{display:flex;align-items:center;gap:12px;text-decoration:none}
+.logo svg{width:32px;height:32px}
+.logo b{font-family:var(--serif);font-size:27px;font-weight:600;line-height:1;display:block}
+.logo span{font-size:12px;color:#56625B;display:block;margin-top:2px}
+.nav nav{display:flex;gap:28px;font-size:14px;font-weight:700;color:#56625B}
+.nav nav a{text-decoration:none}.nav nav a:hover{color:var(--ink)}
+.nav .btn{min-height:42px;padding:0 18px;font-size:14px}
+@media (max-width:920px){.nav nav{display:none}}
+@media (max-width:480px){.logo span{display:none}}
+
+.hero{padding:60px 0 20px;overflow:hidden}
+.hero .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:40px;align-items:center}
+.hero h1{font-size:clamp(56px,8vw,112px);line-height:.9;letter-spacing:-.02em;margin-top:14px}
+.hero .lead{font-size:19px;margin-top:22px}
+.hero-cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+.hero-art{position:relative;aspect-ratio:1;max-width:560px;justify-self:center;width:100%}
+.hero-art svg{width:100%;height:100%;filter:drop-shadow(0 40px 50px rgba(30,53,41,.28))}
+.adv{display:flex;align-items:center;gap:10px;margin-top:26px;font-size:14px;font-weight:700;background:var(--gold-soft);padding:8px 14px;border-radius:4px;width:max-content;max-width:100%}
+.adv i{width:8px;height:8px;border-radius:50%;background:var(--beere)}
+@media (max-width:900px){.hero .wrap{grid-template-columns:1fr}.hero-art{max-width:420px}}
+
+.facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));margin-top:48px;border-top:1px solid var(--ink)}
+.facts div{padding:16px 18px 0 0}.facts div+div{padding-left:18px;border-left:1px solid var(--line)}
+.facts b{display:block;font-family:var(--serif);font-size:25px;font-weight:600;line-height:1.1}
+.facts span{font-size:14px;color:#56625B}
+@media (max-width:640px){.facts{grid-template-columns:1fr}.facts div+div{padding-left:0;border-left:0;border-top:1px solid var(--line);margin-top:14px}}
+
+.shop{display:grid;grid-template-columns:minmax(0,1fr) 360px;column-gap:48px;padding:40px 0 120px}
+.main{grid-column:1;min-width:0}
+.rail{grid-column:2;align-self:start;position:sticky;top:96px}
+.block{padding-top:96px}
+@media (max-width:1000px){.shop{grid-template-columns:minmax(0,1fr)}.rail{grid-column:1;position:static;margin-top:48px}}
+
+/* Konfigurator */
+.studio{margin-top:30px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);background:var(--papier);border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.preview{position:relative;background:radial-gradient(circle at 50% 45%,#FFFDF7 0%,#EFE9DC 70%,#E4DCCB 100%);display:flex;align-items:center;justify-content:center;padding:24px;min-height:440px}
+.preview svg{width:100%;max-width:430px;height:auto;filter:drop-shadow(0 26px 30px rgba(30,53,41,.3))}
+.preview .size{position:absolute;left:18px;top:16px;font-family:var(--serif);font-style:italic;font-size:22px;color:var(--moos)}
+.preview .price{position:absolute;right:18px;top:14px;font-family:var(--serif);font-size:34px;font-weight:600}
+.light{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);display:flex;gap:6px;align-items:center;background:rgba(251,249,244,.92);border:1px solid var(--line);border-radius:999px;padding:5px 6px 5px 14px;font-size:12.5px;font-weight:700;white-space:nowrap}
+.light button{width:34px;height:30px;border-radius:999px;border:0;background:transparent;font-weight:800;cursor:pointer;font-size:13px}
+.light button[aria-pressed="true"]{background:var(--tanne);color:#fff}
+.opts{padding:26px 26px 22px;display:flex;flex-direction:column;gap:20px;border-left:1px solid var(--line)}
+.opts .lbl{font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#56625B;margin-bottom:9px;display:flex;justify-content:space-between}
+.opts .lbl span{letter-spacing:0;text-transform:none;font-weight:600;color:var(--moos)}
+.row{display:flex;flex-wrap:wrap;gap:8px}
+.sw{width:42px;height:42px;border-radius:50%;border:2px solid var(--papier);box-shadow:0 0 0 1px var(--line);cursor:pointer}
+.sw[aria-pressed="true"]{box-shadow:0 0 0 2px var(--ink)}
+.deco{display:flex;align-items:center;gap:8px;min-height:42px;padding:0 12px 0 8px;border-radius:4px;border:1px solid var(--line);background:#fff;cursor:pointer;font-size:13.5px;font-weight:700}
+.deco svg{width:26px;height:26px}
+.deco[aria-pressed="true"]{border-color:var(--tanne);box-shadow:inset 0 0 0 1px var(--tanne);background:#EEF2EC}
+.opts .btn{margin-top:auto}
+@media (max-width:900px){.studio{grid-template-columns:1fr}.opts{border-left:0;border-top:1px solid var(--line)}.preview{min-height:340px}}
+
+/* Fertige Kränze & Sortiment */
+.ready{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:30px}
+.rk{background:var(--papier);border:1px solid var(--line);border-radius:6px;padding:18px;display:grid;grid-template-columns:120px minmax(0,1fr);gap:16px;align-items:center}
+.rk svg{width:120px;height:120px}
+.rk b{font-family:var(--serif);font-size:25px;font-weight:600;display:block;line-height:1.05}
+.rk p{margin:4px 0 10px;font-size:13.5px;color:#56625B}
+.rk .ctl{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.rk .pr{font-family:var(--serif);font-size:22px;font-weight:700;margin-right:auto}
+.rk select{font:inherit;font-size:14px;font-weight:700;padding:9px 10px;border-radius:4px;border:1px solid var(--line);background:#fff}
+@media (max-width:700px){.ready{grid-template-columns:1fr}.rk{grid-template-columns:92px minmax(0,1fr)}.rk svg{width:92px;height:92px}}
+.list{margin-top:26px}
+.item{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:4px 22px;align-items:center;padding:16px 0;border-bottom:1px solid var(--line)}
+.item .n{font-weight:700;font-size:16.5px}.item .d{font-size:13.5px;color:#56625B;grid-column:1}
+.item .p{grid-column:2;grid-row:1 / span 2;font-family:var(--serif);font-size:22px;font-weight:700;text-align:right}
+.item .step{grid-column:3;grid-row:1 / span 2}
+.item.on{background:linear-gradient(90deg,#E9EFE6,transparent 70%)}
+@media (max-width:600px){.item{grid-template-columns:minmax(0,1fr) auto}.item .p{grid-column:2;grid-row:1}.item .step{grid-column:1 / -1;grid-row:3;justify-self:start;margin-top:6px}}
+
+/* Abholung */
+.mode{display:flex;gap:8px;margin-top:26px}
+.days{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:18px}
+.day{border:1px solid var(--ink);border-radius:6px;padding:16px}
+.day h3{font-size:30px}.day p{margin:0 0 12px;font-size:13.5px;color:#56625B}
+.slots{display:flex;flex-wrap:wrap;gap:6px}
+.slots .chip{min-height:38px;padding:0 11px;font-size:13.5px}
+.zust{margin-top:18px;padding:18px;border:1px solid var(--line);background:var(--papier);border-radius:6px;display:grid;gap:12px}
+@media (max-width:760px){.days{grid-template-columns:1fr}}
+
+.form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 16px;margin-top:26px}
+.field{display:flex;flex-direction:column;gap:6px}.field.wide{grid-column:1 / -1}
+.field label{font-size:13.5px;font-weight:700}.field label span{font-weight:500;color:#56625B}
+.field input,.field textarea{font:inherit;font-size:16px;padding:12px 14px;border-radius:4px;border:1px solid var(--line);background:#fff;color:var(--ink)}
+.field input:focus,.field textarea:focus{outline:2px solid var(--tanne);outline-offset:0}
+.check{grid-column:1 / -1;display:flex;gap:10px;font-size:14px;color:#56625B}
+.check input{width:20px;height:20px;accent-color:var(--tanne)}
+.error{grid-column:1 / -1;margin:0;padding:11px 14px;border-radius:4px;background:#F5E1E1;color:var(--beere);font-weight:700;font-size:14px;display:none}
+.error.show{display:block}
+.done{display:none;margin-top:26px;padding:26px;border-radius:6px;background:var(--tanne);color:#fff}
+.done.show{display:block}.done h3{font-size:36px}.done p{margin:8px 0 0;color:#CFDDD3;max-width:58ch}
+.done .btn{margin-top:18px;background:#fff;color:var(--tanne);border-color:#fff}
+@media (max-width:600px){.form{grid-template-columns:1fr}}
+
+/* Bestellung (Rail) */
+.bag{background:var(--papier);border:1px solid var(--line);border-radius:6px;padding:24px;position:relative}
+.bag::before{content:"";position:absolute;left:24px;right:24px;top:0;height:4px;background:repeating-linear-gradient(90deg,var(--beere) 0 14px,var(--gold) 14px 28px)}
+.bag h3{font-size:30px}
+.bag .sub{font-size:13px;color:#56625B}
+.lines{list-style:none;margin:14px 0 0;padding:0;min-height:90px}
+.lines li{display:grid;grid-template-columns:30px minmax(0,1fr) auto auto;gap:6px;align-items:baseline;padding:9px 0;border-bottom:1px solid #ECE7DC;font-size:14px;line-height:1.4}
+.lines .q{font-family:var(--serif);font-weight:700;font-size:18px}
+.lines .x{border:0;background:none;color:#8B948E;cursor:pointer;font-size:16px;padding:0 0 0 6px}
+.lines .s{display:block;font-size:12.5px;color:#56625B}
+.lines li:has(.empty){display:block}
+.lines .empty{display:block;font-family:var(--serif);font-style:italic;font-size:20px;color:#56625B;border:0;padding-top:10px}
+.bag .pick{display:flex;justify-content:space-between;gap:12px;margin-top:10px;padding-top:12px;border-top:1px dashed var(--line);font-size:14px}
+.bag .pick b.none{color:#8B948E;font-weight:600}
+.bag .tot{display:flex;justify-content:space-between;align-items:baseline;margin-top:12px;padding-top:12px;border-top:1px solid var(--ink)}
+.bag .tot b{font-family:var(--serif);font-size:34px}
+.bag .btn{width:100%;margin-top:16px}
+.bag .note{font-size:12.5px;color:#56625B;margin:10px 0 0}
+
+/* Werkstatt */
+.werk{background:var(--tanne);color:#EEF2EC;padding:96px 0 104px}
+.werk .lead{color:#B9C8BE}
+.werk h2 em{color:var(--gold-soft)}
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin-top:30px}
+.tabs .chip{background:transparent;color:#EEF2EC;border-color:#4B6A58}
+.tabs .chip[aria-pressed="true"]{background:var(--gold-soft);border-color:var(--gold-soft);color:var(--tanne)}
+.wgrid{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);gap:40px;margin-top:26px}
+.werk h3{font-size:26px;padding-bottom:10px;border-bottom:1px solid #EEF2EC;color:#fff}
+.bind{list-style:none;margin:0;padding:0}
+.bind li{display:grid;grid-template-columns:58px minmax(0,1fr) auto;gap:2px 16px;align-items:center;padding:12px 0;border-bottom:1px solid #3C5A4A}
+.bind svg{width:50px;height:50px;grid-row:1 / span 2}
+.bind .w{font-weight:700}.bind .t{font-family:var(--serif);font-size:19px;font-weight:700;text-align:right}
+.bind .i{grid-column:2 / -1;font-size:13px;color:#B9C8BE}
+.bind li.new{background:linear-gradient(90deg,rgba(235,221,184,.16),transparent 70%)}
+.mat{width:100%;border-collapse:collapse;font-size:15px}
+.mat td{padding:10px 0;border-bottom:1px solid #3C5A4A}
+.mat td:last-child{text-align:right;font-family:var(--serif);font-size:21px;font-weight:700}
+.werk .btn.ghost{color:#EEF2EC;border-color:#EEF2EC}.werk .btn.ghost:hover{background:#EEF2EC;color:var(--tanne)}
+@media (max-width:900px){.wgrid{grid-template-columns:1fr}}
+
+.info{padding:100px 0 120px}
+.info .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:56px}
+.hours{width:100%;border-collapse:collapse;margin-top:24px}
+.hours td{padding:12px 0;border-bottom:1px solid var(--line)}
+.hours td:last-child{text-align:right;font-variant-numeric:tabular-nums}
+.hours tr.today td{font-weight:800}
+.status{display:inline-flex;align-items:center;gap:8px;margin-top:20px;font-weight:800;font-size:15px}
+.status i{width:9px;height:9px;border-radius:50%;background:#3E8E5A}.status.closed i{background:var(--beere)}
+.addr{font-family:var(--serif);font-size:32px;line-height:1.15;margin-top:24px}
+.info p{color:#56625B;max-width:46ch}
+@media (max-width:860px){.info .wrap{grid-template-columns:1fr;gap:40px}}
+footer{border-top:1px solid var(--line);padding:28px 0 100px;font-size:13px;color:#56625B}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:55;display:none;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px calc(12px + env(safe-area-inset-bottom));background:var(--tanne);color:#fff}
+.bar b{font-family:var(--serif);font-size:24px}.bar span{display:block;font-size:12.5px;color:#B9C8BE}
+.bar .btn{min-height:44px;background:var(--gold-soft);color:var(--tanne);border-color:var(--gold-soft)}
+@media (max-width:1000px){.bar.show{display:flex}}
+@media print{body{background:#fff}.nav,.hero,.shop,.info,footer,.demo-badge,.bar,.tabs,.werk .btn,.werk .lead{display:none!important}.werk{background:#fff;color:#000;padding:0}.werk h2,.werk h3{color:#000}.bind .i{color:#333}}
+@media (max-width:400px){.nav .wrap{gap:12px}.nav .btn{padding:0 12px;font-size:12.5px;min-height:40px}.logo b{font-size:21px}.logo svg,.logo .m{width:30px;height:30px}.mode{flex-wrap:wrap}}
+</style>
+</head>
+<body class="plus">
+
+<header class="nav">
+  <div class="wrap">
+    <a class="logo" href="#top"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20 4c9 6 13 14 13 21a13 13 0 0 1-26 0C7 18 11 10 20 4z" fill="#1E3529"/><path d="M20 10v26M20 18l-6-4M20 24l7-5M20 30l-5-4" stroke="#B58B36" stroke-width="1.6" fill="none" stroke-linecap="round"/></svg>
+      <div><b>Lindenblatt</b><span>Blumenstube in Waidhofen an der Thaya</span></div></a>
+    <nav aria-label="Hauptnavigation"><a href="#kranz">Adventkranz</a><a href="#sortiment">Gestecke</a><a href="#abholung">Abholung</a><a href="#werkstatt">Für die Werkstatt</a></nav>
+    <a class="btn" href="#kranz">Kranz gestalten</a>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap">
+      <div>
+        <div class="kicker">Advent 2026 · frisch gebunden</div>
+        <h1>Dein Adventkranz, <em>so wie du ihn willst.</em></h1>
+        <p class="lead plus-only">Größe, Grün, Kerzen und Schmuck auswählen und dabei zusehen, wie dein Kranz entsteht. Wir binden ihn frisch und legen ihn zur Abholung bereit oder bringen ihn vorbei.</p>
+        <p class="lead basis-only">Such dir einen unserer vier Kränze aus, wähl die Größe und den Abholtag. Wir binden ihn frisch und legen ihn für dich bereit oder bringen ihn vorbei.</p>
+        <div class="adv" id="adv"><i></i><span></span></div>
+        <div class="hero-cta"><a class="btn" href="#kranz">Jetzt vorbestellen</a><a class="btn ghost" href="#sortiment">Gestecke und Sterne</a></div>
+      </div>
+      <div class="hero-art" id="hero-art" aria-hidden="true"></div>
+    </div>
+    <div class="wrap">
+      <div class="facts">
+        <div><b>bis Mittwoch, 25. November</b><span>Bestellschluss für den 1. Advent</span></div>
+        <div><b>26. bis 28. November</b><span>Abholung im Geschäft</span></div>
+        <div><b>Zustellung 6 €</b><span>im Umkreis von 15 km</span></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap shop">
+    <div class="main">
+      <section id="kranz" aria-labelledby="h-kranz">
+        <div class="plus-only">
+          <div class="kicker">Adventkranz gestalten</div>
+          <h2 id="h-kranz">Binden wir <em>deinen Kranz.</em></h2>
+          <div class="studio">
+            <div class="preview"><div class="size" id="c-size"></div><div class="price" id="c-price"></div><div id="c-svg" style="width:100%;display:flex;justify-content:center"></div>
+              <div class="light" role="group" aria-label="Kerzen anzünden">Wie am Advent<button type="button" data-l="0" aria-label="Keine Kerze">–</button><button type="button" data-l="1">1.</button><button type="button" data-l="2">2.</button><button type="button" data-l="3">3.</button><button type="button" data-l="4">4.</button></div></div>
+            <div class="opts">
+              <div><div class="lbl">Größe <span id="o-size-l"></span></div><div class="row" id="o-size"></div></div>
+              <div><div class="lbl">Grün <span id="o-green-l"></span></div><div class="row" id="o-green"></div></div>
+              <div><div class="lbl">Kerzen <span id="o-candle-l"></span></div><div class="row" id="o-candle"></div></div>
+              <div><div class="lbl">Schmuck <span>mehrere möglich</span></div><div class="row" id="o-deco"></div></div>
+              <div><div class="lbl">Schleife <span id="o-band-l"></span></div><div class="row" id="o-band"></div></div>
+              <button class="btn" type="button" id="c-add">Diesen Kranz bestellen</button>
+            </div>
+          </div>
+        </div>
+        <div class="block plus-only" style="padding-top:72px"><div class="kicker">Oder schnell</div><h2 style="font-size:clamp(34px,4vw,48px)">Unsere vier <em>Klassiker</em></h2></div>
+        <div class="basis-only"><div class="kicker">Adventkränze</div><h2>Unsere vier <em>Klassiker.</em></h2><p class="lead">Jeder Kranz wird frisch gebunden, mit vier Kerzen. Größe wählen und in die Bestellung legen.</p></div>
+        <div class="ready" id="ready"></div>
+      </section>
+
+      <section class="block" id="sortiment" aria-labelledby="h-sort">
+        <div class="kicker">Für Tür und Tisch</div>
+        <h2 id="h-sort">Gestecke, Sterne <em>und Zweige.</em></h2>
+        <div class="list" id="list"></div>
+      </section>
+
+      <section class="block" id="abholung" aria-labelledby="h-ab">
+        <div class="kicker">Abholung oder Zustellung</div>
+        <h2 id="h-ab">Wann soll er <em>bei dir sein?</em></h2>
+        <div class="mode" role="group" aria-label="Abholung oder Zustellung"><button class="chip" type="button" data-m="abholen">Im Geschäft abholen</button><button class="chip" type="button" data-m="zustellen">Zustellen lassen · 6 €</button></div>
+        <div class="days" id="days"></div>
+        <div class="zust" id="zust" hidden>
+          <div class="field"><label for="z-adr">Zustelladresse</label><input id="z-adr" autocomplete="street-address" placeholder="Straße, Hausnummer, Ort"></div>
+          <p class="note" style="margin:0;font-size:13.5px;color:#56625B">Wir stellen am Freitag, 27. November, zwischen 9 und 17 Uhr zu. Ist niemand da, stellen wir den Kranz geschützt vor die Tür.</p>
+        </div>
+      </section>
+
+      <section class="block" id="daten" aria-labelledby="h-da">
+        <div class="kicker">Fast fertig</div>
+        <h2 id="h-da">Deine <em>Daten.</em></h2>
+        <form class="form" id="form" novalidate>
+          <p class="error" id="error" role="alert"></p>
+          <div class="field"><label for="f-name">Name</label><input id="f-name" autocomplete="name"></div>
+          <div class="field"><label for="f-tel">Telefon</label><input id="f-tel" type="tel" inputmode="tel" autocomplete="tel"></div>
+          <div class="field wide"><label for="f-note">Wünsche <span>(optional)</span></label><textarea id="f-note" rows="3" placeholder="z. B. Kerzen bitte extra verpackt"></textarea></div>
+          <label class="check"><input type="checkbox" id="f-ok"><span>Meine Angaben werden nur für diese Bestellung verwendet.</span></label>
+          <div class="field wide" style="flex-direction:row;flex-wrap:wrap;gap:14px;align-items:center"><button class="btn" type="submit">Verbindlich vorbestellen</button><span style="font-size:13.5px;color:#56625B">Bezahlt wird bei der Abholung. Demo: nichts wird verschickt.</span></div>
+        </form>
+        <div class="done" id="done" role="status"><h3 id="done-t"></h3><p id="done-p"></p><a class="btn" href="#werkstatt">So sieht die Werkstatt deine Bestellung</a></div>
+      </section>
+    </div>
+
+    <aside class="rail" aria-label="Deine Bestellung">
+      <div class="bag" id="bag">
+        <h3>Deine Bestellung</h3><div class="sub">Advent 2026</div>
+        <ul class="lines" id="lines" aria-live="polite"></ul>
+        <div class="pick"><span id="pick-l">Abholung</span><b id="pick" class="none">noch nicht gewählt</b></div>
+        <div class="tot"><span>Summe</span><b id="tot">0 €</b></div>
+        <a class="btn" id="next" href="#kranz">Kranz gestalten</a>
+        <p class="note">Bis 25. November kannst du jederzeit anrufen und ändern.</p>
+      </div>
+    </aside>
+  </div>
+
+  <section class="werk" id="werkstatt" aria-labelledby="h-werk">
+    <div class="wrap">
+      <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:24px">
+        <div><div class="kicker" style="color:var(--gold-soft)">Für die Werkstatt</div><h2 id="h-werk" style="color:#fff">Die Bindeliste, <em>schon sortiert.</em></h2>
+        <p class="lead">Jede Bestellung landet hier, mit allem, was gebunden werden muss. Unten steht, wie viele Rohlinge und Kerzen ihr pro Tag braucht.</p></div>
+        <button class="btn ghost" type="button" id="print">Bindeliste drucken</button>
+      </div>
+      <div class="tabs" id="tabs" role="group" aria-label="Tag wählen"></div>
+      <div class="wgrid"><div><h3>Bindeliste</h3><ul class="bind" id="bind"></ul></div><div><h3>Material</h3><table class="mat"><tbody id="mat"></tbody></table></div></div>
+    </div>
+  </section>
+
+  <section class="info" aria-labelledby="h-info">
+    <div class="wrap">
+      <div><div class="kicker">Geschäft</div><h2 id="h-info">Komm <em>vorbei.</em></h2><div class="status" id="status"><i></i><span></span></div><table class="hours"><tbody id="hours"></tbody></table></div>
+      <div><div class="addr">Blumenstube Lindenblatt<br>Thayagasse 12<br>3830 Waidhofen an der Thaya</div><p>Zwei Kurzparkplätze direkt vor dem Geschäft. Kränze tragen wir dir gern zum Auto.</p><p><a href="tel:+430000000000">0000 000 00 00</a> · fiktive Nummer</p></div>
+    </div>
+  </section>
+</main>
+
+<footer><div class="wrap"><span>Blumenstube Lindenblatt ist ein fiktiver Betrieb.</span><span>Demo-Website von Jannik Hofstetter</span></div></footer>
+<div class="bar" id="bar"><div><b id="bar-tot">0 €</b><span id="bar-n">0 Stück</span></div><a class="btn" href="#abholung" id="bar-btn">Abholung wählen</a></div>
+<div class="demo-badge"><i></i><span>Demo<span class="t"> · fiktive Blumenstube</span></span><div class="vswitch" role="group" aria-label="Version wählen"><button type="button" data-v="basis">Basis</button><button type="button" data-v="plus">Plus</button></div><a href="../../#arbeiten">← Jannik</a></div>
+
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const eur = v => v.toLocaleString('de-AT', { minimumFractionDigits: v % 1 ? 2 : 0, maximumFractionDigits: 2 }) + ' €';
+  const store = { get(k, d) { try { return JSON.parse(localStorage.getItem('lindenblatt-' + k)) ?? d; } catch (e) { return d; } }, set(k, v) { try { localStorage.setItem('lindenblatt-' + k, JSON.stringify(v)); } catch (e) {} } };
+
+  /* Optionen */
+  const SIZES = [{ id: 25, l: '25 cm', p: 32 }, { id: 30, l: '30 cm', p: 39 }, { id: 35, l: '35 cm', p: 47 }, { id: 40, l: '40 cm', p: 56 }];
+  const GREENS = [
+    { id: 'tanne', l: 'Tanne', p: 0, c: ['#24462F', '#2F5A3B', '#3B6B47', '#1B3826'] },
+    { id: 'nobilis', l: 'Nobilis', p: 6, c: ['#3E5F5A', '#4C716B', '#5B827B', '#2F4D48'] },
+    { id: 'misch', l: 'Mischgrün mit Thuja', p: 4, c: ['#2C4E33', '#5A7A3A', '#3E6B45', '#6E8B4A'] },
+    { id: 'eukalyptus', l: 'Eukalyptus', p: 9, c: ['#7E9A8B', '#93AE9F', '#6B8879', '#A9BFB2'] }
+  ];
+  const CANDLES = [
+    { id: 'rot', l: 'Rot', c: '#A3202F' }, { id: 'creme', l: 'Creme', c: '#F1E7D0' }, { id: 'weiss', l: 'Weiß', c: '#FBFBF8' },
+    { id: 'bordeaux', l: 'Bordeaux', c: '#5E1622' }, { id: 'salbei', l: 'Salbei', c: '#9DB09C' }, { id: 'gold', l: 'Gold', c: '#C9A24A' }
+  ];
+  const DECO = [
+    { id: 'zapfen', l: 'Zapfen', p: 4 }, { id: 'orange', l: 'Orangen', p: 4 }, { id: 'zimt', l: 'Zimt', p: 3 },
+    { id: 'beeren', l: 'Beeren', p: 3 }, { id: 'sterne', l: 'Sterne', p: 3 }, { id: 'kugeln', l: 'Kugeln', p: 5 }
+  ];
+  const BANDS = [{ id: 'keine', l: 'Keine', c: null, p: 0 }, { id: 'jute', l: 'Jute', c: '#B79A6A', p: 3 }, { id: 'samt', l: 'Samt rot', c: '#8C1C2C', p: 4 }, { id: 'gold', l: 'Gold', c: '#C9A24A', p: 4 }];
+  const READY = [
+    { id: 'klassisch', name: 'Klassisch', desc: 'Tanne, rote Kerzen, Zapfen und Beeren, Samtschleife', cfg: { green: 'tanne', candle: 'rot', deco: ['zapfen', 'beeren'], band: 'samt' } },
+    { id: 'natur', name: 'Waldviertel', desc: 'Mischgrün, cremefarbene Kerzen, Orangen, Zimt und Zapfen', cfg: { green: 'misch', candle: 'creme', deco: ['orange', 'zimt', 'zapfen'], band: 'jute' } },
+    { id: 'winter', name: 'Winterweiß', desc: 'Eukalyptus, weiße Kerzen, Sterne und silbrige Kugeln', cfg: { green: 'eukalyptus', candle: 'weiss', deco: ['sterne', 'kugeln'], band: 'keine' } },
+    { id: 'gold', name: 'Festlich', desc: 'Nobilis, Bordeaux-Kerzen, goldene Kugeln und Schleife', cfg: { green: 'nobilis', candle: 'bordeaux', deco: ['kugeln', 'beeren'], band: 'gold' } }
+  ];
+  const ITEMS = [
+    { id: 'tuer', n: 'Türkranz aus Tanne', d: '35 cm, mit Zapfen und Juteschleife', p: 34 },
+    { id: 'gesteck', n: 'Tischgesteck mit Kerze', d: 'Moos, Zapfen und eine Stumpenkerze', p: 24 },
+    { id: 'stern', n: 'Weihnachtsstern', d: 'Rot, im Tontopf, 13 cm', p: 9.5 },
+    { id: 'amaryllis', n: 'Amaryllis im Glas', d: 'Gewachst, blüht ohne Wasser', p: 14 },
+    { id: 'mistel', n: 'Mistelzweig', d: 'Zum Aufhängen, mit Band', p: 8 },
+    { id: 'zweige', n: 'Tannenzweige, Bund', d: 'Für Vasen und Gräber, ca. 1 kg', p: 7 }
+  ];
+
+  /* Kranz zeichnen (SVG) */
+  const rnd = seed => () => { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; };
+  let WID = 0;
+  function wreath(cfg, opt = {}) {
+    const u = 'w' + (++WID);
+    const R = 150, W = opt.size ? 34 + (opt.size - 25) * 1.2 : 44, lit = opt.lit ?? 0, small = opt.small;
+    const g = GREENS.find(x => x.id === cfg.green), cand = CANDLES.find(x => x.id === cfg.candle), band = BANDS.find(x => x.id === cfg.band);
+    const r = rnd(7 + cfg.green.length * 13);
+    let s = `<svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Adventkranz"><defs>
+      <filter id="${u}bl" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="8"/></filter><radialGradient id="${u}sh" cx="50%" cy="54%" r="50%"><stop offset="60%" stop-color="#000" stop-opacity=".18"/><stop offset="100%" stop-color="#000" stop-opacity="0"/></radialGradient>
+      <radialGradient id="${u}fl" cx="50%" cy="60%" r="50%"><stop offset="0" stop-color="#FFF6CF"/><stop offset=".5" stop-color="#FFC75A"/><stop offset="1" stop-color="#FF9A2E" stop-opacity="0"/></radialGradient>
+      <linearGradient id="${u}cs" x1="0" x2="1"><stop offset="0" stop-color="#fff" stop-opacity=".28"/><stop offset=".35" stop-color="#fff" stop-opacity="0"/><stop offset=".8" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".18"/></linearGradient><radialGradient id="${u}glow" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#FFD27A" stop-opacity=".55"/><stop offset="1" stop-color="#FFD27A" stop-opacity="0"/></radialGradient></defs>
+      <circle cx="200" cy="210" r="${R}" fill="none" stroke="rgba(30,40,30,.16)" stroke-width="${W * 2}" filter="url(#${u}bl)"/>
+      <circle cx="200" cy="200" r="${R}" fill="none" stroke="${g.c[3]}" stroke-width="${W * 1.7}"/>`;
+    const n = small ? 260 : 620;
+    for (let i = 0; i < n; i++) {
+      const a = r() * Math.PI * 2, rr = R + (r() - .5) * W * 1.6, x = 200 + Math.cos(a) * rr, y = 200 + Math.sin(a) * rr;
+      const len = (cfg.green === 'eukalyptus' ? 9 : 14) + r() * 10, ang = a + Math.PI / 2 + (r() - .5) * 1.6;
+      const c = g.c[Math.floor(r() * 3)];
+      if (cfg.green === 'eukalyptus') s += `<ellipse cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" rx="${(len * .55).toFixed(1)}" ry="${(len * .4).toFixed(1)}" fill="${c}" opacity=".95"/>`;
+      else s += `<line x1="${(x - Math.cos(ang) * len / 2).toFixed(1)}" y1="${(y - Math.sin(ang) * len / 2).toFixed(1)}" x2="${(x + Math.cos(ang) * len / 2).toFixed(1)}" y2="${(y + Math.sin(ang) * len / 2).toFixed(1)}" stroke="${c}" stroke-width="${cfg.green === 'misch' && r() > .7 ? 4 : 2.2}" stroke-linecap="round"/>`;
+    }
+    // Schmuck
+    const deco = cfg.deco || []; const dr = rnd(99);
+    const spots = []; for (let i = 0; i < 28; i++) spots.push(i / 28 * Math.PI * 2 + .11);
+    let k = 0;
+    deco.forEach((d, di) => {
+      const count = d === 'beeren' ? 9 : 5;
+      for (let j = 0; j < count; j++) {
+        const a = spots[(k++ * 5 + di * 3) % spots.length] + (dr() - .5) * .18;
+        if ([0, 1, 2, 3].some(q => Math.abs(((a - (Math.PI / 4 + q * Math.PI / 2)) + Math.PI * 3) % (Math.PI * 2) - Math.PI) < .2)) continue;
+        const rr = R + (dr() - .5) * W * .9, x = 200 + Math.cos(a) * rr, y = 200 + Math.sin(a) * rr, rot = (dr() * 360).toFixed(0);
+        if (d === 'zapfen') s += `<g transform="translate(${x.toFixed(1)} ${y.toFixed(1)}) rotate(${rot})"><ellipse rx="8" ry="13" fill="#6B4526"/>${[-7, -2, 3, 8].map(v => `<path d="M-7 ${v}q7 4 14 0" stroke="#3F2814" stroke-width="1.6" fill="none"/>`).join('')}</g>`;
+        else if (d === 'orange') s += `<g transform="translate(${x.toFixed(1)} ${y.toFixed(1)}) rotate(${rot})"><circle r="11" fill="#C9622A"/><circle r="9" fill="#E9913B"/>${[0, 1, 2, 3, 4, 5, 6, 7].map(q => `<line x1="0" y1="0" x2="${(Math.cos(q * .785) * 8.5).toFixed(1)}" y2="${(Math.sin(q * .785) * 8.5).toFixed(1)}" stroke="#F7C887" stroke-width="1.2"/>`).join('')}</g>`;
+        else if (d === 'zimt') s += `<g transform="translate(${x.toFixed(1)} ${y.toFixed(1)}) rotate(${rot})"><rect x="-15" y="-3.5" width="30" height="7" rx="3.5" fill="#8A4F27"/><rect x="-15" y="-1" width="30" height="2" fill="#6B3A1A"/><rect x="-13" y="2" width="28" height="6" rx="3" fill="#7C4522"/></g>`;
+        else if (d === 'beeren') s += `<g transform="translate(${x.toFixed(1)} ${y.toFixed(1)})"><circle r="5" fill="#B0182E"/><circle cx="6" cy="3" r="4.2" fill="#C61F36"/><circle cx="-4" cy="5" r="3.8" fill="#9A1428"/><circle cx="-1.5" cy="-1.5" r="1.4" fill="#fff" opacity=".6"/></g>`;
+        else if (d === 'sterne') s += `<g transform="translate(${x.toFixed(1)} ${y.toFixed(1)}) rotate(${rot}) scale(.95)"><path d="M0-12 3.5-3.8 12.4-3.7 5.6 2 8 11 0 5.6-8 11-5.6 2-12.4-3.7-3.5-3.8z" fill="#E7D6A6" stroke="#B58B36" stroke-width="1"/></g>`;
+        else if (d === 'kugeln') { const col = cfg.candle === 'weiss' ? '#D8DCE0' : cfg.band === 'gold' ? '#C9A24A' : '#8C1C2C'; s += `<g transform="translate(${x.toFixed(1)} ${y.toFixed(1)})"><circle r="9" fill="${col}"/><circle cx="-3" cy="-3" r="2.6" fill="#fff" opacity=".55"/></g>`; }
+      }
+    });
+    // Schleife
+    if (band && band.c) s += `<g transform="translate(200 ${200 + R + 4})"><path d="M0 0c-22-18-44-16-44 0s22 18 44 0zM0 0c22-18 44-16 44 0s-22 18-44 0z" fill="${band.c}"/><path d="M-4 4-16 46l12-6 4 10zM4 4 16 46l-12-6-4 10z" fill="${band.c}" opacity=".9"/><circle r="7" fill="${band.c}" stroke="rgba(0,0,0,.18)"/></g>`;
+    // Kerzen (Draufsicht leicht schräg)
+    [0, 1, 2, 3].forEach(q => {
+      const a = -Math.PI * .75 + q * Math.PI / 2, x = 200 + Math.cos(a) * R, y = 200 + Math.sin(a) * R;
+      const on = q < lit, light = cand.id === 'weiss' || cand.id === 'creme';
+      s += `<g transform="translate(${x.toFixed(1)} ${y.toFixed(1)})">${on ? `<circle r="46" fill="url(#${u}glow)"/>` : ''}<ellipse cy="6" rx="21" ry="9" fill="rgba(0,0,0,.22)"/><rect x="-19" y="-40" width="38" height="46" rx="5" fill="${cand.c}" stroke="${light ? '#D9CFB8' : 'rgba(0,0,0,.18)'}"/><ellipse cy="-40" rx="19" ry="7" fill="${cand.c}" stroke="${light ? '#D9CFB8' : 'rgba(0,0,0,.2)'}"/><rect x="-19" y="-40" width="38" height="46" rx="5" fill="url(#${u}cs)"/><ellipse cy="-40" rx="13" ry="4.5" fill="rgba(0,0,0,.08)"/><line x1="0" y1="-41" x2="0" y2="-48" stroke="#2A2A2A" stroke-width="2"/>${on ? `<path d="M0-74c7 10 8 16 0 24-8-8-7-14 0-24z" fill="url(#${u}fl)"><animateTransform attributeName="transform" type="scale" values="1 1;.92 1.06;1 .97;1 1" dur="1.6s" repeatCount="indefinite" additive="sum"/></path>` : ''}</g>`;
+    });
+    return s + '</svg>';
+  }
+
+  /* Version */
+  const params = new URLSearchParams(location.search);
+  let version = params.get('v') === 'basis' ? 'basis' : 'plus';
+  function setVersion(v) { version = v; document.body.classList.toggle('plus', v === 'plus'); document.querySelectorAll('.vswitch button').forEach(b => b.setAttribute('aria-pressed', b.dataset.v === v)); const u = new URL(location.href); if (v === 'basis') u.searchParams.set('v', 'basis'); else u.searchParams.delete('v'); history.replaceState(null, '', u); renderBag(); }
+  document.querySelectorAll('.vswitch button').forEach(b => b.onclick = () => setVersion(b.dataset.v));
+
+  /* Konfigurator */
+  const cfg = { size: 30, green: 'tanne', candle: 'rot', deco: ['zapfen', 'beeren'], band: 'samt' };
+  let lit = 2;
+  const cfgPrice = c => SIZES.find(s => s.id === c.size).p + GREENS.find(g => g.id === c.green).p + (c.deco || []).reduce((s, d) => s + DECO.find(x => x.id === d).p, 0) + BANDS.find(b => b.id === c.band).p;
+  const cfgText = c => `${c.size} cm · ${GREENS.find(g => g.id === c.green).l} · Kerzen ${CANDLES.find(x => x.id === c.candle).l.toLowerCase()}${c.deco.length ? ' · ' + c.deco.map(d => DECO.find(x => x.id === d).l).join(', ') : ''}${c.band !== 'keine' ? ' · Schleife ' + BANDS.find(b => b.id === c.band).l.toLowerCase() : ''}`;
+  const decoIcon = id => ({ zapfen: '<ellipse cx="13" cy="13" rx="6" ry="10" fill="#6B4526"/>', orange: '<circle cx="13" cy="13" r="9" fill="#E9913B" stroke="#C9622A" stroke-width="2"/>', zimt: '<rect x="3" y="10" width="20" height="6" rx="3" fill="#8A4F27"/>', beeren: '<circle cx="10" cy="12" r="5" fill="#B0182E"/><circle cx="16" cy="15" r="4" fill="#C61F36"/>', sterne: '<path d="M13 3l2.8 6.5 7 .1-5.4 4.5 1.9 7-6.3-4.3-6.3 4.3 1.9-7L3.2 9.6l7-.1z" fill="#E7D6A6" stroke="#B58B36"/>', kugeln: '<circle cx="13" cy="14" r="8" fill="#8C1C2C"/><circle cx="10" cy="11" r="2" fill="#fff" opacity=".6"/>' })[id];
+  function renderStudio() {
+    const mk = (el, arr, cur, lbl, onp, render) => { const e = $(el); e.innerHTML = ''; arr.forEach(x => { const b = document.createElement('button'); b.type = 'button'; render(b, x); b.setAttribute('aria-pressed', cur(x)); b.onclick = () => { onp(x); renderStudio(); }; e.appendChild(b); }); };
+    mk('o-size', SIZES, x => x.id === cfg.size, '', x => cfg.size = x.id, (b, x) => { b.className = 'chip'; b.textContent = x.l; });
+    mk('o-green', GREENS, x => x.id === cfg.green, '', x => cfg.green = x.id, (b, x) => { b.className = 'sw'; b.style.background = `conic-gradient(${x.c.join(',')},${x.c[0]})`; b.setAttribute('aria-label', x.l); });
+    mk('o-candle', CANDLES, x => x.id === cfg.candle, '', x => cfg.candle = x.id, (b, x) => { b.className = 'sw'; b.style.background = x.c; b.setAttribute('aria-label', 'Kerzen ' + x.l); });
+    mk('o-deco', DECO, x => cfg.deco.includes(x.id), '', x => { cfg.deco = cfg.deco.includes(x.id) ? cfg.deco.filter(d => d !== x.id) : cfg.deco.concat(x.id); }, (b, x) => { b.className = 'deco'; b.innerHTML = `<svg viewBox="0 0 26 26" aria-hidden="true">${decoIcon(x.id)}</svg>${x.l}`; });
+    mk('o-band', BANDS, x => x.id === cfg.band, '', x => cfg.band = x.id, (b, x) => { b.className = 'chip'; b.textContent = x.l; });
+    $('o-size-l').textContent = SIZES.find(s => s.id === cfg.size).l;
+    $('o-green-l').textContent = GREENS.find(s => s.id === cfg.green).l + (GREENS.find(s => s.id === cfg.green).p ? ` · +${eur(GREENS.find(s => s.id === cfg.green).p)}` : '');
+    $('o-candle-l').textContent = CANDLES.find(s => s.id === cfg.candle).l;
+    $('o-band-l').textContent = BANDS.find(s => s.id === cfg.band).l;
+    $('c-svg').innerHTML = wreath(cfg, { size: cfg.size, lit });
+    $('c-size').textContent = `Ø ${cfg.size} cm`;
+    $('c-price').textContent = eur(cfgPrice(cfg));
+    document.querySelectorAll('.light button').forEach(b => b.setAttribute('aria-pressed', +b.dataset.l === lit));
+  }
+  document.querySelectorAll('.light button').forEach(b => b.onclick = () => { lit = +b.dataset.l; renderStudio(); });
+
+  /* Bestellung */
+  let bag = [];  // {key, kind, name, sub, price, q, cfg?}
+  let pick = null, mode = 'abholen', lastNr = null;
+  const findLine = key => bag.find(l => l.key === key);
+  function addLine(line) { const ex = findLine(line.key); if (ex) ex.q++; else bag.push({ ...line, q: 1 }); resetDone(); renderBag(); renderList(); }
+  function setQ(key, q) { const ex = findLine(key); if (!ex) return; ex.q = Math.max(0, q); if (!ex.q) bag = bag.filter(l => l.key !== key); resetDone(); renderBag(); renderList(); }
+  $('c-add').onclick = () => {
+    const c = JSON.parse(JSON.stringify(cfg));
+    addLine({ key: 'k-' + JSON.stringify(c), kind: 'kranz', name: 'Dein Adventkranz', sub: cfgText(c), price: cfgPrice(c), cfg: c });
+    $('c-add').textContent = 'In der Bestellung ✓'; setTimeout(() => $('c-add').textContent = 'Diesen Kranz bestellen', 1600);
+  };
+  function renderReady() {
+    const el = $('ready'); el.innerHTML = '';
+    READY.forEach(r => {
+      const d = document.createElement('div'); d.className = 'rk';
+      d.innerHTML = `${wreath({ ...r.cfg }, { small: true, lit: 0 })}<div><b>${r.name}</b><p>${r.desc}</p><div class="ctl"><span class="pr"></span><select aria-label="Größe ${r.name}">${SIZES.map(s => `<option value="${s.id}" ${s.id === 30 ? 'selected' : ''}>${s.l}</option>`).join('')}</select><button class="btn" type="button" style="min-height:40px;padding:0 14px;font-size:13.5px">Dazulegen</button></div></div>`;
+      const sel = d.querySelector('select'), pr = d.querySelector('.pr');
+      const c = () => ({ ...r.cfg, size: +sel.value });
+      const up = () => pr.textContent = eur(cfgPrice(c())); up(); sel.onchange = up;
+      d.querySelector('button').onclick = e => { const cc = c(); addLine({ key: 'r-' + r.id + cc.size, kind: 'kranz', name: `Adventkranz ${r.name}`, sub: `${cc.size} cm · ${r.desc}`, price: cfgPrice(cc), cfg: cc }); e.target.textContent = 'Dazugelegt ✓'; setTimeout(() => e.target.textContent = 'Dazulegen', 1400); };
+      el.appendChild(d);
+    });
+  }
+  function renderList() {
+    const el = $('list'); el.innerHTML = '';
+    ITEMS.forEach(it => {
+      const l = findLine('i-' + it.id), q = l ? l.q : 0;
+      const row = document.createElement('div'); row.className = 'item' + (q ? ' on' : '');
+      row.innerHTML = `<div class="n">${it.n}</div><div class="d">${it.d}</div><div class="p">${eur(it.p)}</div><div class="step"><button type="button" aria-label="${it.n}: eins weniger" ${q ? '' : 'disabled'}>−</button><output>${q}</output><button type="button" aria-label="${it.n}: eins mehr">+</button></div>`;
+      const [m, p] = row.querySelectorAll('button');
+      m.onclick = () => setQ('i-' + it.id, q - 1);
+      p.onclick = () => q ? setQ('i-' + it.id, q + 1) : addLine({ key: 'i-' + it.id, kind: 'item', name: it.n, sub: '', price: it.p, id: it.id });
+      el.appendChild(row);
+    });
+  }
+  const sum = () => bag.reduce((s, l) => s + l.price * l.q, 0) + (mode === 'zustellen' && bag.length ? 6 : 0);
+  const n = () => bag.reduce((s, l) => s + l.q, 0);
+  function pickLabel() { if (mode === 'zustellen') return 'Fr, 27.11., Zustellung'; if (!pick) return null; return `${DAYS.find(d => d.id === pick.day).short}, ${pick.slot} Uhr`; }
+  function renderBag() {
+    const ul = $('lines'); ul.innerHTML = '';
+    if (!bag.length) ul.innerHTML = `<li><span class="empty">${version === 'plus' ? 'Noch leer. Gestalte oben deinen Kranz oder nimm einen Klassiker.' : 'Noch leer. Leg einen Kranz oder ein Gesteck dazu.'}</span></li>`;
+    bag.forEach(l => { const li = document.createElement('li'); li.innerHTML = `<span class="q">${l.q}×</span><span>${l.name}${l.sub ? `<span class="s">${l.sub}</span>` : ''}</span><span>${eur(l.price * l.q)}</span><button class="x" type="button" aria-label="${l.name} entfernen">×</button>`; li.querySelector('.x').onclick = () => setQ(l.key, 0); ul.appendChild(li); });
+    if (mode === 'zustellen' && bag.length) { const li = document.createElement('li'); li.innerHTML = '<span class="q"></span><span>Zustellung</span><span>6 €</span><span></span>'; ul.appendChild(li); }
+    const pl = pickLabel(); $('pick').textContent = pl || 'noch nicht gewählt'; $('pick').className = pl ? '' : 'none';
+    $('pick-l').textContent = mode === 'zustellen' ? 'Zustellung' : 'Abholung';
+    $('tot').textContent = eur(sum());
+    const nx = $('next');
+    if (lastNr) { nx.textContent = 'So sieht die Werkstatt die Bestellung'; nx.href = '#werkstatt'; }
+    else if (!bag.length) { nx.textContent = version === 'plus' ? 'Kranz gestalten' : 'Kranz aussuchen'; nx.href = '#kranz'; }
+    else if (!pl) { nx.textContent = 'Abholung wählen'; nx.href = '#abholung'; }
+    else { nx.textContent = 'Daten eingeben'; nx.href = '#daten'; }
+    $('bar-tot').textContent = eur(sum()); $('bar-n').textContent = `${n()} Stück` + (pl ? ' · ' + pl : '');
+    $('bar-btn').textContent = pl ? 'Daten eingeben' : 'Abholung wählen'; $('bar-btn').href = pl ? '#daten' : '#abholung';
+    updateBar();
+  }
+
+  /* Abholung */
+  const DAYS = [
+    { id: '2026-11-26', short: 'Do, 26.11.', label: '26. November', wd: 'Donnerstag', slots: ['9–11', '11–13', '14–16', '16–18'], full: ['16–18'] },
+    { id: '2026-11-27', short: 'Fr, 27.11.', label: '27. November', wd: 'Freitag', slots: ['8–10', '10–12', '14–16', '16–18'], full: ['16–18', '14–16'] },
+    { id: '2026-11-28', short: 'Sa, 28.11.', label: '28. November', wd: 'Samstag, Tag vor dem 1. Advent', slots: ['8–9', '9–10', '10–11', '11–12'], full: ['9–10', '10–11'] }
+  ];
+  function renderDays() {
+    document.querySelectorAll('.mode .chip').forEach(b => b.setAttribute('aria-pressed', b.dataset.m === mode));
+    $('days').hidden = mode !== 'abholen'; $('zust').hidden = mode !== 'zustellen';
+    const el = $('days'); el.innerHTML = '';
+    DAYS.forEach(d => {
+      const box = document.createElement('div'); box.className = 'day';
+      box.innerHTML = `<h3>${d.label}</h3><p>${d.wd}</p><div class="slots"></div>`;
+      d.slots.forEach(s => { const b = document.createElement('button'); b.type = 'button'; b.className = 'chip'; b.textContent = s + ' Uhr'; const full = d.full.includes(s); b.disabled = full; if (full) b.setAttribute('aria-label', s + ' Uhr, ausgebucht'); b.setAttribute('aria-pressed', !!(pick && pick.day === d.id && pick.slot === s)); b.onclick = () => { pick = { day: d.id, slot: s }; resetDone(); renderDays(); renderBag(); }; box.querySelector('.slots').appendChild(b); });
+      el.appendChild(box);
+    });
+  }
+  document.querySelectorAll('.mode .chip').forEach(b => b.onclick = () => { mode = b.dataset.m; resetDone(); renderDays(); renderBag(); });
+
+  /* Absenden */
+  let saved = store.get('orders', []);
+  function resetDone() { if (lastNr) { lastNr = null; $('done').classList.remove('show'); $('form').style.display = ''; } }
+  $('form').addEventListener('submit', e => {
+    e.preventDefault();
+    const name = $('f-name').value.trim(), tel = $('f-tel').value.trim(); let msg = '';
+    if (!bag.length) msg = 'Deine Bestellung ist noch leer.';
+    else if (mode === 'abholen' && !pick) msg = 'Wähl einen Abholtermin aus.';
+    else if (mode === 'zustellen' && $('z-adr').value.trim().length < 6) msg = 'Trag die Zustelladresse ein.';
+    else if (!name) msg = 'Trag deinen Namen ein.';
+    else if (tel.replace(/\D/g, '').length < 6) msg = 'Trag eine Telefonnummer ein, falls wir Rückfragen haben.';
+    else if (!$('f-ok').checked) msg = 'Bestätige kurz, dass wir deine Angaben für die Bestellung verwenden dürfen.';
+    $('error').textContent = msg; $('error').classList.toggle('show', !!msg); if (msg) { $('error').scrollIntoView({ block: 'center' }); return; }
+    const nr = 300 + saved.length + 12;
+    const day = mode === 'zustellen' ? '2026-11-27' : pick.day;
+    saved = saved.concat({ nr, name, day, slot: mode === 'zustellen' ? 'Zustellung' : pick.slot, lines: bag.map(l => ({ ...l })), mine: true }); store.set('orders', saved);
+    lastNr = nr; wDay = day;
+    $('done-t').textContent = `Vorbestellt, Nummer ${nr}.`;
+    $('done-p').textContent = `${mode === 'zustellen' ? 'Wir bringen deine Bestellung am Freitag, 27. November.' : `Abholung am ${pickLabel()}.`} Summe ${eur(sum())}, bezahlt wird ${mode === 'zustellen' ? 'bei der Übergabe' : 'im Geschäft'}. Bei einer echten Seite bekäme die Blumenstube jetzt eine Nachricht und du eine Bestätigung per E-Mail.`;
+    $('form').style.display = 'none'; $('done').classList.add('show');
+    renderBag(); renderWerk();
+  });
+
+  /* Werkstatt */
+  const SEED = [
+    { nr: 301, name: 'Huber', day: '2026-11-26', slot: '9–11', lines: [{ kind: 'kranz', name: 'Adventkranz Klassisch', q: 1, cfg: { ...READY[0].cfg, size: 30 } }, { kind: 'item', name: 'Weihnachtsstern', id: 'stern', q: 2 }] },
+    { nr: 303, name: 'Fam. Brandstetter', day: '2026-11-27', slot: '10–12', lines: [{ kind: 'kranz', name: 'Adventkranz Waldviertel', q: 1, cfg: { ...READY[1].cfg, size: 40 } }] },
+    { nr: 304, name: 'Pfarre St. Lambert', day: '2026-11-27', slot: '8–10', lines: [{ kind: 'kranz', name: 'Dein Adventkranz', q: 1, cfg: { size: 40, green: 'nobilis', candle: 'bordeaux', deco: ['sterne', 'zapfen'], band: 'gold' } }, { kind: 'item', name: 'Tischgesteck mit Kerze', id: 'gesteck', q: 3 }] },
+    { nr: 306, name: 'Kerschbaum', day: '2026-11-28', slot: '8–9', lines: [{ kind: 'kranz', name: 'Adventkranz Winterweiß', q: 2, cfg: { ...READY[2].cfg, size: 25 } }, { kind: 'item', name: 'Türkranz aus Tanne', id: 'tuer', q: 1 }] },
+    { nr: 307, name: 'Ofner', day: '2026-11-28', slot: '11–12', lines: [{ kind: 'kranz', name: 'Dein Adventkranz', q: 1, cfg: { size: 35, green: 'misch', candle: 'salbei', deco: ['orange', 'zimt'], band: 'jute' } }] }
+  ];
+  let wDay = '2026-11-27';
+  function renderWerk() {
+    const all = SEED.concat(saved);
+    const tabs = $('tabs'); tabs.innerHTML = '';
+    DAYS.forEach(d => { const c = all.filter(o => o.day === d.id).length; const b = document.createElement('button'); b.type = 'button'; b.className = 'chip'; b.textContent = `${d.short} (${c})`; b.setAttribute('aria-pressed', d.id === wDay); b.onclick = () => { wDay = d.id; renderWerk(); }; tabs.appendChild(b); });
+    const day = all.filter(o => o.day === wDay).sort((a, b) => a.slot.localeCompare(b.slot, 'de', { numeric: true }));
+    const ul = $('bind'); ul.innerHTML = '';
+    const mat = { rohl: {}, kerzen: {}, other: {} };
+    day.forEach(o => o.lines.forEach(l => {
+      const li = document.createElement('li'); if (o.mine) li.className = 'new';
+      if (l.kind === 'kranz') {
+        li.innerHTML = `${wreath(l.cfg, { small: true })}<span class="w">${l.q}× ${l.name}${o.mine ? ' · neu' : ''}</span><span class="t">${o.slot}</span><span class="i">${cfgText(l.cfg)} · für ${o.name}, Nr. ${o.nr}</span>`;
+        mat.rohl[l.cfg.size] = (mat.rohl[l.cfg.size] || 0) + l.q;
+        const cn = CANDLES.find(c => c.id === l.cfg.candle).l; mat.kerzen[cn] = (mat.kerzen[cn] || 0) + 4 * l.q;
+      } else {
+        li.innerHTML = `<svg viewBox="0 0 50 50" aria-hidden="true"><circle cx="25" cy="25" r="18" fill="#2C4A3A"/><path d="M25 14v22M17 25h16" stroke="#EBDDB8" stroke-width="2"/></svg><span class="w">${l.q}× ${l.name}${o.mine ? ' · neu' : ''}</span><span class="t">${o.slot}</span><span class="i">für ${o.name}, Nr. ${o.nr}</span>`;
+        mat.other[l.name] = (mat.other[l.name] || 0) + l.q;
+      }
+      ul.appendChild(li);
+    }));
+    if (!day.length) ul.innerHTML = '<li><span class="i" style="grid-column:1/-1">Für diesen Tag gibt es noch keine Bestellung.</span></li>';
+    const rows = [];
+    Object.keys(mat.rohl).sort().forEach(s => rows.push([`Kranzrohlinge ${s} cm`, mat.rohl[s]]));
+    Object.entries(mat.kerzen).forEach(([c, q]) => rows.push([`Kerzen ${c.toLowerCase()}`, q]));
+    Object.entries(mat.other).forEach(([c, q]) => rows.push([c, q]));
+    $('mat').innerHTML = rows.length ? rows.map(([a, b]) => `<tr><td>${a}</td><td>${b}</td></tr>`).join('') : '<tr><td>Nichts vorzubereiten.</td><td></td></tr>';
+  }
+  $('print').onclick = () => window.print();
+
+  /* Öffnungszeiten */
+  const HOURS = [null, [8, 18], [8, 18], [8, 12], [8, 18], [8, 18], [8, 12]]; // So..Sa
+  const WDL = ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'];
+  function renderHours() {
+    const now = new Date(), wd = now.getDay(), h = now.getHours() + now.getMinutes() / 60;
+    $('hours').innerHTML = [1, 2, 3, 4, 5, 6, 0].map(d => `<tr class="${d === wd ? 'today' : ''}"><td>${WDL[d]}</td><td>${HOURS[d] ? `${HOURS[d][0]} bis ${HOURS[d][1]} Uhr` : 'geschlossen'}</td></tr>`).join('');
+    const o = HOURS[wd], open = o && h >= o[0] && h < o[1]; let next = '';
+    if (!open) for (let k = 0; k < 8; k++) { const j = (wd + k) % 7; if (HOURS[j] && (k > 0 || h < HOURS[j][0])) { next = k === 0 ? `heute ab ${HOURS[j][0]} Uhr` : k === 1 ? `morgen ab ${HOURS[j][0]} Uhr` : `${WDL[j]} ab ${HOURS[j][0]} Uhr`; break; } }
+    $('status').className = 'status' + (open ? '' : ' closed');
+    $('status').querySelector('span').textContent = open ? `Jetzt offen bis ${o[1]} Uhr` : `Jetzt geschlossen, wieder offen ${next}`;
+  }
+  function renderAdv() {
+    const adv1 = new Date('2026-11-29T00:00'), d = Math.ceil((adv1 - new Date()) / 864e5);
+    $('adv').querySelector('span').textContent = d > 1 ? `Noch ${d} Tage bis zum 1. Advent` : d === 1 ? 'Morgen ist der 1. Advent' : 'Frohen Advent!';
+  }
+
+  let bagVisible = true;
+  function updateBar() { const on = n() > 0 && !bagVisible && !lastNr; $('bar').classList.toggle('show', on); document.body.classList.toggle('bar-on', on); }
+  if ('IntersectionObserver' in window) new IntersectionObserver(es => { bagVisible = es[0].isIntersecting; updateBar(); }, { threshold: .1 }).observe($('bag'));
+
+  $('hero-art').innerHTML = wreath({ green: 'tanne', candle: 'rot', deco: ['zapfen', 'beeren', 'orange'], band: 'samt' }, { size: 32, lit: 1 });
+  setVersion(version); renderStudio(); renderReady(); renderList(); renderDays(); renderBag(); renderWerk(); renderHours(); renderAdv();
+})();
+</script>
+</body>
+</html>
