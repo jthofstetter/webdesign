@@ -53,7 +53,10 @@
   var inner = el('div', 'jh-in');
 
   var k = el('p', 'jh-k');
-  k.appendChild(el('span', 'jh-logo'));
+  var ava = el('img', 'jh-ava');
+  ava.src = '../assets/jannik-avatar.jpg';
+  ava.alt = '';
+  k.appendChild(ava);
   k.appendChild(document.createTextNode('Jannik Hofstetter · Webdesign'));
   var h = el('h2', '', 'Ihr Website-Entwurf ist fertig.');
   h.id = 'jh-t';

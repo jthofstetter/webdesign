@@ -820,6 +820,7 @@ html.jh-lock,html.jh-lock body{overflow:hidden}
 .jh-in{position:relative;width:100%;max-width:760px;margin:auto 0;transform:translate3d(0,14px,0);transition:transform .6s cubic-bezier(.16,1,.3,1)}
 .jh-gate.on .jh-in{transform:none}
 .jh-k{display:flex;align-items:center;gap:.55rem;margin:0 0 .9rem;font:600 .7rem/1 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;letter-spacing:.14em;text-transform:uppercase;color:#7FA6FF}
+.jh-ava{width:34px;height:34px;border-radius:50%;object-fit:cover;border:1.5px solid #3B7BFF;box-shadow:0 0 0 3px rgba(59,123,255,.18);flex:none}
 .jh-logo{width:18px;height:18px;border:1.5px solid #3B7BFF;border-radius:3px;position:relative;flex:none}
 .jh-logo::before{content:"";position:absolute;left:0;right:0;top:5px;border-top:1.5px solid #3B7BFF}
 .jh-logo::after{content:"";position:absolute;top:5px;bottom:0;left:5px;border-left:1.5px solid #3B7BFF}
@@ -834,7 +835,7 @@ html.jh-lock,html.jh-lock body{overflow:hidden}
 .jh-me{border-color:rgba(59,123,255,.55);box-shadow:0 0 0 1px rgba(59,123,255,.18),0 18px 40px -18px rgba(59,123,255,.55)}
 @media (hover:hover){.jh-card:hover{transform:translate3d(0,-3px,0);border-color:#3B7BFF}}
 .jh-prev{position:relative;display:block;aspect-ratio:3/4;border-radius:12px;overflow:hidden;background:#0B0D10;isolation:isolate}
-.jh-prev-me img{display:block;width:100%;height:100%;object-fit:cover;object-position:top center}
+.jh-prev-me img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 30%}
 .jh-prev::after{content:"";position:absolute;inset:0;border-radius:inherit;box-shadow:inset 0 0 0 1px rgba(255,255,255,.08);pointer-events:none}
 .jh-mini{display:flex;flex-direction:column;height:100%;padding:9% 9% 0;background:var(--bg);color:var(--ink);font-family:var(--fb);overflow:hidden}
 .jh-mini-bar{display:block;height:5px;width:42%;border-radius:3px;background:var(--line,rgba(0,0,0,.15));margin-bottom:12%}
@@ -849,7 +850,7 @@ html.jh-lock,html.jh-lock body{overflow:hidden}
 .jh-cd{display:block;margin:.3rem .2rem 0;font-size:.8rem;line-height:1.38;color:#9AA3B2}
 .jh-f{margin:1.1rem 0 0;text-align:center;font-size:.78rem;color:#6F7889}
 @media (max-width:339px){.jh-cards{gap:.5rem}.jh-card{padding:.45rem .45rem .7rem}.jh-cd{display:none}}
-@media (min-width:640px){.jh-gate{padding:2rem}.jh-cards{gap:1rem}.jh-prev{aspect-ratio:4/3.4}.jh-card{padding:.7rem .7rem 1rem}.jh-ct{font-size:1.08rem}.jh-cd{font-size:.88rem}}
+@media (min-width:640px){.jh-gate{padding:2rem}.jh-cards{gap:1rem}.jh-prev{aspect-ratio:4/3.4}.jh-prev-me{background:#0B0D10}.jh-prev-me img{object-fit:contain;object-position:center}.jh-card{padding:.7rem .7rem 1rem}.jh-ct{font-size:1.08rem}.jh-cd{font-size:.88rem}}
 
 /* Knopf zu Janniks Website, der nach der Auswahl bleibt */
 .jh-pill{position:fixed;right:.75rem;bottom:calc(.75rem + env(safe-area-inset-bottom));z-index:900;display:inline-flex;align-items:center;gap:.5rem;padding:.62rem .95rem .62rem .8rem;border:1px solid #263044;border-radius:999px;background:rgba(11,13,16,.92);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#EEF0F4;font:600 .84rem/1 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;text-decoration:none;box-shadow:0 10px 30px -10px rgba(0,0,0,.55),0 0 0 1px rgba(59,123,255,.12);transform:translate3d(0,160%,0);transition:transform .6s cubic-bezier(.16,1,.3,1) .5s}
