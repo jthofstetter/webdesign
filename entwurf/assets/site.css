@@ -809,3 +809,55 @@ body.t-holz::after,body.t-backstube::after{content:"";position:fixed;inset:0;poi
 .anim .hero-art.in .opening{transform:none}
 .anim .lf{transform:scale(0);transition:transform .95s cubic-bezier(.34,1.56,.64,1) calc(var(--i)*.08s + .3s)}
 .anim .hero-art.in .lf{transform:none}
+
+/* ===== Auswahl beim ersten Aufruf (Jannik Hofstetter, Studio-Look) ===== */
+html.jh-lock,html.jh-lock body{overflow:hidden}
+.jh-gate{position:fixed;inset:0;z-index:1000;overflow-y:auto;-webkit-overflow-scrolling:touch;display:flex;align-items:center;justify-content:center;padding:max(1.25rem,env(safe-area-inset-top)) 1rem max(1.25rem,env(safe-area-inset-bottom));background:radial-gradient(120% 60% at 15% -10%,rgba(59,123,255,.28),transparent 60%),radial-gradient(90% 50% at 110% 110%,rgba(59,123,255,.16),transparent 60%),#0B0D10;color:#EEF0F4;font:400 1rem/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;opacity:0;transition:opacity .35s ease}
+.jh-gate.on{opacity:1}
+.jh-gate:focus{outline:none}
+.jh-gate.out{opacity:0;pointer-events:none}
+.jh-gate::before{content:"";position:fixed;inset:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:28px 28px;-webkit-mask-image:radial-gradient(80% 60% at 50% 40%,#000,transparent);mask-image:radial-gradient(80% 60% at 50% 40%,#000,transparent)}
+.jh-in{position:relative;width:100%;max-width:760px;margin:auto 0;transform:translate3d(0,14px,0);transition:transform .6s cubic-bezier(.16,1,.3,1)}
+.jh-gate.on .jh-in{transform:none}
+.jh-k{display:flex;align-items:center;gap:.55rem;margin:0 0 .9rem;font:600 .7rem/1 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;letter-spacing:.14em;text-transform:uppercase;color:#7FA6FF}
+.jh-logo{width:18px;height:18px;border:1.5px solid #3B7BFF;border-radius:3px;position:relative;flex:none}
+.jh-logo::before{content:"";position:absolute;left:0;right:0;top:5px;border-top:1.5px solid #3B7BFF}
+.jh-logo::after{content:"";position:absolute;top:5px;bottom:0;left:5px;border-left:1.5px solid #3B7BFF}
+.jh-gate{text-align:left}
+.jh-gate h2{text-align:left;text-transform:none;margin:0;font:800 clamp(1.75rem,7.4vw,2.75rem)/1.04 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;letter-spacing:-.035em;color:#fff}
+.jh-s{text-align:left;text-transform:none;margin:.7rem 0 0;color:#A7AFBD;font-size:1rem;max-width:34rem}
+.jh-s b{color:#fff;font-weight:600}
+.jh-cards{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-top:1.35rem}
+.jh-card{display:flex;flex-direction:column;align-items:stretch;min-width:0;margin:0;padding:.55rem .55rem .85rem;border:1px solid #232A36;border-radius:18px;background:#131720;color:#EEF0F4;font:inherit;text-align:left;text-decoration:none;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:transform .25s cubic-bezier(.16,1,.3,1),border-color .25s,box-shadow .25s}
+.jh-card:active{transform:scale(.975)}
+.jh-card:focus-visible{outline:2px solid #3B7BFF;outline-offset:3px}
+.jh-me{border-color:rgba(59,123,255,.55);box-shadow:0 0 0 1px rgba(59,123,255,.18),0 18px 40px -18px rgba(59,123,255,.55)}
+@media (hover:hover){.jh-card:hover{transform:translate3d(0,-3px,0);border-color:#3B7BFF}}
+.jh-prev{position:relative;display:block;aspect-ratio:3/4;border-radius:12px;overflow:hidden;background:#0B0D10;isolation:isolate}
+.jh-prev-me img{display:block;width:100%;height:100%;object-fit:cover;object-position:top center}
+.jh-prev::after{content:"";position:absolute;inset:0;border-radius:inherit;box-shadow:inset 0 0 0 1px rgba(255,255,255,.08);pointer-events:none}
+.jh-mini{display:flex;flex-direction:column;height:100%;padding:9% 9% 0;background:var(--bg);color:var(--ink);font-family:var(--fb);overflow:hidden}
+.jh-mini-bar{display:block;height:5px;width:42%;border-radius:3px;background:var(--line,rgba(0,0,0,.15));margin-bottom:12%}
+.jh-mini-k{display:block;font-size:.55rem;line-height:1.3;color:var(--muted);margin-bottom:.2rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.jh-mini-h{display:block;font-family:var(--fd);font-weight:var(--fdw,600);font-size:clamp(.95rem,4.4vw,1.35rem);line-height:1.02;letter-spacing:-.01em;color:var(--ink);overflow-wrap:anywhere}
+.jh-mini-btn{display:block;width:58%;height:13px;margin:.55rem 0 .2rem;border-radius:var(--r,999px);background:var(--cta,var(--a1))}
+.jh-gate .jh-mini-art{flex:1;min-height:0;display:flex;align-items:flex-end;justify-content:center;width:100%;max-width:none;margin:0;order:0;padding:0}
+.jh-gate .jh-mini-art svg{width:100%;height:100%;max-height:100%;transform:none!important}
+.jh-ct{display:flex;align-items:center;justify-content:space-between;gap:.4rem;margin:.75rem .2rem 0;font-weight:700;font-size:.98rem;line-height:1.2;color:#fff}
+.jh-ct::after{content:"→";color:#3B7BFF;font-weight:600;transition:transform .25s}
+.jh-card:hover .jh-ct::after{transform:translateX(3px)}
+.jh-cd{display:block;margin:.3rem .2rem 0;font-size:.8rem;line-height:1.38;color:#9AA3B2}
+.jh-f{margin:1.1rem 0 0;text-align:center;font-size:.78rem;color:#6F7889}
+@media (max-width:339px){.jh-cards{gap:.5rem}.jh-card{padding:.45rem .45rem .7rem}.jh-cd{display:none}}
+@media (min-width:640px){.jh-gate{padding:2rem}.jh-cards{gap:1rem}.jh-prev{aspect-ratio:4/3.4}.jh-card{padding:.7rem .7rem 1rem}.jh-ct{font-size:1.08rem}.jh-cd{font-size:.88rem}}
+
+/* Knopf zu Janniks Website, der nach der Auswahl bleibt */
+.jh-pill{position:fixed;right:.75rem;bottom:calc(.75rem + env(safe-area-inset-bottom));z-index:900;display:inline-flex;align-items:center;gap:.5rem;padding:.62rem .95rem .62rem .8rem;border:1px solid #263044;border-radius:999px;background:rgba(11,13,16,.92);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:#EEF0F4;font:600 .84rem/1 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;text-decoration:none;box-shadow:0 10px 30px -10px rgba(0,0,0,.55),0 0 0 1px rgba(59,123,255,.12);transform:translate3d(0,160%,0);transition:transform .6s cubic-bezier(.16,1,.3,1) .5s}
+.jh-pill.on{transform:none}
+.jh-pill:focus-visible{outline:2px solid #3B7BFF;outline-offset:3px}
+.jh-dot{position:relative;width:8px;height:8px;border-radius:50%;background:#3B7BFF;flex:none}
+.jh-dot::after{content:"";position:absolute;inset:-4px;border-radius:50%;border:1.5px solid #3B7BFF;opacity:0;animation:jhping 2.4s cubic-bezier(.16,1,.3,1) infinite}
+@keyframes jhping{0%{transform:scale(.5);opacity:.9}70%,100%{transform:scale(1.6);opacity:0}}
+.jh-arr{color:#3B7BFF}
+html.jh-has-pill footer{padding-bottom:4.75rem}
+@media (prefers-reduced-motion:reduce){.jh-gate,.jh-in,.jh-card,.jh-pill{transition:none}.jh-dot::after{animation:none}}
