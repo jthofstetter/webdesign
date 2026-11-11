@@ -1,7 +1,7 @@
 Die Schriften in diesem Ordner stehen unter der SIL Open Font License 1.1.
 Sie stammen aus den Fontsource-Paketen (fontsource.org) und wurden auf die Zeichensätze latin und latin-ext beschränkt.
 
-Schriften: Alegreya Sans, Archivo, Barlow, Barlow Condensed, Big Shoulders Display, Bodoni Moda, Bricolage Grotesque, Chakra Petch, Chivo, Corben, Figtree, Gloock, Instrument Sans, Instrument Serif, Jost, Karla, Marcellus, Nunito Sans, Young Serif, Zilla Slab.
+Schriften: Alegreya Sans, Archivo, Barlow, Barlow Condensed, Big Shoulders Display, Bodoni Moda, Bricolage Grotesque, Familjen Grotesk, Figtree, Fraunces, Gloock, Instrument Sans, Instrument Serif, Jost, Karla, Marcellus, Nunito Sans, Young Serif.
 
 Die Urheberrechtshinweise der einzelnen Schriften sind in den Schriftdateien enthalten.
 
