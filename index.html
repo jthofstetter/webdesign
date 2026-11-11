@@ -431,9 +431,38 @@ section{position:relative;z-index:1}
 .new-row div{display:grid;grid-template-columns:28% 1fr;gap:6%;align-items:center;background:#fff;border:1px solid #DDD3C6;border-radius:8px;padding:2.4%;font-size:.85em;color:#6C625A;line-height:1.4}
 .new-row img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:6px}
 .new-row b{display:block;color:#171310;font-family:'Instrument Serif',Georgia,serif;font-weight:400;font-size:1.6em;margin-bottom:.15em}
+.new{background:radial-gradient(70% 60% at 88% 0%,#F1DECB,transparent 62%),radial-gradient(55% 50% at 0% 100%,#EFE2D0,transparent 60%),#F7F4EF}
+.new-hero{padding:2.6% 4% 2%}
+.new-hero h4{font-size:4.7em}
+.new-proof{display:flex;align-items:center;gap:.6em;margin-top:1.2em;font-size:.82em;color:#6C625A}
+.new-proof svg{width:6.2em;height:auto;color:#C58A2B;flex:none}
+.new-proof b{color:#171310;font-size:1.15em}
+.new-vis{position:relative}
+.new-img{aspect-ratio:4/3.25}
+.new-img img{animation:newKen 16s ease-in-out infinite alternate}
+.new-img span i{animation:newPulse 2s ease-out infinite}
+.new-book{position:absolute;left:-16%;bottom:7%;width:54%;background:#fff;border-radius:1em;padding:1em 1.1em;box-shadow:0 1.8em 3em -1.5em rgba(60,35,20,.5),0 0 0 1px #EADFD2;font-size:.8em;animation:newBob 5s ease-in-out infinite alternate}
+.new-book b{display:block;font-weight:600;margin-bottom:.6em}
+.new-book div{display:flex;gap:.4em;margin-bottom:.7em}
+.new-book u{flex:1;text-align:center;text-decoration:none;padding:.5em 0;border-radius:.6em;border:1px solid #DDD3C6;color:#6C625A;font-size:.92em;white-space:nowrap;animation:newPick 6s infinite}
+.new-book u:nth-child(2){animation-delay:2s}
+.new-book u:nth-child(3){animation-delay:4s}
+.new-book em{display:block;text-align:center;font-style:normal;background:#8A4B32;color:#fff;border-radius:999px;padding:.55em;font-weight:600}
+.new-mq{overflow:hidden;white-space:nowrap;border-block:1px solid #DDD3C6;margin:0 0 2%;padding:.35em 0;font-family:'Instrument Serif',Georgia,serif;font-style:italic;font-size:1.75em;line-height:1.2}
+.new-mq span{display:inline-flex;align-items:center;gap:1.1em;padding-right:1.1em;animation:newMq 24s linear infinite}
+.new-mq i{width:.28em;height:.28em;border-radius:50%;background:#8A4B32;flex:none}
+@keyframes newKen{from{transform:scale(1.02)}to{transform:scale(1.14) translate(-1.5%,-2%)}}
+@keyframes newPulse{from{box-shadow:0 0 0 0 rgba(47,158,91,.6)}to{box-shadow:0 0 0 .7em rgba(47,158,91,0)}}
+@keyframes newBob{to{transform:translateY(-7%)}}
+@keyframes newPick{0%,30%{background:#171310;color:#F7F4EF;border-color:#171310}34%,100%{background:transparent;color:#6C625A;border-color:#DDD3C6}}
+@keyframes newMq{to{transform:translateX(-50%)}}
+.ba-handle i::after{content:"";position:absolute;inset:-6px;border-radius:50%;border:2px solid var(--accent);animation:baPing 2.2s cubic-bezier(.16,1,.3,1) infinite}
+.ba.touched .ba-handle i::after{display:none}
+@keyframes baPing{from{transform:scale(.85);opacity:.9}to{transform:scale(1.5);opacity:0}}
+@media (prefers-reduced-motion:reduce){.new-img img,.new-img span i,.new-book,.new-book u,.new-mq span,.ba-handle i::after{animation:none}}
 .ba-note{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-top:28px;align-items:center}
 .ba-note .mono{max-width:640px;text-transform:none;letter-spacing:0;font-size:14px;line-height:1.6}
-@media (max-width:900px){.ba-stage{aspect-ratio:4/5.4}.old,.new{font-size:12px}.new-nav span{display:none}.new-hero{grid-template-columns:1fr;gap:1.2em;padding:5% 5% 4%}.new-img{order:-1;aspect-ratio:16/10;border-radius:120px 120px 8px 8px}.new-hero h4{font-size:2.8em}.new-row{grid-template-columns:1fr;gap:.6em;padding:0 5%}.old-body{grid-template-columns:1fr}.old-side{display:none}.old-top b{font-size:1.6em}.old-photo{width:44%}.old-table{display:none}.old-cols{grid-template-columns:1fr}.old-cols .old-box+.old-box{display:none}.old-photo{display:none}}
+@media (max-width:900px){.new-vis{order:-1}.new-img{aspect-ratio:16/10}.new-book,.new-proof{display:none}.new-mq{font-size:1.5em}.new-row div+div{display:none}.ba-stage{aspect-ratio:4/7.8}.old,.new{font-size:12px}.new-nav span{display:none}.new-hero{grid-template-columns:1fr;gap:1.2em;padding:5% 5% 4%}.new-img{order:-1;aspect-ratio:16/10;border-radius:120px 120px 8px 8px}.new-hero h4{font-size:2.8em}.new-row{grid-template-columns:1fr;gap:.6em;padding:0 5%}.old-body{grid-template-columns:1fr}.old-side{display:none}.old-top b{font-size:1.6em}.old-photo{width:44%}.old-table{display:none}.old-cols{grid-template-columns:1fr}.old-cols .old-box+.old-box{display:none}.old-photo{display:none}}
 
 /* ===== About ===== */
 .about{padding:160px 0;border-top:1px solid var(--border)}
@@ -766,9 +795,13 @@ footer a{color:var(--muted);transition:color .3s}footer a:hover{color:var(--text
           <div class="new">
             <div class="new-nav"><b>Salon <i>Mia</i></b><span>Leistungen · Preise · Galerie · Öffnungszeiten</span><em>Termin buchen</em></div>
             <div class="new-hero">
-              <div><small>Friseursalon · Waidhofen an der Thaya</small><h4>Haare mit<br><i>Haltung.</i></h4><p>Schnitt, Farbe und Styling ohne Eile. Termin online buchen, auch um Mitternacht.</p><div class="new-cta"><em>Termin buchen</em><em>Preise ansehen</em></div></div>
-              <div class="new-img"><img src="demos/assets/img/hero-kundin-800.webp" alt="Beratung im hellen Salon" loading="lazy" decoding="async"><span><i></i>Heute frei: 14:30</span></div>
+              <div><small>Friseursalon · Waidhofen an der Thaya</small><h4>Haare mit<br><i>Haltung.</i></h4><p>Schnitt, Farbe und Styling ohne Eile. Termin online buchen, auch um Mitternacht.</p><div class="new-cta"><em>Termin buchen</em><em>Preise ansehen</em></div><div class="new-proof"><svg viewBox="0 0 108 20" aria-hidden="true"><defs><path id="nst" d="M10 1l2.8 5.9 6.4.8-4.7 4.4 1.2 6.4L10 15.4 4.3 18.5l1.2-6.4L.8 7.7l6.4-.8z"/></defs><g fill="currentColor"><use href="#nst"/><use href="#nst" x="22"/><use href="#nst" x="44"/><use href="#nst" x="66"/><use href="#nst" x="88"/></g></svg><b>4,9</b><span>aus 212 Bewertungen</span></div></div>
+              <div class="new-vis">
+                <div class="new-img"><img src="demos/assets/img/hero-kundin-800.webp" alt="Beratung im hellen Salon" loading="lazy" decoding="async"><span><i></i>Heute frei: 14:30</span></div>
+                <div class="new-book"><b>Termin wählen</b><div><u>Di 14:30</u><u>Mi 09:00</u><u>Do 17:15</u></div><em>Jetzt buchen</em></div>
+              </div>
             </div>
+            <div class="new-mq"><span>Schnitt<i></i>Farbe<i></i>Balayage<i></i>Styling<i></i>Hochsteck<i></i>Pflege<i></i>Schnitt<i></i>Farbe<i></i>Balayage<i></i>Styling<i></i>Hochsteck<i></i>Pflege<i></i></span></div>
             <div class="new-row">
               <div><img src="demos/assets/img/schnitt-800.webp" alt="" loading="lazy" decoding="async"><span><b>Schnitt</b>ab 34 € · Beratung inklusive</span></div>
               <div><img src="demos/assets/img/buerste-800.webp" alt="" loading="lazy" decoding="async"><span><b>Farbe</b>Balayage &amp; Pflanzenfarbe</span></div>
@@ -1098,7 +1131,7 @@ footer a{color:var(--muted);transition:color .3s}footer a:hover{color:var(--text
   const ba = document.getElementById('ba'), baRange = document.getElementById('ba-range');
   const setBa = v => ba.style.setProperty('--x', v + '%');
   let baTouched = false, baSweep = null;
-  baRange.addEventListener('input', () => { baTouched = true; if (baSweep) baSweep.kill(); setBa(baRange.value); });
+  baRange.addEventListener('input', () => { baTouched = true; ba.classList.add('touched'); if (baSweep) baSweep.kill(); setBa(baRange.value); });
   ScrollTrigger.create({ trigger: ba, start: 'top 75%', once: true, onEnter: () => {
     if (reduce || baTouched) return;
     const o = { v: 50 };
@@ -1110,39 +1143,21 @@ footer a{color:var(--muted);transition:color .3s}footer a:hover{color:var(--text
 
   /* ---- Projekte: Galerie mit Vorschaubildern ---- */
   const PROJECTS = [
-    { id: 'salon-mia', name: 'Salon Mia · One-Pager', kind: 'Beispiel · ab 790 €', src: 'demos/salon-mia/', url: 'salon-mia.at · Demo',
-      desc: 'Das Paket ab 790 €: eine Seite mit Leistungen, Preis-Tabs, Galerie, Öffnungszeiten mit Live-Status und Terminanfrage. Fiktiver Salon, echte Fotos.',
-      tags: ['One-Pager · ab 790 €', 'Friseur', 'Demo'] },
-    { id: 'salon-mia-premium', name: 'Salon Mia · Premium', kind: 'Beispiel · ab 2.400 €', src: 'demos/salon-mia-premium/', url: 'salon-mia.at/premium · Demo',
-      desc: 'Das Paket ab 2.400 €: fünf Unterseiten, Team, Galerie mit Großansicht und eine echte Online-Buchung mit Kalender und freien Zeiten.',
-      tags: ['Premium · ab 2.400 €', 'Online-Buchung', 'Demo'] },
-    { id: 'hofladen-moosbauer', name: 'Hofladen Moosbauer · Vorbestellung', kind: 'Beispiel · Vorbestellung', src: 'demos/hofladen-moosbauer/', url: 'hofladen-moosbauer.at · Demo',
-      desc: 'Weihnachts-Vorbestellung für einen Hofladen: Sortiment, ein Bestellzettel, der sich live füllt, Abholtermine und eine fertige Packliste für den Hof. Fiktiver Betrieb.',
-      tags: ['Vorbestellung', 'Hofladen', 'Demo'] },
-    { id: 'wirtshaus-kastanienhof', name: 'Wirtshaus Kastanienhof · Reservierung', kind: 'Beispiel · Gastronomie', src: 'demos/wirtshaus-kastanienhof/', url: 'kastanienhof.at · Demo',
-      desc: 'Tischreservierung in einer klickbaren 3D-Gaststube, Weihnachtsfeier-Anfrage mit Live-Preis und Gutscheine zum Gestalten. In Basis und Plus. Fiktiver Betrieb.',
-      tags: ['3D-Tischplan', 'Gutscheine', 'Demo'] },
-    { id: 'blumenstube-lindenblatt', name: 'Blumenstube Lindenblatt · Adventkranz', kind: 'Beispiel · Vorbestellung', src: 'demos/blumenstube-lindenblatt/', url: 'lindenblatt.at · Demo',
-      desc: 'Adventkranz-Konfigurator mit Live-Vorschau, Gestecke, Abholung oder Zustellung und eine Bindeliste für die Werkstatt. In Basis und Plus. Fiktiver Betrieb.',
-      tags: ['Konfigurator', 'Blumen', 'Demo'] },
-    { id: 'backstube-kornfeld', name: 'Backstube Kornfeld · Keksdose', kind: 'Beispiel · Vorbestellung', src: 'demos/backstube-kornfeld/', url: 'kornfeld.at · Demo',
-      desc: 'Keksdose Fach für Fach befüllen, Stollen und Torten vorbestellen und eine Backliste, die pro Tag mitzählt. In Basis und Plus. Fiktiver Betrieb.',
-      tags: ['Keksdose', 'Bäckerei', 'Demo'] },
-    { id: 'fleischerei-hollerbach', name: 'Fleischerei Hollerbach · Festtagsplaner', kind: 'Beispiel · Vorbestellung', src: 'demos/fleischerei-hollerbach/', url: 'hollerbach.at · Demo',
-      desc: 'Festtagsplaner mit Mengenempfehlung nach Personen, Vorbestellung nach Gewicht mit Zuschnitt und eine Zuschneideliste für die Zerlegung. In Basis und Plus. Fiktiver Betrieb.',
-      tags: ['Festtagsplaner', 'Fleischerei', 'Demo'] },
-    { id: 'gaestehaus-foehrenteich', name: 'Gästehaus Föhrenteich · Gutscheine', kind: 'Beispiel · Unterkunft', src: 'demos/gaestehaus-foehrenteich/', url: 'foehrenteich.at · Demo',
-      desc: 'Übernachtungsgutschein mit Live-Vorschau, freie Zimmer im Kalender anfragen und eine Gutscheinliste mit Code-Prüfung für die Rezeption. In Basis und Plus. Fiktiver Betrieb.',
-      tags: ['Gutscheine', 'Unterkunft', 'Demo'] },
     { id: 'nymo', name: 'Nymo', kind: 'App-Landingpage', src: 'https://jthofstetter.github.io/nymo-website/', url: 'jthofstetter.github.io/nymo-website',
       desc: 'App-Landingpage mit interaktivem Globus. Anonyme Gespräche mit Menschen im gleichen Alter, weltweit und ohne Profile.',
       tags: ['App-Landingpage', 'Interaktiver Globus'] },
     { id: 'kingofthespot', name: 'King of the Spot', kind: 'Warteliste mit 3D', src: 'https://jthofstetter.github.io/kingofthespot-website/', url: 'jthofstetter.github.io/kingofthespot-website',
       desc: 'Warteliste mit 3D-Krone. Rekord-Challenges an echten Spots: Wer den Rekord hält, ist King.',
       tags: ['3D-Krone', 'Warteliste'] },
-    { id: 'justjoin', name: 'JustJoin', kind: 'App-Landingpage', src: 'https://jthofstetter.github.io/justjoin-website/', url: 'jthofstetter.github.io/justjoin-website',
-      desc: 'App-Landingpage mit Waben-Animation. Spontane Aktivitäten in der Nähe finden und per QuickJoin mitmachen.',
-      tags: ['App-Landingpage', 'Waben-Animation'] }
+    { id: 'hofladen-moosbauer', name: 'Hofladen Moosbauer · Vorbestellung', kind: 'Beispiel · Vorbestellung', src: 'demos/hofladen-moosbauer/', url: 'hofladen-moosbauer.at · Demo',
+      desc: 'Weihnachts-Vorbestellung für einen Hofladen: Sortiment, ein Bestellzettel, der sich live füllt, Abholtermine und eine fertige Packliste für den Hof. Fiktiver Betrieb.',
+      tags: ['Vorbestellung', 'Hofladen', 'Demo'] },
+    { id: 'salon-mia-premium', name: 'Salon Mia · Premium', kind: 'Beispiel · ab 2.400 €', src: 'demos/salon-mia-premium/', url: 'salon-mia.at/premium · Demo',
+      desc: 'Das Paket ab 2.400 €: fünf Unterseiten, Team, Galerie mit Großansicht und eine echte Online-Buchung mit Kalender und freien Zeiten.',
+      tags: ['Premium · ab 2.400 €', 'Online-Buchung', 'Demo'] },
+    { id: 'blumenstube-lindenblatt', name: 'Blumenstube Lindenblatt · Adventkranz', kind: 'Beispiel · Vorbestellung', src: 'demos/blumenstube-lindenblatt/', url: 'lindenblatt.at · Demo',
+      desc: 'Adventkranz-Konfigurator mit Live-Vorschau, Gestecke, Abholung oder Zustellung und eine Bindeliste für die Werkstatt. In Basis und Plus. Fiktiver Betrieb.',
+      tags: ['Konfigurator', 'Blumen', 'Demo'] }
   ];
   const galList = $('gal-list'), galWin = $('gal-win'), galStage = $('gal-stage'), galShot = $('gal-shot');
   let gi = 0, device = innerWidth < 700 ? 'phone' : 'desktop', galStarted = false;
